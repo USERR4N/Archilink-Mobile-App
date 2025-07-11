@@ -2,19 +2,25 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { colors } from '@/constants/colors';
 
-export const Logo = () => {
+interface LogoProps {
+  color?: 'default' | 'white';
+}
+
+export const Logo = ({ color = 'default' }: LogoProps) => {
+  const isWhite = color === 'white';
+  
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <View style={styles.logoSymbol}>
-          <View style={styles.compassTop} />
-          <View style={styles.compassCircle}>
-            <View style={styles.compassInner} />
+          <View style={[styles.compassTop, isWhite && styles.whiteColor]} />
+          <View style={[styles.compassCircle, isWhite && styles.whiteColor]}>
+            <View style={[styles.compassInner, isWhite && styles.redInner]} />
           </View>
-          <View style={styles.compassLeftLeg} />
-          <View style={styles.compassRightLeg} />
+          <View style={[styles.compassLeftLeg, isWhite && styles.whiteColor]} />
+          <View style={[styles.compassRightLeg, isWhite && styles.whiteColor]} />
         </View>
-        <Text style={styles.logoText}>archilink</Text>
+        <Text style={[styles.logoText, isWhite && styles.whiteText]}>archilink</Text>
       </View>
     </View>
   );
@@ -89,5 +95,14 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     letterSpacing: 1,
+  },
+  whiteColor: {
+    backgroundColor: colors.white,
+  },
+  whiteText: {
+    color: colors.white,
+  },
+  redInner: {
+    backgroundColor: '#A53333',
   },
 });

@@ -21,7 +21,7 @@ export const FormContainer = ({ children }: FormContainerProps) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
-          <Logo />
+          <Logo color="white" />
           <View style={styles.formContainer}>
             {children}
           </View>
