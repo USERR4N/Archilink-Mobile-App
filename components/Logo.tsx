@@ -1,29 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { colors } from '@/constants/colors';
 
 export const Logo = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.compassContainer}>
-        {/* Top handle */}
-        <View style={styles.topHandle} />
-        
-        {/* Main circle */}
-        <View style={styles.mainCircle}>
-          <View style={styles.innerCircle} />
+      <View style={styles.logoContainer}>
+        <View style={styles.logoSymbol}>
+          <View style={styles.compassTop} />
+          <View style={styles.compassCircle}>
+            <View style={styles.compassInner} />
+          </View>
+          <View style={styles.compassLeftLeg} />
+          <View style={styles.compassRightLeg} />
         </View>
-        
-        {/* Left leg */}
-        <View style={[styles.leg, styles.leftLeg]} />
-        
-        {/* Right leg */}
-        <View style={[styles.leg, styles.rightLeg]} />
-        
-        {/* Center triangle */}
-        <View style={styles.centerTriangle} />
+        <Text style={styles.logoText}>archilink</Text>
       </View>
-      <Text style={styles.logoText}>ARCHILINK</Text>
     </View>
   );
 };
@@ -33,72 +25,68 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 20,
   },
-  compassContainer: {
-    width: 60,
-    height: 80,
+
+  logoContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    marginTop: 10,
+  },
+  logoSymbol: {
+    width: 40,
+    height: 50,
+    marginRight: 12,
     position: 'relative',
   },
-  topHandle: {
-    width: 16,
-    height: 20,
-    backgroundColor: colors.primary,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    marginBottom: -2,
-    zIndex: 2,
+  compassTop: {
+    width: 12,
+    height: 8,
+    backgroundColor: '#A53333',
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    position: 'absolute',
+    top: 0,
+    left: 14,
   },
-  mainCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.primary,
+  compassCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#A53333',
+    position: 'absolute',
+    top: 6,
+    left: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
   },
-  innerCircle: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
+  compassInner: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: colors.white,
   },
-  leg: {
-    width: 4,
-    height: 35,
-    backgroundColor: colors.primary,
+  compassLeftLeg: {
+    width: 3,
+    height: 25,
+    backgroundColor: '#A53333',
     position: 'absolute',
     bottom: 0,
-  },
-  leftLeg: {
-    left: 12,
+    left: 8,
     transform: [{ rotate: '15deg' }],
     transformOrigin: 'top center',
   },
-  rightLeg: {
-    right: 12,
+  compassRightLeg: {
+    width: 3,
+    height: 25,
+    backgroundColor: '#A53333',
+    position: 'absolute',
+    bottom: 0,
+    right: 8,
     transform: [{ rotate: '-15deg' }],
     transformOrigin: 'top center',
   },
-  centerTriangle: {
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderBottomWidth: 14,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: colors.white,
-    position: 'absolute',
-    top: 28,
-    zIndex: 3,
-  },
   logoText: {
-    color: colors.white,
-    fontSize: 28,
+    color: '#A53333',
+    fontSize: 32,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
