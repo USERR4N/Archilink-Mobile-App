@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
 import { router } from 'expo-router';
 import { colors } from '@/constants/colors';
-import { architects } from '@/constants/architects';
-import { Search, Filter, MapPin, Star, ChevronDown } from 'lucide-react-native';
-import { specializations } from '@/constants/specializations';
+import { services } from '@/constants/services';
+import { Search, Filter, MapPin, Star, Clock, Truck } from 'lucide-react-native';
 import { useAuthStore } from '@/store/authStore';
 
 export default function DiscoverScreen() {
@@ -30,36 +29,9 @@ export default function DiscoverScreen() {
     router.push(`/user-profile/${architectId}`);
   };
 
-  const partnersData = [
-    {
-      id: 1,
-      companyName: 'Wilcon Depot',
-      logo: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop',
-      description: 'Leading home improvement and construction supplies',
-      category: 'Building Materials'
-    },
-    {
-      id: 2,
-      companyName: 'LPM Construction',
-      logo: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=100&h=100&fit=crop',
-      description: 'Premium construction materials and services',
-      category: 'Construction'
-    },
-    {
-      id: 3,
-      companyName: 'Steel Asia',
-      logo: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=100&h=100&fit=crop',
-      description: 'Quality steel products for construction',
-      category: 'Steel & Metal'
-    },
-    {
-      id: 4,
-      companyName: 'Cemex Philippines',
-      logo: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop',
-      description: 'Cement and concrete solutions',
-      category: 'Cement & Concrete'
-    }
-  ];
+  const handleServicePress = (serviceId: number) => {
+    router.push(`/service/${serviceId}`);
+  };
 
   return (
     <View style={styles.container}>
@@ -67,14 +39,14 @@ export default function DiscoverScreen() {
         <Text style={styles.headerTitle}>ARCHILINK</Text>
         
         <Text style={styles.headerSubtitle}>
-          Discover our trusted partners
+          Order construction materials & supplies
         </Text>
         
         <View style={styles.searchContainer}>
           <Search size={20} color={colors.gray} style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search by name, specialization..."
+            placeholder="Search materials, stores..."
             placeholderTextColor={colors.gray}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -87,38 +59,38 @@ export default function DiscoverScreen() {
       
       {showFilters && (
         <View style={styles.filtersContainer}>
-          <Text style={styles.filtersTitle}>Specializations</Text>
+          <Text style={styles.filtersTitle}>Categories</Text>
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
             style={styles.specializationsContainer}
           >
-            {specializations.slice(0, 8).map((specialization) => (
+            {['All', 'Construction Materials', 'Hardware & Tools', 'Electrical Supplies', 'Plumbing Supplies'].map((category) => (
               <TouchableOpacity
-                key={specialization}
+                key={category}
                 style={[
                   styles.specializationChip,
-                  selectedSpecialization === specialization && styles.selectedSpecialization,
+                  selectedSpecialization === category && styles.selectedSpecialization,
                 ]}
-                onPress={() => selectSpecialization(specialization)}
+                onPress={() => selectSpecialization(category)}
               >
                 <Text
                   style={[
                     styles.specializationText,
-                    selectedSpecialization === specialization && styles.selectedSpecializationText,
+                    selectedSpecialization === category && styles.selectedSpecializationText,
                   ]}
                 >
-                  {specialization}
+                  {category}
                 </Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
           
           <View style={styles.filterActions}>
-            <TouchableOpacity style={styles.resetButton}>
+            <TouchableOpacity style={styles.resetButton} onPress={() => setSelectedSpecialization(null)}>
               <Text style={styles.resetButtonText}>Reset Filters</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.applyButton}>
+            <TouchableOpacity style={styles.applyButton} onPress={toggleFilters}>
               <Text style={styles.applyButtonText}>Apply Filters</Text>
             </TouchableOpacity>
           </View>
@@ -126,24 +98,46 @@ export default function DiscoverScreen() {
       )}
       
       <ScrollView style={styles.contentContainer}>
-        {/* Services/Partners Content */}
-        {partnersData.map((partner) => (
-          <View key={partner.id} style={styles.partnerCard}>
-            <Image source={{ uri: partner.logo }} style={styles.partnerLogo} />
-            <View style={styles.partnerInfo}>
-              <Text style={styles.partnerName}>{partner.companyName}</Text>
-              <Text style={styles.partnerCategory}>{partner.category}</Text>
-              <Text style={styles.partnerDescription}>{partner.description}</Text>
-              <View style={styles.partnerButtons}>
-                <TouchableOpacity style={styles.visitWebsiteButton}>
-                  <Text style={styles.visitWebsiteText}>Visit Website</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.messageButton}>
-                  <Text style={styles.messageText}>Message</Text>
-                </TouchableOpacity>
+        {services.map((service) => (
+          <TouchableOpacity 
+            key={service.id} 
+            style={styles.serviceCard}
+            onPress={() => handleServicePress(service.id)}
+          >
+            <Image source={{ uri: service.image }} style={styles.serviceImage} />
+            <View style={styles.serviceInfo}>
+              <View style={styles.serviceHeader}>
+                <Text style={styles.serviceName}>{service.name}</Text>
+                {service.isVerified && (
+                  <View style={styles.verifiedBadge}>
+                    <Text style={styles.verifiedText}>✓</Text>
+                  </View>
+                )}
+              </View>
+              <Text style={styles.serviceCategory}>{service.category}</Text>
+              <Text style={styles.serviceDescription}>{service.description}</Text>
+              
+              <View style={styles.serviceDetails}>
+                <View style={styles.ratingContainer}>
+                  <Star size={14} color={colors.warning} fill={colors.warning} />
+                  <Text style={styles.ratingText}>{service.rating}</Text>
+                  <Text style={styles.reviewCount}>({service.reviews})</Text>
+                </View>
+                
+                <View style={styles.deliveryInfo}>
+                  <Clock size={14} color={colors.gray} />
+                  <Text style={styles.deliveryText}>{service.deliveryTime}</Text>
+                  <Truck size={14} color={colors.gray} style={{ marginLeft: 10 }} />
+                  <Text style={styles.deliveryText}>₱{service.deliveryFee}</Text>
+                </View>
+              </View>
+              
+              <View style={styles.locationContainer}>
+                <MapPin size={14} color={colors.gray} />
+                <Text style={styles.locationText}>{service.location}</Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -282,27 +276,25 @@ const styles = StyleSheet.create({
   locationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
   },
   locationText: {
-    fontSize: 14,
+    fontSize: 12,
     color: colors.gray,
-    marginLeft: 5,
+    marginLeft: 4,
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
   },
   ratingText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
-    marginLeft: 5,
+    marginLeft: 4,
   },
   reviewCount: {
     fontSize: 12,
     color: colors.gray,
-    marginLeft: 5,
+    marginLeft: 4,
   },
   experienceText: {
     fontSize: 14,
@@ -319,69 +311,73 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: 'bold',
   },
-  partnerCard: {
+  serviceCard: {
     backgroundColor: colors.white,
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: 12,
     marginBottom: 15,
-    flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    overflow: 'hidden',
   },
-  partnerLogo: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 15,
+  serviceImage: {
+    width: '100%',
+    height: 120,
   },
-  partnerInfo: {
-    flex: 1,
+  serviceInfo: {
+    padding: 15,
   },
-  partnerName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+  serviceHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 4,
   },
-  partnerCategory: {
-    fontSize: 12,
-    color: colors.primary,
-    marginBottom: 6,
+  serviceName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    flex: 1,
   },
-  partnerDescription: {
-    fontSize: 14,
-    color: colors.gray,
-    marginBottom: 10,
-    lineHeight: 18,
+  verifiedBadge: {
+    backgroundColor: colors.success,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  partnerButtons: {
-    flexDirection: 'row',
-  },
-  visitWebsiteButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  visitWebsiteText: {
+  verifiedText: {
     color: colors.white,
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: 'bold',
   },
-  messageButton: {
-    borderWidth: 1,
-    borderColor: colors.primary,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-  },
-  messageText: {
+  serviceCategory: {
+    fontSize: 14,
     color: colors.primary,
-    fontSize: 12,
+    marginBottom: 6,
     fontWeight: '500',
+  },
+  serviceDescription: {
+    fontSize: 14,
+    color: colors.gray,
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+  serviceDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  deliveryInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  deliveryText: {
+    fontSize: 12,
+    color: colors.gray,
+    marginLeft: 4,
   },
 
 });
