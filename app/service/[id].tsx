@@ -76,7 +76,8 @@ export default function ServiceDetailScreen() {
           title: service.name,
           headerStyle: { backgroundColor: colors.primary },
           headerTintColor: colors.white,
-          headerTitleStyle: { fontWeight: 'bold' }
+          headerTitleStyle: { fontWeight: 'bold' },
+          headerBackTitle: 'Back'
         }} 
       />
       

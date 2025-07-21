@@ -41,6 +41,10 @@ export default function SearchScreen() {
     }
   };
 
+  const handleServicePress = (service: any) => {
+    router.push(`/service/${service.id}`);
+  };
+
   const getFilteredData = () => {
     const data = activeType === 'architects' ? architects : services;
     return data.filter(item => {
@@ -69,7 +73,7 @@ export default function SearchScreen() {
       <TouchableOpacity 
         key={item.id} 
         style={styles.userCard}
-        onPress={() => router.push(`/user-profile/${item.id}`)}
+        onPress={() => isArchitect ? router.push(`/user-profile/${item.id}`) : handleServicePress(item)}
       >
         <View style={styles.userCardHeader}>
           <Image source={{ uri: item.image }} style={styles.userAvatar} />
