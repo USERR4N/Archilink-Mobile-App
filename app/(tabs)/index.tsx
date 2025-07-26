@@ -4,9 +4,8 @@ import { router } from 'expo-router';
 import { useAuthStore } from '@/store/authStore';
 import { colors } from '@/constants/colors';
 import { architects } from '@/constants/architects';
-import { architectDashboard, recentProjects, clientInquiries } from '@/constants/architect-dashboard';
+import { architectDashboard, recentProjects, clientInquiries, partnerships } from '@/constants/architect-dashboard';
 import { Search, Star, MapPin, ChevronRight, Users, Award, Shield, Clock, ChevronLeft, Video, Camera, Briefcase, CheckCircle, Eye, MessageCircle, ExternalLink, Heart, Phone } from 'lucide-react-native';
-import { services } from '@/constants/services';
 
 const { width } = Dimensions.get('window');
 
@@ -349,23 +348,35 @@ export default function HomeScreen() {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Need Materials?</Text>
-              <TouchableOpacity onPress={() => router.push('/services-list')}>
+              <TouchableOpacity onPress={() => router.push('/(tabs)/discover')}>
                 <Text style={styles.seeAllText}>View All</Text>
               </TouchableOpacity>
             </View>
             
-            {services.slice(0, 4).map((service) => (
-              <TouchableOpacity 
-                key={service.id} 
-                style={styles.partnerCard}
-                onPress={() => router.push(`/service/${service.id}`)}
-              >
-                <Image source={{ uri: service.image }} style={styles.partnerLogo} />
+            {partnerships.map((partner) => (
+              <View key={partner.id} style={styles.partnerCard}>
+                <Image source={{ uri: partner.logo }} style={styles.partnerLogo} />
                 <View style={styles.partnerInfo}>
-                  <Text style={styles.partnerName}>{service.name}</Text>
-                  <Text style={styles.partnerDescription}>{service.description}</Text>
+                  <Text style={styles.partnerName}>{partner.companyName}</Text>
+                  <Text style={styles.partnerDescription}>{partner.description}</Text>
+                  <View style={styles.partnerButtons}>
+                    <TouchableOpacity 
+                      style={styles.visitWebsiteButton}
+                      onPress={() => console.log('Visit website:', partner.website)}
+                    >
+                      <ExternalLink size={16} color={colors.white} />
+                      <Text style={styles.visitWebsiteText}>Visit Website</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      style={styles.messageButton}
+                      onPress={() => router.push(`/chat/${partner.id}`)}
+                    >
+                      <MessageCircle size={16} color={colors.primary} />
+                      <Text style={styles.messageText}>Message</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </TouchableOpacity>
+              </View>
             ))}
           </View>
         </View>

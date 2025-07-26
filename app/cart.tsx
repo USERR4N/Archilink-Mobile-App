@@ -95,8 +95,7 @@ export default function CartScreen() {
             title: 'Cart',
             headerStyle: { backgroundColor: colors.primary },
             headerTintColor: colors.white,
-            headerTitleStyle: { fontWeight: 'bold' },
-            headerBackTitle: 'Back'
+            headerTitleStyle: { fontWeight: 'bold' }
           }} 
         />
         <View style={styles.emptyContainer}>
@@ -121,8 +120,7 @@ export default function CartScreen() {
           title: 'Cart',
           headerStyle: { backgroundColor: colors.primary },
           headerTintColor: colors.white,
-          headerTitleStyle: { fontWeight: 'bold' },
-          headerBackTitle: 'Back'
+          headerTitleStyle: { fontWeight: 'bold' }
         }} 
       />
 

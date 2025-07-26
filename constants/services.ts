@@ -28,7 +28,6 @@ export interface Service {
   materials: Material[];
 }
 
-// Only showing 4 main stores as requested
 export const services: Service[] = [
   {
     id: 1,
