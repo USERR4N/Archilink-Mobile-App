@@ -5,7 +5,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { colors } from "@/constants/colors";
-import { CartProvider } from "@/store/cartStore";
 
 export const unstable_settings = {
   initialRouteName: "index",
@@ -40,7 +39,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <CartProvider>
+    <>
       <StatusBar style="light" />
       <Stack
         screenOptions={{
@@ -59,6 +58,6 @@ function RootLayoutNav() {
           }} 
         />
       </Stack>
-    </CartProvider>
+    </>
   );
 }
