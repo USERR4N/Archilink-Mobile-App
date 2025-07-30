@@ -24,7 +24,7 @@ export default function LoginScreen() {
   // Animation values
   const logoScale = new Animated.Value(0.5);
   const logoOpacity = new Animated.Value(0);
-  const slideUpValue = new Animated.Value(screenHeight);
+  const slideUpValue = new Animated.Value(screenHeight * 0.5);
   
   // Redirect to dashboard if already authenticated
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function LoginScreen() {
       }),
     ]).start();
     
-    // After 2 seconds, slide up the form
+    // After 2 seconds, slide up the form halfway
     const timer = setTimeout(() => {
       Animated.timing(slideUpValue, {
         toValue: 0,
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   },
   slideUpContainer: {
     position: 'absolute',
-    top: '25%',
+    top: '50%',
     left: 0,
     right: 0,
     bottom: 0,
