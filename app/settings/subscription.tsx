@@ -55,46 +55,46 @@ export default function SubscriptionScreen() {
                   <>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Profile Visibility; Boosted in Search</Text>
+                      <Text style={styles.featureText}>Profile visibility (boosted in search)</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Unlimited Project Application</Text>
+                      <Text style={styles.featureText}>Unlimited project applications</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>7 days profile boost 1 x time per month</Text>
+                      <Text style={styles.featureText}>7-day profile boost (1x per month)</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Verified pro badge 🔵</Text>
+                      <Text style={styles.featureText}>Verified Pro badge</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Standard Email Support</Text>
+                      <Text style={styles.featureText}>Standard email support</Text>
                     </View>
                   </>
                 ) : (
                   <>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Project Listing; Up to 5 active projects</Text>
+                      <Text style={styles.featureText}>Post up to 5 active projects</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>1 free Featured Project per Month</Text>
+                      <Text style={styles.featureText}>1 free featured project per month</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Auto Match to Architect Freelance</Text>
+                      <Text style={styles.featureText}>Auto-match to available architects</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Verified Client badge 🔵</Text>
+                      <Text style={styles.featureText}>Verified Client badge</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Standard Email Support</Text>
+                      <Text style={styles.featureText}>Standard email support</Text>
                     </View>
                   </>
                 )}
@@ -117,46 +117,46 @@ export default function SubscriptionScreen() {
                   <>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Profile Visibility; Top Placement & Badge</Text>
+                      <Text style={styles.featureText}>Profile visibility with top placement</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Priority Unlimited Project Application</Text>
+                      <Text style={styles.featureText}>Priority unlimited project applications</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>7 days profile boost 2 x per month</Text>
+                      <Text style={styles.featureText}>7-day profile boost (2x per month)</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Verified pro badge 🟡</Text>
+                      <Text style={styles.featureText}>Verified Pro badge</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Priority Support</Text>
+                      <Text style={styles.featureText}>Priority support</Text>
                     </View>
                   </>
                 ) : (
                   <>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Unlimited Projects Listing</Text>
+                      <Text style={styles.featureText}>Unlimited project listings</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>3 free Featured Project per Month</Text>
+                      <Text style={styles.featureText}>3 free featured projects per month</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Priority Auto Match to Architect Freelance</Text>
+                      <Text style={styles.featureText}>Priority auto-match to architects</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Verified Client badge 🟡</Text>
+                      <Text style={styles.featureText}>Verified Client badge</Text>
                     </View>
                     <View style={styles.feature}>
                       <Check size={20} color="#4CAF50" />
-                      <Text style={styles.featureText}>Priority Support</Text>
+                      <Text style={styles.featureText}>Priority support</Text>
                     </View>
                   </>
                 )}
