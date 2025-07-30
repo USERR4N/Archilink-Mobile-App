@@ -136,10 +136,10 @@ const styles = StyleSheet.create({
   },
   slideUpContainer: {
     position: 'absolute',
-    bottom: 0,
+    top: '25%',
     left: 0,
     right: 0,
-    height: '75%',
+    bottom: 0,
     width: '100%',
   },
   formBox: {
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 30,
-    paddingTop: 60,
+    paddingTop: 40,
     paddingBottom: 30,
     flex: 1,
     width: '100%',
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
       width: 0,
       height: -5,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 10,
+    shadowOpacity: 0.15,
+    shadowRadius: 15,
+    elevation: 15,
   },
 });
