@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useAuthStore } from '@/store/authStore';
 import { colors } from '@/constants/colors';
 import { Settings, LogOut, Star, ChevronRight, Edit3 } from 'lucide-react-native';
+import { BadgeCarousel } from '@/components/BadgeCarousel';
 
 export default function ProfileScreen() {
   const user = useAuthStore(state => state.user);
@@ -324,6 +325,11 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
             <Text style={styles.statLabel}>Projects</Text>
           </View>
         </View>
+      </View>
+
+      {/* Badges Section */}
+      <View style={styles.badgeSection}>
+        <BadgeCarousel badges={[]} />
       </View>
 
       {/* Professional Information */}
@@ -819,5 +825,10 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 12,
     color: colors.gray,
+  },
+  badgeSection: {
+    backgroundColor: colors.white,
+    marginTop: 10,
+    paddingVertical: 20,
   },
 });
