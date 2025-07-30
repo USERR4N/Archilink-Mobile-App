@@ -110,9 +110,11 @@ export const BadgeCarousel = ({ badges = defaultBadges }: BadgeCarouselProps) =>
             activeOpacity={0.8}
           >
             <View style={styles.iconContainer}>
-              {React.cloneElement(badge.icon as React.ReactElement, {
-                color: badge.earned ? colors.white : colors.gray,
-              })}
+              {badge.earned ? badge.icon : (
+                React.cloneElement(badge.icon as React.ReactElement, {
+                  color: colors.gray,
+                } as any)
+              )}
             </View>
             
             <Text style={[

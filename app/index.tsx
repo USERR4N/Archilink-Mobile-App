@@ -86,10 +86,18 @@ export default function LoginScreen() {
     setIsLoading(true);
     
     try {
-      const success = await login(email, password);
-      
-      if (success) {
-        // Navigate to the appropriate dashboard based on user type
+      // Simulate login validation
+      if (email === 'test@example.com' && password === 'password') {
+        // Create a mock user for successful login
+        const mockUser = {
+          id: '1',
+          email: email,
+          fullName: 'Test User',
+          userType: 'client' as const,
+          isVerified: true,
+        };
+        
+        login(mockUser);
         router.replace('/(tabs)');
       } else {
         setErrors({ email: 'Invalid email or password' });
