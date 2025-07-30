@@ -51,7 +51,7 @@ export default function ForgotPasswordScreen() {
           <>
             <Text style={styles.title}>Reset Password</Text>
             <Text style={styles.description}>
-              Enter your email address and we'll send you instructions to reset your password.
+              Enter your email address and we&apos;ll send you instructions to reset your password.
             </Text>
 
             <CustomInput
@@ -85,7 +85,7 @@ export default function ForgotPasswordScreen() {
           <>
             <Text style={styles.title}>Check Your Email</Text>
             <Text style={styles.description}>
-              We've sent password reset instructions to {email}. Please check your inbox.
+              We&apos;ve sent password reset instructions to {email}. Please check your inbox.
             </Text>
 
             <View style={styles.buttonContainer}>
@@ -106,13 +106,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.primary,
     marginBottom: 10,
+    textAlign: 'center',
   },
   description: {
     fontSize: 16,
-    color: colors.white,
+    color: colors.gray,
     marginBottom: 30,
+    textAlign: 'center',
+    lineHeight: 22,
   },
   buttonContainer: {
     marginTop: 20,
