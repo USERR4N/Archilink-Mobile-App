@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primaryTransparent,
   },
   scrollViewContent: {
     flexGrow: 1,
