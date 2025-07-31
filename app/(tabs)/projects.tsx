@@ -379,6 +379,7 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
   };
 
   const handleRateUser = (project: any) => {
+    const { user } = useAuthStore();
     const userType = user?.userType === 'architect' ? 'client' : 'architect';
     router.push(`/rate-user/${project.id}?name=${project.architect || project.clientName}&userType=${userType}`);
   };

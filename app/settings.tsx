@@ -30,7 +30,7 @@ export default function SettingsScreen() {
       if (savedDarkMode !== null) {
         setDarkMode(JSON.parse(savedDarkMode));
       }
-      if (savedTextSize !== null) {
+      if (savedTextSize !== null && (savedTextSize === 'Small' || savedTextSize === 'Medium' || savedTextSize === 'Large')) {
         setTextSize(savedTextSize);
       }
       if (savedPushNotifications !== null) {
