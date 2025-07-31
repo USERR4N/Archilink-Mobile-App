@@ -105,6 +105,7 @@ export const ProfessionalDetailsForm = () => {
           setErrors({ ...errors, licenseNumber: undefined });
         }}
         error={errors.licenseNumber}
+        variant="login"
       />
       
       <View style={styles.uploadContainer}>
@@ -142,6 +143,7 @@ export const ProfessionalDetailsForm = () => {
         }}
         keyboardType="numeric"
         error={errors.yearsOfExperience}
+        variant="login"
       />
       
       <View style={styles.buttonContainer}>
@@ -149,13 +151,13 @@ export const ProfessionalDetailsForm = () => {
           title="Back"
           onPress={handleBack}
           variant="outline"
-          style={styles.backButton}
+          style={[styles.backButton, styles.customBackButton]}
         />
         
         <CustomButton
           title="Next"
           onPress={handleNext}
-          style={styles.nextButton}
+          style={[styles.nextButton, styles.customNextButton]}
         />
       </View>
     </View>
@@ -169,11 +171,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.black,
     marginBottom: 20,
   },
   label: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 18,
     marginBottom: 8,
     fontWeight: '500',
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   uploadedText: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 14,
     marginTop: 5,
   },
@@ -206,5 +208,13 @@ const styles = StyleSheet.create({
   nextButton: {
     flex: 1,
     marginLeft: 10,
+  },
+  customBackButton: {
+    backgroundColor: 'transparent',
+    borderColor: '#a42726',
+    borderWidth: 3,
+  },
+  customNextButton: {
+    backgroundColor: '#a42726',
   },
 });

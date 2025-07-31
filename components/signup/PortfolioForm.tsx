@@ -85,6 +85,7 @@ export const PortfolioForm = () => {
         label="Link to Online Portfolio (if any)"
         value={signupForm.portfolioLink || ''}
         onChangeText={(text) => updateSignupForm({ portfolioLink: text })}
+        variant="login"
       />
       
       <View style={styles.buttonContainer}>
@@ -93,21 +94,21 @@ export const PortfolioForm = () => {
             title="Back"
             onPress={handleBack}
             variant="outline"
-            style={styles.backButton}
+            style={[styles.backButton, styles.customBackButton]}
           />
           
           <CustomButton
             title="Next"
             onPress={handleNext}
-            style={styles.nextButton}
+            style={[styles.nextButton, styles.customNextButton]}
           />
         </View>
         
         <CustomButton
           title="Skip"
           onPress={handleSkip}
-          variant="secondary"
-          style={styles.skipButton}
+          variant="outline"
+          style={[styles.skipButton, styles.customSkipButton]}
         />
       </View>
     </View>
@@ -121,12 +122,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.black,
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 18,
-    color: colors.white,
+    color: colors.black,
     marginBottom: 20,
   },
   imagesContainer: {
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.white,
+    borderColor: colors.black,
   },
   buttonContainer: {
     marginTop: 30,
@@ -158,5 +159,18 @@ const styles = StyleSheet.create({
   },
   skipButton: {
     width: '100%',
+  },
+  customBackButton: {
+    backgroundColor: 'transparent',
+    borderColor: '#a42726',
+    borderWidth: 3,
+  },
+  customNextButton: {
+    backgroundColor: '#a42726',
+  },
+  customSkipButton: {
+    backgroundColor: 'transparent',
+    borderColor: '#a42726',
+    borderWidth: 3,
   },
 });

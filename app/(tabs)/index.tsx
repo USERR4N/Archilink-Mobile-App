@@ -379,6 +379,24 @@ export default function HomeScreen() {
               </View>
             ))}
           </View>
+
+          {/* Top 10 Competition Section */}
+          <View style={styles.section}>
+            <View style={styles.top10Section}>
+              <View style={styles.top10Header}>
+                <Text style={styles.top10Title}>Join the Top 10 Architects</Text>
+                <Text style={styles.top10Subtitle}>
+                  Stand out and get noticed! Compete for a place in our monthly Top 10 list.
+                </Text>
+              </View>
+              <TouchableOpacity 
+                style={styles.joinNowButton}
+                onPress={() => router.push('/top-10-competition')}
+              >
+                <Text style={styles.joinNowText}>Join Now</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         {renderCallModal()}
       </ScrollView>
@@ -1272,5 +1290,44 @@ const styles = StyleSheet.create({
     color: colors.gray,
     fontSize: 16,
     fontWeight: '500',
+  },
+  top10Section: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  top10Header: {
+    marginBottom: 15,
+  },
+  top10Title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  top10Subtitle: {
+    fontSize: 14,
+    color: colors.gray,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  joinNowButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  joinNowText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

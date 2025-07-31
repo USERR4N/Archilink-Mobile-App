@@ -120,6 +120,7 @@ export const LocationDetailsForm = () => {
           updateSignupForm({ otherLocation: text });
           setErrors({ ...errors, city: undefined });
         }}
+        variant="login"
       />
       {errors.city && <Text style={styles.errorText}>{errors.city}</Text>}
       
@@ -174,14 +175,14 @@ export const LocationDetailsForm = () => {
           title="Back"
           onPress={handleBack}
           variant="outline"
-          style={styles.backButton}
+          style={[styles.backButton, styles.customBackButton]}
           disabled={isLoading}
         />
         
         <CustomButton
           title="Submit"
           onPress={handleSubmit}
-          style={styles.submitButton}
+          style={[styles.submitButton, styles.customSubmitButton]}
           loading={isLoading}
         />
       </View>
@@ -196,11 +197,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.black,
     marginBottom: 20,
   },
   label: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 18,
     marginBottom: 8,
     marginTop: 10,
@@ -227,5 +228,13 @@ const styles = StyleSheet.create({
   submitButton: {
     flex: 1,
     marginLeft: 10,
+  },
+  customBackButton: {
+    backgroundColor: 'transparent',
+    borderColor: '#a42726',
+    borderWidth: 3,
+  },
+  customSubmitButton: {
+    backgroundColor: '#a42726',
   },
 });
