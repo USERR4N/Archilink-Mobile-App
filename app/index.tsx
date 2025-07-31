@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { router } from 'expo-router';
-import { CityBackground } from '@/components/CityBackground';
-import { FormContainer } from '@/components/FormContainer';
 import { CustomInput } from '@/components/CustomInput';
 import { CustomButton } from '@/components/CustomButton';
 import { colors } from '@/constants/colors';
 import { useAuthStore } from '@/store/authStore';
+import { Logo } from '@/components/Logo';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -71,140 +70,191 @@ export default function LoginScreen() {
   };
 
   return (
-    <CityBackground>
-      <FormContainer>
-        <CustomInput
-          label="Email"
-          value={email}
-          onChangeText={(text) => {
-            setEmail(text);
-            setErrors({ ...errors, email: undefined });
-          }}
-          error={errors.email}
-          keyboardType="email-address"
-        />
-        
-        <CustomInput
-          label="Password"
-          value={password}
-          onChangeText={(text) => {
-            setPassword(text);
-            setErrors({ ...errors, password: undefined });
-          }}
-          secureTextEntry
-          error={errors.password}
-        />
-        
-        <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </TouchableOpacity>
-        
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            title="Log in"
-            onPress={handleLogin}
-            loading={isLoading}
-            style={styles.loginButton}
-          />
-          
-          <CustomButton
-            title="Create Account"
-            onPress={handleCreateAccount}
-            variant="outline"
-            style={styles.createAccountButton}
-          />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Top red section */}
+        <View style={styles.topSection}>
+          <Logo color="white" />
         </View>
         
-        <View style={styles.orContainer}>
-          <View style={styles.divider} />
-          <Text style={styles.orText}>or</Text>
-          <View style={styles.divider} />
-        </View>
-        
-        <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity style={styles.googleButton}>
-            <Image
-              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
-              style={styles.socialIcon}
+        {/* White rounded form container */}
+        <View style={styles.formSection}>
+          <View style={styles.formContainer}>
+            <CustomInput
+              label="Email"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                setErrors({ ...errors, email: undefined });
+              }}
+              error={errors.email}
+              keyboardType="email-address"
             />
-            <Text style={styles.socialButtonText}>Continue with Google</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.appleButton}>
-            <Image
-              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg' }}
-              style={styles.socialIcon}
+            
+            <CustomInput
+              label="Password"
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+                setErrors({ ...errors, password: undefined });
+              }}
+              secureTextEntry
+              error={errors.password}
             />
-            <Text style={styles.socialButtonText}>Continue with Apple</Text>
-          </TouchableOpacity>
+            
+            <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
+              <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+            </TouchableOpacity>
+            
+            <CustomButton
+              title="Sign In"
+              onPress={handleLogin}
+              loading={isLoading}
+              style={styles.loginButton}
+            />
+            
+            <View style={styles.orContainer}>
+              <View style={styles.divider} />
+              <Text style={styles.orText}>or</Text>
+              <View style={styles.divider} />
+            </View>
+            
+            <View style={styles.socialButtonsContainer}>
+              <TouchableOpacity style={styles.googleButton}>
+                <Image
+                  source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
+                  style={styles.socialIcon}
+                />
+                <Text style={styles.socialButtonText}>Continue with Google</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={styles.appleButton}>
+                <Image
+                  source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg' }}
+                  style={styles.socialIcon}
+                />
+                <Text style={styles.socialButtonText}>Continue with Apple</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <TouchableOpacity onPress={handleCreateAccount} style={styles.createAccountContainer}>
+              <Text style={styles.createAccountText}>
+                Don&apos;t have an account? <Text style={styles.createAccountLink}>Sign Up</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </FormContainer>
-    </CityBackground>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  topSection: {
+    backgroundColor: colors.primary,
+    paddingTop: 60,
+    paddingBottom: 40,
+    alignItems: 'center',
+  },
+  formSection: {
+    flex: 1,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 30,
+    paddingTop: 40,
+    paddingBottom: 30,
+  },
+  formContainer: {
+    flex: 1,
+  },
   forgotPasswordContainer: {
     alignItems: 'flex-end',
-    marginBottom: 20,
+    marginBottom: 25,
   },
   forgotPasswordText: {
-    color: colors.white,
+    color: colors.primary,
     fontSize: 16,
-  },
-  buttonContainer: {
-    marginBottom: 20,
+    fontWeight: '500',
   },
   loginButton: {
-    width: '100%',
-    marginBottom: 10,
-  },
-  createAccountButton: {
-    width: '100%',
+    backgroundColor: colors.black,
+    marginBottom: 25,
   },
   orContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 25,
   },
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.lightGray,
   },
   orText: {
-    color: colors.white,
-    marginHorizontal: 10,
+    color: colors.gray,
+    marginHorizontal: 15,
     fontSize: 16,
   },
   socialButtonsContainer: {
-    width: '100%',
+    gap: 15,
+    marginBottom: 30,
   },
   googleButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 30,
-    paddingVertical: 12,
+    backgroundColor: colors.lightGray,
+    borderRadius: 25,
+    paddingVertical: 15,
     paddingHorizontal: 20,
-    marginBottom: 10,
+    justifyContent: 'center',
   },
   appleButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 30,
-    paddingVertical: 12,
+    backgroundColor: colors.lightGray,
+    borderRadius: 25,
+    paddingVertical: 15,
     paddingHorizontal: 20,
+    justifyContent: 'center',
   },
   socialIcon: {
     width: 24,
     height: 24,
-    marginRight: 10,
+    marginRight: 12,
   },
   socialButtonText: {
     color: colors.black,
     fontSize: 16,
+    fontWeight: '600',
+  },
+  createAccountContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  createAccountText: {
+    color: colors.gray,
+    fontSize: 16,
+  },
+  createAccountLink: {
+    color: colors.primary,
     fontWeight: 'bold',
   },
 });

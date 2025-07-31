@@ -4,7 +4,8 @@ import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { architects } from '@/constants/architects';
 import { useAuthStore } from '@/store/authStore';
-import { ArrowLeft, Star, MapPin, Award, Briefcase, Phone, Mail, MessageSquare, UserPlus, UserMinus } from 'lucide-react-native';
+import { ArrowLeft, Star, Phone, Mail, MessageSquare, UserPlus, UserMinus } from 'lucide-react-native';
+import { BadgesList } from '@/components/BadgesList';
 
 export default function UserProfileScreen() {
   const { id } = useLocalSearchParams();
@@ -182,6 +183,9 @@ export default function UserProfileScreen() {
               ))}
             </ScrollView>
           </View>
+
+          {/* Badges Section */}
+          {architect.badges && <BadgesList badges={architect.badges} />}
 
           {/* Reviews */}
           <View style={styles.section}>

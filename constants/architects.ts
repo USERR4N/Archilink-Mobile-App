@@ -15,6 +15,29 @@ export const architects = [
     experience: 8,
     email: 'carlos.mendoza@example.com',
     phone: '+63 912 345 6789',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Loyal Architect',
+        description: 'Logged in consistently for the past 6 months',
+        icon: 'shield' as const,
+        color: '#4CAF50'
+      },
+      {
+        id: '3',
+        title: '3 Years Archi',
+        description: 'Part of ArchiLink for 3+ years',
+        icon: 'medal' as const,
+        color: '#FF9800'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -65,6 +88,22 @@ export const architects = [
     experience: 5,
     email: 'anna.reyes@example.com',
     phone: '+63 917 234 5678',
+    badges: [
+      {
+        id: '1',
+        title: 'Fast Responder',
+        description: 'Replied to 95% of messages in under 1 hour',
+        icon: 'clock' as const,
+        color: '#2196F3'
+      },
+      {
+        id: '2',
+        title: 'Verified Pro',
+        description: 'Profile verification complete',
+        icon: 'shield' as const,
+        color: '#9C27B0'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -339,6 +378,43 @@ export const architects = [
     experience: 8,
     email: 'chelsi.hontiveros@example.com',
     phone: '+63 912 345 6789',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Loyal Architect',
+        description: 'Logged in consistently for the past 6 months',
+        icon: 'shield' as const,
+        color: '#4CAF50'
+      },
+      {
+        id: '3',
+        title: '3 Years Archi',
+        description: 'Part of ArchiLink for 3+ years',
+        icon: 'medal' as const,
+        color: '#FF9800'
+      },
+      {
+        id: '4',
+        title: 'Fast Responder',
+        description: 'Replied to 95% of messages in under 1 hour',
+        icon: 'clock' as const,
+        color: '#2196F3'
+      },
+      {
+        id: '5',
+        title: 'Verified Pro',
+        description: 'Profile verification complete',
+        icon: 'shield' as const,
+        color: '#9C27B0'
+      }
+    ],
     portfolio: [
       {
         id: 1,
