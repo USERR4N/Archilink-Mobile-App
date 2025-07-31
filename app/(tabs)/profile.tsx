@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'rea
 import { router } from 'expo-router';
 import { useAuthStore } from '@/store/authStore';
 import { colors } from '@/constants/colors';
-import { Settings, LogOut, Star, ChevronRight, Edit3 } from 'lucide-react-native';
+import { Settings, LogOut, Star, ChevronRight, Edit3, Award, Trophy, Medal, Clock, Shield, Zap } from 'lucide-react-native';
 
 export default function ProfileScreen() {
   const user = useAuthStore(state => state.user);
@@ -309,6 +309,64 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
         </View>
         
         <Text style={styles.profileName}>{user?.fullName || '<User Name>'}</Text>
+        
+        {/* Badges Section */}
+        <View style={styles.badgesSection}>
+          <Text style={styles.badgesSectionTitle}>My Achievements</Text>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.badgesContainer}
+          >
+            <View style={styles.badgeItem}>
+              <View style={[styles.badgeIcon, { backgroundColor: '#FFD700' }]}>
+                <Trophy size={20} color={colors.white} />
+              </View>
+              <Text style={styles.badgeTitle}>Top 10 Competitor</Text>
+              <Text style={styles.badgeDescription}>Actively competing</Text>
+            </View>
+            
+            <View style={styles.badgeItem}>
+              <View style={[styles.badgeIcon, { backgroundColor: '#4CAF50' }]}>
+                <Shield size={20} color={colors.white} />
+              </View>
+              <Text style={styles.badgeTitle}>Loyal Architect</Text>
+              <Text style={styles.badgeDescription}>6 months consistent</Text>
+            </View>
+            
+            <View style={styles.badgeItem}>
+              <View style={[styles.badgeIcon, { backgroundColor: '#2196F3' }]}>
+                <Award size={20} color={colors.white} />
+              </View>
+              <Text style={styles.badgeTitle}>3 Years Archi</Text>
+              <Text style={styles.badgeDescription}>Long-time member</Text>
+            </View>
+            
+            <View style={styles.badgeItem}>
+              <View style={[styles.badgeIcon, { backgroundColor: '#FF9800' }]}>
+                <Medal size={20} color={colors.white} />
+              </View>
+              <Text style={styles.badgeTitle}>Verified Pro</Text>
+              <Text style={styles.badgeDescription}>Profile verified</Text>
+            </View>
+            
+            <View style={styles.badgeItem}>
+              <View style={[styles.badgeIcon, { backgroundColor: '#9C27B0' }]}>
+                <Zap size={20} color={colors.white} />
+              </View>
+              <Text style={styles.badgeTitle}>Fast Responder</Text>
+              <Text style={styles.badgeDescription}>95% under 1 hour</Text>
+            </View>
+            
+            <View style={styles.badgeItem}>
+              <View style={[styles.badgeIcon, { backgroundColor: '#607D8B' }]}>
+                <Clock size={20} color={colors.white} />
+              </View>
+              <Text style={styles.badgeTitle}>Early Adopter</Text>
+              <Text style={styles.badgeDescription}>Beta user</Text>
+            </View>
+          </ScrollView>
+        </View>
         
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
@@ -809,6 +867,53 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.black,
     textAlign: 'center',
+  },
+  badgesSection: {
+    marginBottom: 20,
+  },
+  badgesSectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  badgesContainer: {
+    paddingHorizontal: 5,
+  },
+  badgeItem: {
+    alignItems: 'center',
+    marginRight: 15,
+    width: 90,
+  },
+  badgeIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  badgeTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: colors.primary,
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  badgeDescription: {
+    fontSize: 10,
+    color: colors.gray,
+    textAlign: 'center',
+    lineHeight: 12,
   },
   footer: {
     backgroundColor: colors.white,
