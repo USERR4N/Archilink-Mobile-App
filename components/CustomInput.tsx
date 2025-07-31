@@ -13,6 +13,7 @@ interface CustomInputProps {
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
   style?: ViewStyle;
   inputStyle?: TextStyle;
+  variant?: 'default' | 'login';
 }
 
 export const CustomInput = ({
@@ -25,6 +26,7 @@ export const CustomInput = ({
   keyboardType = 'default',
   style,
   inputStyle,
+  variant = 'default',
 }: CustomInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -32,25 +34,27 @@ export const CustomInput = ({
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const isLoginVariant = variant === 'login';
+  
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputContainer}>
+      <Text style={[styles.label, isLoginVariant && styles.loginLabel]}>{label}</Text>
+      <View style={[styles.inputContainer, isLoginVariant && styles.loginInputContainer]}>
         <TextInput
-          style={[styles.input, inputStyle]}
+          style={[styles.input, isLoginVariant && styles.loginInput, inputStyle]}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor="rgba(255, 255, 255, 0.5)"
+          placeholderTextColor={isLoginVariant ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)"}
           secureTextEntry={secureTextEntry && !isPasswordVisible}
           keyboardType={keyboardType}
         />
         {secureTextEntry && (
           <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
             {isPasswordVisible ? (
-              <EyeOff size={20} color={colors.white} />
+              <EyeOff size={20} color={isLoginVariant ? colors.black : colors.white} />
             ) : (
-              <Eye size={20} color={colors.white} />
+              <Eye size={20} color={isLoginVariant ? colors.black : colors.white} />
             )}
           </TouchableOpacity>
         )}
@@ -90,5 +94,17 @@ const styles = StyleSheet.create({
     color: colors.error,
     fontSize: 12,
     marginTop: 4,
+  },
+  loginLabel: {
+    color: colors.black,
+  },
+  loginInputContainer: {
+    backgroundColor: colors.inputBackground,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    borderBottomWidth: 0,
+  },
+  loginInput: {
+    color: colors.black,
   },
 });

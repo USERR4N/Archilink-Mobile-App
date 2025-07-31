@@ -13,15 +13,19 @@ export const FormContainer = ({ children }: FormContainerProps) => {
     <KeyboardAvoidingView
       style={styles.keyboardAvoidingView}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
     >
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContent}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.container}>
+        {/* Top red section */}
+        <View style={styles.topSection}>
           <Logo color="white" />
+        </View>
+        
+        {/* White rounded form container */}
+        <View style={styles.formSection}>
           <View style={styles.formContainer}>
             {children}
           </View>
@@ -34,23 +38,30 @@ export const FormContainer = ({ children }: FormContainerProps) => {
 const styles = StyleSheet.create({
   keyboardAvoidingView: {
     flex: 1,
+    backgroundColor: colors.primary,
   },
   scrollView: {
     flex: 1,
-    backgroundColor: colors.white,
   },
   scrollViewContent: {
     flexGrow: 1,
+  },
+  topSection: {
+    backgroundColor: colors.primary,
+    paddingTop: 60,
+    paddingBottom: 40,
+    alignItems: 'center',
+  },
+  formSection: {
+    flex: 1,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 30,
+    paddingTop: 40,
     paddingBottom: 30,
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
   formContainer: {
-    width: '100%',
-    maxWidth: 400,
+    flex: 1,
   },
 });

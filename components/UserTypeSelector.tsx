@@ -6,14 +6,15 @@ import { UserType } from '@/types/user';
 interface UserTypeSelectorProps {
   selectedType: UserType | null;
   onSelect: (type: UserType) => void;
+  variant?: 'default' | 'signup';
 }
 
-export const UserTypeSelector = ({ selectedType, onSelect }: UserTypeSelectorProps) => {
+export const UserTypeSelector = ({ selectedType, onSelect, variant = 'default' }: UserTypeSelectorProps) => {
   const [hoveredType, setHoveredType] = useState<UserType | null>(null);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>What Are You?</Text>
+      <Text style={[styles.label, variant === 'signup' && styles.signupLabel]}>What Are You?</Text>
       <View style={styles.optionsContainer}>
         <TouchableOpacity
           style={[
@@ -67,9 +68,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   option: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: colors.white,
+    backgroundColor: colors.primary,
+    borderWidth: 3,
+    borderColor: colors.primary,
     borderRadius: 30,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
     width: '48%',
   },
   selectedOption: {
-    backgroundColor: colors.white,
+    backgroundColor: 'transparent',
+    borderColor: colors.primary,
   },
   optionText: {
     color: colors.white,
@@ -90,5 +92,8 @@ const styles = StyleSheet.create({
   },
   hoveredOptionText: {
     color: colors.primary,
+  },
+  signupLabel: {
+    color: colors.black,
   },
 });

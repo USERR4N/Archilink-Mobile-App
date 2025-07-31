@@ -106,6 +106,8 @@ export default function LoginScreen() {
               }}
               error={errors.email}
               keyboardType="email-address"
+              variant="login"
+              style={styles.inputField}
             />
             
             <CustomInput
@@ -117,6 +119,8 @@ export default function LoginScreen() {
               }}
               secureTextEntry
               error={errors.password}
+              variant="login"
+              style={styles.inputField}
             />
             
             <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
@@ -204,8 +208,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
+  inputField: {
+    marginBottom: 20,
+  },
   loginButton: {
-    backgroundColor: colors.black,
+    backgroundColor: colors.primary,
     marginBottom: 25,
   },
   orContainer: {
@@ -260,7 +267,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   createAccountText: {
-    color: colors.gray,
+    color: colors.black,
     fontSize: 16,
   },
   createAccountLink: {

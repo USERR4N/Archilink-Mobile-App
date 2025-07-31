@@ -105,6 +105,7 @@ export const BasicInfoForm = () => {
           setErrors({ ...errors, fullName: undefined });
         }}
         error={errors.fullName}
+        variant="login"
       />
       
       <CustomInput
@@ -116,6 +117,7 @@ export const BasicInfoForm = () => {
         }}
         error={errors.email}
         keyboardType="email-address"
+        variant="login"
       />
       
       <CustomInput
@@ -127,6 +129,7 @@ export const BasicInfoForm = () => {
         }}
         error={errors.mobileNumber}
         keyboardType="phone-pad"
+        variant="login"
       />
       
       <CustomInput
@@ -138,6 +141,7 @@ export const BasicInfoForm = () => {
         }}
         secureTextEntry
         error={errors.password}
+        variant="login"
       />
       
       <CustomInput
@@ -149,11 +153,13 @@ export const BasicInfoForm = () => {
         }}
         secureTextEntry
         error={errors.confirmPassword}
+        variant="login"
       />
       
       <UserTypeSelector
         selectedType={signupForm.userType || null}
         onSelect={handleUserTypeSelect}
+        variant="signup"
       />
       {errors.userType && <Text style={styles.errorText}>{errors.userType}</Text>}
       
@@ -183,7 +189,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.black,
     marginBottom: 20,
   },
   errorText: {
