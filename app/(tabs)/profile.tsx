@@ -12,7 +12,7 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     logout();
-    router.replace('/index');
+    router.replace('/');
   };
 
   const handleSettings = () => {
