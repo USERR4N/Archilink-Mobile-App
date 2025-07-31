@@ -45,14 +45,24 @@ export default function LoginScreen() {
     setIsLoading(true);
     
     try {
-      const success = await login(email, password);
+      // Simulate authentication - in a real app, this would be an API call
+      // For demo purposes, we'll create a mock user
+      const mockUser = {
+        id: Date.now().toString(),
+        email: email,
+        fullName: 'Demo User',
+        userType: 'client' as const,
+        isVerified: true,
+      };
       
-      if (success) {
-        // Navigate to the appropriate dashboard based on user type
-        router.replace('/(tabs)');
-      } else {
-        setErrors({ email: 'Invalid email or password' });
-      }
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Login the user
+      login(mockUser);
+      
+      // Navigate to the appropriate dashboard based on user type
+      router.replace('/(tabs)');
     } catch (error) {
       console.error('Login error:', error);
       setErrors({ email: 'An error occurred during login' });
