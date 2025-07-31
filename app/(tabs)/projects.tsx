@@ -117,7 +117,7 @@ function ArchitectProjectsView() {
   };
 
   const renderArchitectActiveProject = (project: any) => (
-    <TouchableOpacity key={project.id} style={styles.projectCard}>
+    <TouchableOpacity key={project.id} style={styles.projectCard} onPress={() => router.push(`/project/${project.id}`)}>
       <Image source={{ uri: project.image }} style={styles.projectImage} />
       <View style={styles.projectOverlay}>
         <Text style={styles.projectTitle}>{project.title}</Text>
@@ -144,7 +144,7 @@ function ArchitectProjectsView() {
   );
 
   const renderArchitectCompletedProject = (project: any) => (
-    <TouchableOpacity key={project.id} style={styles.projectCard}>
+    <TouchableOpacity key={project.id} style={styles.projectCard} onPress={() => router.push(`/project/${project.id}`)}>
       <Image source={{ uri: project.image }} style={styles.projectImage} />
       <View style={styles.projectOverlay}>
         <Text style={styles.projectTitle}>{project.title}</Text>
@@ -458,7 +458,7 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
   };
 
   const renderClientProject = (project: any) => (
-    <TouchableOpacity key={project.id} style={[clientStyles.projectCard, { backgroundColor: darkMode ? '#1a1a1a' : colors.white }]}>
+    <TouchableOpacity key={project.id} style={[clientStyles.projectCard, { backgroundColor: darkMode ? '#1a1a1a' : colors.white }]} onPress={() => router.push(`/project/${project.id}`)}>
       <Image source={{ uri: project.image }} style={clientStyles.projectImage} />
       <View style={clientStyles.projectContent}>
         <Text style={[clientStyles.projectTitle, { color: darkMode ? colors.white : colors.black }]}>{project.title}</Text>

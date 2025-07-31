@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform, Modal } from 'react-native';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
+import { useAuthStore } from '@/store/authStore';
 import { ArrowLeft, Phone, Plus, DollarSign, Shield, CreditCard, Camera, Video, Mic, Image as ImageIcon } from 'lucide-react-native';
 
 export default function ChatScreen() {
   const { id, name } = useLocalSearchParams();
+  const { darkMode } = useAuthStore();
   const [message, setMessage] = useState('');
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
@@ -68,7 +70,7 @@ export default function ChatScreen() {
       return (
         <>
           <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>Sat, July 5 at 2:39 PM</Text>
+            <Text style={[styles.dateText, { color: darkMode ? colors.white : colors.gray }]}>Sat, July 5 at 2:39 PM</Text>
           </View>
           
           <View style={styles.messageContainer}>
@@ -76,7 +78,7 @@ export default function ChatScreen() {
               source={{ uri: getProfileImage() }}
               style={styles.messageAvatar}
             />
-            <View style={[styles.messageBubble, styles.receivedMessage]}>
+            <View style={[styles.messageBubble, styles.receivedMessage, { backgroundColor: darkMode ? colors.primary : colors.primary }]}>
               <Text style={styles.messageText}>
                 Let's have a meeting, here is the link:{'\n\n'}https://meet.google.com/rca-pptu-nun?authuser=0
               </Text>
@@ -84,8 +86,8 @@ export default function ChatScreen() {
           </View>
           
           <View style={[styles.messageContainer, styles.sentMessageContainer]}>
-            <View style={[styles.messageBubble, styles.sentMessage]}>
-              <Text style={[styles.messageText, styles.sentMessageText]}>
+            <View style={[styles.messageBubble, styles.sentMessage, { backgroundColor: darkMode ? '#333' : colors.white, borderColor: darkMode ? '#555' : colors.primary }]}>
+              <Text style={[styles.messageText, styles.sentMessageText, { color: darkMode ? colors.white : colors.black }]}>
                 Okay, I'll join the link in a few minutes. Just checking a few papers at the moment...
               </Text>
             </View>
@@ -100,7 +102,7 @@ export default function ChatScreen() {
     
     return (
       <View style={styles.emptyChat}>
-        <Text style={styles.emptyChatText}>Start a conversation with {name}</Text>
+        <Text style={[styles.emptyChatText, { color: darkMode ? colors.white : colors.gray }]}>Start a conversation with {name}</Text>
       </View>
     );
   };
@@ -113,38 +115,38 @@ export default function ChatScreen() {
       onRequestClose={() => setShowMediaModal(false)}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.mediaModal}>
+        <View style={dynamicStyles.mediaModal}>
           <View style={styles.mediaModalHeader}>
-            <Text style={styles.mediaModalTitle}>Send Media</Text>
+            <Text style={dynamicStyles.mediaModalTitle}>Send Media</Text>
           </View>
           
           <View style={styles.mediaOptions}>
             <TouchableOpacity style={styles.mediaOption} onPress={() => handleMediaOption('camera')}>
-              <View style={styles.mediaOptionIcon}>
+              <View style={dynamicStyles.mediaOptionIcon}>
                 <Camera size={24} color={colors.primary} />
               </View>
-              <Text style={styles.mediaOptionText}>Camera</Text>
+              <Text style={dynamicStyles.mediaOptionText}>Camera</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.mediaOption} onPress={() => handleMediaOption('gallery')}>
-              <View style={styles.mediaOptionIcon}>
+              <View style={dynamicStyles.mediaOptionIcon}>
                 <ImageIcon size={24} color={colors.primary} />
               </View>
-              <Text style={styles.mediaOptionText}>Gallery</Text>
+              <Text style={dynamicStyles.mediaOptionText}>Gallery</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.mediaOption} onPress={() => handleMediaOption('video')}>
-              <View style={styles.mediaOptionIcon}>
+              <View style={dynamicStyles.mediaOptionIcon}>
                 <Video size={24} color={colors.primary} />
               </View>
-              <Text style={styles.mediaOptionText}>Video</Text>
+              <Text style={dynamicStyles.mediaOptionText}>Video</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.mediaOption} onPress={() => handleMediaOption('voice')}>
-              <View style={styles.mediaOptionIcon}>
+              <View style={dynamicStyles.mediaOptionIcon}>
                 <Mic size={24} color={colors.primary} />
               </View>
-              <Text style={styles.mediaOptionText}>Voice</Text>
+              <Text style={dynamicStyles.mediaOptionText}>Voice</Text>
             </TouchableOpacity>
           </View>
           
@@ -152,7 +154,7 @@ export default function ChatScreen() {
             style={styles.cancelMediaButton}
             onPress={() => setShowMediaModal(false)}
           >
-            <Text style={styles.cancelMediaText}>Cancel</Text>
+            <Text style={dynamicStyles.cancelMediaText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -167,35 +169,35 @@ export default function ChatScreen() {
       onRequestClose={() => setShowPaymentModal(false)}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.paymentModal}>
+        <View style={dynamicStyles.paymentModal}>
           <View style={styles.paymentModalHeader}>
             <Shield size={32} color={colors.primary} />
-            <Text style={styles.paymentModalTitle}>Secure Payment</Text>
-            <Text style={styles.paymentModalSubtitle}>
+            <Text style={dynamicStyles.paymentModalTitle}>Secure Payment</Text>
+            <Text style={dynamicStyles.paymentModalSubtitle}>
               Choose a secure payment method to protect your transaction
             </Text>
           </View>
           
           <View style={styles.paymentOptions}>
-            <TouchableOpacity style={styles.paymentOption} onPress={handleSecurePayment}>
-              <View style={styles.paymentOptionIcon}>
+            <TouchableOpacity style={dynamicStyles.paymentOption} onPress={handleSecurePayment}>
+              <View style={dynamicStyles.paymentOptionIcon}>
                 <CreditCard size={24} color={colors.primary} />
               </View>
               <View style={styles.paymentOptionContent}>
-                <Text style={styles.paymentOptionTitle}>Direct Payment</Text>
-                <Text style={styles.paymentOptionDescription}>
+                <Text style={dynamicStyles.paymentOptionTitle}>Direct Payment</Text>
+                <Text style={dynamicStyles.paymentOptionDescription}>
                   Pay directly with your saved payment method
                 </Text>
               </View>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.paymentOption} onPress={handleEscrowPayment}>
-              <View style={styles.paymentOptionIcon}>
+            <TouchableOpacity style={dynamicStyles.paymentOption} onPress={handleEscrowPayment}>
+              <View style={dynamicStyles.paymentOptionIcon}>
                 <Shield size={24} color={colors.success} />
               </View>
               <View style={styles.paymentOptionContent}>
-                <Text style={styles.paymentOptionTitle}>Escrow Payment</Text>
-                <Text style={styles.paymentOptionDescription}>
+                <Text style={dynamicStyles.paymentOptionTitle}>Escrow Payment</Text>
+                <Text style={dynamicStyles.paymentOptionDescription}>
                   Funds held securely until project completion
                 </Text>
               </View>
@@ -206,21 +208,158 @@ export default function ChatScreen() {
             style={styles.cancelPaymentButton}
             onPress={() => setShowPaymentModal(false)}
           >
-            <Text style={styles.cancelPaymentText}>Cancel</Text>
+            <Text style={dynamicStyles.cancelPaymentText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
     </Modal>
   );
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.primary,
+    },
+    messagesContainer: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    inputContainer: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingVertical: 15,
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      borderTopWidth: 1,
+      borderTopColor: darkMode ? '#333' : colors.lightGray,
+    },
+    messageInputContainer: {
+      flex: 1,
+      borderWidth: 2,
+      borderColor: darkMode ? '#555' : colors.primary,
+      borderRadius: 25,
+      paddingHorizontal: 15,
+      paddingVertical: 8,
+      maxHeight: 100,
+      backgroundColor: darkMode ? '#333' : colors.white,
+    },
+    messageInput: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      minHeight: 24,
+    },
+    paymentModal: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      paddingHorizontal: 20,
+      paddingTop: 30,
+      paddingBottom: 40,
+    },
+    paymentModalTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginTop: 10,
+      marginBottom: 8,
+    },
+    paymentModalSubtitle: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.gray,
+      textAlign: 'center',
+      lineHeight: 20,
+    },
+    paymentOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: darkMode ? '#333' : colors.lightGray,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12,
+    },
+    paymentOptionIcon: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: darkMode ? '#555' : colors.white,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 16,
+    },
+    paymentOptionTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 4,
+    },
+    paymentOptionDescription: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.gray,
+      lineHeight: 18,
+    },
+    cancelPaymentText: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.gray,
+      fontWeight: '500',
+    },
+    mediaModal: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      paddingHorizontal: 20,
+      paddingTop: 30,
+      paddingBottom: 40,
+    },
+    mediaModalTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+    },
+    mediaOptionIcon: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      backgroundColor: darkMode ? '#333' : colors.lightGray,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 8,
+    },
+    mediaOptionText: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      fontWeight: '500',
+    },
+    cancelMediaText: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.gray,
+      fontWeight: '500',
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <KeyboardAvoidingView 
-        style={styles.container}
+        style={dynamicStyles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View style={styles.header}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
             <ArrowLeft size={24} color={colors.primary} />
           </TouchableOpacity>
@@ -230,7 +369,7 @@ export default function ChatScreen() {
               source={{ uri: getProfileImage() }}
               style={styles.headerAvatar}
             />
-            <Text style={styles.headerName}>{name}</Text>
+            <Text style={dynamicStyles.headerName}>{name}</Text>
           </View>
           
           <TouchableOpacity style={styles.phoneButton} onPress={handleCall}>
@@ -238,11 +377,11 @@ export default function ChatScreen() {
           </TouchableOpacity>
         </View>
         
-        <ScrollView style={styles.messagesContainer} contentContainerStyle={styles.messagesContent}>
+        <ScrollView style={dynamicStyles.messagesContainer} contentContainerStyle={styles.messagesContent}>
           {renderMessages()}
         </ScrollView>
         
-        <View style={styles.inputContainer}>
+        <View style={dynamicStyles.inputContainer}>
           <TouchableOpacity style={styles.addButton} onPress={handleMedia}>
             <Plus size={20} color={colors.white} />
           </TouchableOpacity>
@@ -251,9 +390,9 @@ export default function ChatScreen() {
             <DollarSign size={20} color={colors.white} />
           </TouchableOpacity>
           
-          <View style={styles.messageInputContainer}>
+          <View style={dynamicStyles.messageInputContainer}>
             <TextInput
-              style={styles.messageInput}
+              style={dynamicStyles.messageInput}
               value={message}
               onChangeText={setMessage}
               placeholder="Type a message..."
