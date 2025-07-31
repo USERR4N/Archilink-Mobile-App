@@ -15,7 +15,7 @@ export default function EditProfileScreen() {
   const [jobTitle, setJobTitle] = useState(isArchitect ? (user as any)?.specialization || '' : 'Client');
   const [email, setEmail] = useState(user?.email || '');
   const [phoneNumber, setPhoneNumber] = useState(user?.mobileNumber || '');
-  const [location, setLocation] = useState(user?.location?.city || '');
+  const [location, setLocation] = useState(user?.city || user?.location || '');
 
   const handleBack = () => {
     router.back();
