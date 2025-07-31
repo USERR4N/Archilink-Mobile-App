@@ -8,7 +8,7 @@ import { useAuthStore } from '@/store/authStore';
 type TabType = 'all' | 'clients' | 'services';
 
 export default function MessagesScreen() {
-  const { user } = useAuthStore();
+  const { user, darkMode } = useAuthStore();
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [searchText, setSearchText] = useState('');
   
@@ -338,7 +338,7 @@ export default function MessagesScreen() {
       style={[styles.tabButton, activeTab === tab && styles.activeTabButton]}
       onPress={() => setActiveTab(tab)}
     >
-      <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>
+      <Text style={[dynamicStyles.tabText, activeTab === tab && dynamicStyles.activeTabText]}>
         {label}
       </Text>
       {activeTab === tab && <View style={styles.tabIndicator} />}
@@ -347,7 +347,7 @@ export default function MessagesScreen() {
 
   const renderMessageItem = ({ item }: { item: any }) => (
     <TouchableOpacity 
-      style={styles.messageItem}
+      style={dynamicStyles.messageItem}
       onPress={() => handleChatPress(item.id, item.name)}
     >
       <View style={styles.profileContainer}>
@@ -379,10 +379,10 @@ export default function MessagesScreen() {
       
       <View style={styles.messageContent}>
         <View style={styles.messageHeader}>
-          <Text style={styles.senderName}>{item.name}</Text>
+          <Text style={dynamicStyles.senderName}>{item.name}</Text>
           <Text style={styles.messageTime}>{item.time}</Text>
         </View>
-        <Text style={styles.lastMessage} numberOfLines={2}>
+        <Text style={dynamicStyles.lastMessage} numberOfLines={2}>
           {item.lastMessage}
         </Text>
       </View>
@@ -391,26 +391,111 @@ export default function MessagesScreen() {
     </TouchableOpacity>
   );
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.white,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      alignItems: 'center',
+      borderBottomWidth: 0.5,
+      borderBottomColor: darkMode ? '#333' : '#E5E5EA',
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    tabsContainer: {
+      flexDirection: 'row',
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 16,
+      paddingTop: 16,
+      borderBottomWidth: 0.5,
+      borderBottomColor: darkMode ? '#333' : '#E5E5EA',
+    },
+    tabText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.gray,
+    },
+    activeTabText: {
+      color: colors.primary,
+      fontWeight: '600',
+    },
+    searchSection: {
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: darkMode ? '#333' : colors.white,
+      borderRadius: 20,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      minHeight: 36,
+      borderWidth: 1,
+      borderColor: colors.primary,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      marginLeft: 8,
+    },
+    messagesSection: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.white,
+    },
+    messageItem: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      paddingHorizontal: 16,
+      paddingVertical: 16,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderBottomWidth: 0.5,
+      borderBottomColor: darkMode ? '#333' : '#F0F0F0',
+    },
+    senderName: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: darkMode ? colors.white : colors.black,
+    },
+    lastMessage: {
+      fontSize: 15,
+      color: '#8E8E93',
+      lineHeight: 20,
+      fontWeight: '400',
+    },
+  });
+
   return (
-    <View style={styles.container}>
+    <View style={dynamicStyles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>ARCHILINK</Text>
+      <View style={dynamicStyles.header}>
+        <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
       </View>
       
       {/* Tabs */}
-      <View style={styles.tabsContainer}>
+      <View style={dynamicStyles.tabsContainer}>
         {renderTabButton('all', 'All Messages')}
         {renderTabButton('clients', user?.userType === 'architect' ? 'Clients' : 'Providers')}
         {renderTabButton('services', 'Services')}
       </View>
       
       {/* Search */}
-      <View style={styles.searchSection}>
-        <View style={styles.searchContainer}>
+      <View style={dynamicStyles.searchSection}>
+        <View style={dynamicStyles.searchContainer}>
           <Search size={18} color={colors.gray} />
           <TextInput
-            style={styles.searchInput}
+            style={dynamicStyles.searchInput}
             placeholder={getSearchPlaceholder()}
             placeholderTextColor={colors.gray}
             value={searchText}
@@ -420,7 +505,7 @@ export default function MessagesScreen() {
       </View>
       
       {/* Messages List */}
-      <View style={styles.messagesSection}>
+      <View style={dynamicStyles.messagesSection}>
         <FlatList
           data={getCurrentMessages()}
           renderItem={renderMessageItem}

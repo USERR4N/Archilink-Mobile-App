@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions, Animated } from 'react-native';
 import { router } from 'expo-router';
 import { colors } from '@/constants/colors';
-import { architects } from '@/constants/architects';
+import { useAuthStore } from '@/store/authStore';
 import { Heart, MessageCircle, Bookmark, CheckCircle } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
@@ -119,6 +119,7 @@ const stories: Story[] = [
 ];
 
 export default function StoriesScreen() {
+  const { darkMode } = useAuthStore();
   const [likedStories, setLikedStories] = useState<Set<string>>(new Set(['2']));
   const [savedStories, setSavedStories] = useState<Set<string>>(new Set(['2']));
   const [heartAnimations, setHeartAnimations] = useState<{[key: string]: Animated.Value}>({});
@@ -204,16 +205,82 @@ export default function StoriesScreen() {
     console.log('Comment on story:', storyId);
   };
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.white,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      alignItems: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    highlightsContainer: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingVertical: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    highlightName: {
+      fontSize: 12,
+      color: darkMode ? colors.white : colors.black,
+      textAlign: 'center',
+    },
+    storyCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      marginBottom: 25,
+    },
+    architectName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginRight: 5,
+    },
+    architectSpecialty: {
+      fontSize: 14,
+      color: colors.gray,
+      marginTop: 2,
+    },
+    likesText: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 8,
+    },
+    captionText: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      lineHeight: 20,
+      marginBottom: 5,
+    },
+    startPostContainer: {
+      paddingHorizontal: 15,
+      paddingVertical: 15,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+  });
+
   return (
-    <View style={styles.container}>
+    <View style={dynamicStyles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>ARCHILINK</Text>
+      <View style={dynamicStyles.header}>
+        <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
       </View>
       
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Highlights Section */}
-        <View style={styles.highlightsContainer}>
+        <View style={dynamicStyles.highlightsContainer}>
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
@@ -236,14 +303,14 @@ export default function StoriesScreen() {
                     </View>
                   )}
                 </View>
-                <Text style={styles.highlightName}>{highlight.name}</Text>
+                <Text style={dynamicStyles.highlightName}>{highlight.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
 
         {/* Start a Post Button */}
-        <View style={styles.startPostContainer}>
+        <View style={dynamicStyles.startPostContainer}>
           <TouchableOpacity 
             style={styles.startPostButton}
             onPress={handleCreatePost}
@@ -255,20 +322,20 @@ export default function StoriesScreen() {
         {/* Stories Feed */}
         <View style={styles.storiesContainer}>
           {stories.map((story) => (
-            <View key={story.id} style={styles.storyCard}>
+            <View key={story.id} style={dynamicStyles.storyCard}>
               {/* Story Header */}
               <View style={styles.storyHeader}>
                 <Image source={{ uri: story.architect.image }} style={styles.architectAvatar} />
                 <View style={styles.architectInfo}>
                   <View style={styles.architectNameContainer}>
-                    <Text style={styles.architectName}>{story.architect.name}</Text>
+                    <Text style={dynamicStyles.architectName}>{story.architect.name}</Text>
                     {story.architect.isVerified && (
                       <View style={styles.verificationBadgeSmall}>
                         <CheckCircle size={16} color="#1DA1F2" fill="#1DA1F2" />
                       </View>
                     )}
                   </View>
-                  <Text style={styles.architectSpecialty}>{story.architect.specialty}</Text>
+                  <Text style={dynamicStyles.architectSpecialty}>{story.architect.specialty}</Text>
                 </View>
               </View>
 
@@ -285,7 +352,7 @@ export default function StoriesScreen() {
                     <Animated.View style={{ transform: [{ scale: heartAnimations[story.id] || 1 }] }}>
                       <Heart 
                         size={24} 
-                        color={likedStories.has(story.id) ? '#FF3040' : colors.black}
+                        color={likedStories.has(story.id) ? '#FF3040' : (darkMode ? colors.white : colors.black)}
                         fill={likedStories.has(story.id) ? '#FF3040' : 'none'}
                       />
                     </Animated.View>
@@ -294,7 +361,7 @@ export default function StoriesScreen() {
                     style={styles.actionButton}
                     onPress={() => handleComment(story.id)}
                   >
-                    <MessageCircle size={24} color={colors.black} />
+                    <MessageCircle size={24} color={darkMode ? colors.white : colors.black} />
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity 
@@ -304,8 +371,8 @@ export default function StoriesScreen() {
                   <Animated.View style={{ transform: [{ scale: bookmarkAnimations[story.id] || 1 }] }}>
                     <Bookmark 
                       size={24} 
-                      color={colors.black}
-                      fill={savedStories.has(story.id) ? colors.black : 'none'}
+                      color={darkMode ? colors.white : colors.black}
+                      fill={savedStories.has(story.id) ? (darkMode ? colors.white : colors.black) : 'none'}
                     />
                   </Animated.View>
                 </TouchableOpacity>
@@ -313,12 +380,12 @@ export default function StoriesScreen() {
 
               {/* Story Content */}
               <View style={styles.storyContent}>
-                <Text style={styles.likesText}>
+                <Text style={dynamicStyles.likesText}>
                   Liked by <Text style={styles.boldText}>John Doe</Text> and{' '}
                   <Text style={styles.boldText}>others</Text>
                 </Text>
                 <View style={styles.captionContainer}>
-                  <Text style={styles.captionText}>
+                  <Text style={dynamicStyles.captionText}>
                     <Text style={styles.boldText}>{story.architect.name}</Text> {story.caption}
                   </Text>
                   <Text style={styles.hashtagsText}>

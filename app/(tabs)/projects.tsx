@@ -8,7 +8,7 @@ import { Search, Plus, Calendar, MapPin, DollarSign, Clock, CheckCircle, Heart, 
 type ClientProjectTab = 'active' | 'completed' | 'cancelled';
 
 export default function ProjectsScreen() {
-  const { user } = useAuthStore();
+  const { user, darkMode } = useAuthStore();
   const [activeTab, setActiveTab] = useState<ClientProjectTab>('active');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -22,6 +22,7 @@ export default function ProjectsScreen() {
 
 // Architect Projects View (existing functionality)
 function ArchitectProjectsView() {
+  const { darkMode } = useAuthStore();
   const [activeTab, setActiveTab] = useState<'active' | 'completed' | 'inquiries'>('active');
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
@@ -247,38 +248,109 @@ function ArchitectProjectsView() {
     </View>
   );
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.primary,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      alignItems: 'center',
+    },
+    headerTitle: {
+      color: colors.white,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    tabsContainer: {
+      flexDirection: 'row',
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 20,
+      paddingBottom: 5,
+      justifyContent: 'space-around',
+    },
+    tab: {
+      paddingBottom: 15,
+      flex: 1,
+      alignItems: 'center',
+    },
+    activeTab: {
+      borderBottomWidth: 3,
+      borderBottomColor: colors.primary,
+    },
+    tabText: {
+      fontSize: 16,
+      color: colors.gray,
+      fontWeight: '500',
+    },
+    activeTabText: {
+      color: colors.primary,
+      fontWeight: 'bold',
+    },
+    searchContainer: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 15,
+      paddingBottom: 15,
+    },
+    searchInputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: darkMode ? '#333' : colors.white,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      borderRadius: 25,
+      paddingHorizontal: 15,
+      paddingVertical: 12,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+    },
+    contentContainer: {
+      flex: 1,
+      padding: 20,
+    },
+  });
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>ARCHILINK</Text>
+    <View style={dynamicStyles.container}>
+      <View style={dynamicStyles.header}>
+        <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
       </View>
       
-      <View style={styles.tabsContainer}>
+      <View style={dynamicStyles.tabsContainer}>
         <TouchableOpacity 
-          style={[styles.tab, activeTab === 'active' && styles.activeTab]}
+          style={[dynamicStyles.tab, activeTab === 'active' && dynamicStyles.activeTab]}
           onPress={() => setActiveTab('active')}
         >
-          <Text style={[styles.tabText, activeTab === 'active' && styles.activeTabText]}>Active</Text>
+          <Text style={[dynamicStyles.tabText, activeTab === 'active' && dynamicStyles.activeTabText]}>Active</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={[styles.tab, activeTab === 'completed' && styles.activeTab]}
+          style={[dynamicStyles.tab, activeTab === 'completed' && dynamicStyles.activeTab]}
           onPress={() => setActiveTab('completed')}
         >
-          <Text style={[styles.tabText, activeTab === 'completed' && styles.activeTabText]}>Completed</Text>
+          <Text style={[dynamicStyles.tabText, activeTab === 'completed' && dynamicStyles.activeTabText]}>Completed</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={[styles.tab, activeTab === 'inquiries' && styles.activeTab]}
+          style={[dynamicStyles.tab, activeTab === 'inquiries' && dynamicStyles.activeTab]}
           onPress={() => setActiveTab('inquiries')}
         >
-          <Text style={[styles.tabText, activeTab === 'inquiries' && styles.activeTabText]}>Inquiries</Text>
+          <Text style={[dynamicStyles.tabText, activeTab === 'inquiries' && dynamicStyles.activeTabText]}>Inquiries</Text>
         </TouchableOpacity>
       </View>
       
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInputContainer}>
+      <View style={dynamicStyles.searchContainer}>
+        <View style={dynamicStyles.searchInputContainer}>
           <Search size={20} color={colors.primary} style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+            style={dynamicStyles.searchInput}
             placeholder={getArchitectSearchPlaceholder()}
             placeholderTextColor={colors.gray}
             value={searchQuery}
@@ -287,7 +359,7 @@ function ArchitectProjectsView() {
         </View>
       </View>
       
-      <ScrollView style={styles.contentContainer}>
+      <ScrollView style={dynamicStyles.contentContainer}>
         {activeTab === 'active' && currentData.map(renderArchitectActiveProject)}
         {activeTab === 'completed' && currentData.map(renderArchitectCompletedProject)}
         {activeTab === 'inquiries' && currentData.map(renderArchitectInquiry)}
@@ -379,7 +451,6 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
   };
 
   const handleRateUser = (project: any) => {
-    const { user } = useAuthStore();
     const userType = user?.userType === 'architect' ? 'client' : 'architect';
     router.push(`/rate-user/${project.id}?name=${project.architect || project.clientName}&userType=${userType}`);
   };
