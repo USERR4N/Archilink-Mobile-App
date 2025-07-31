@@ -15,8 +15,8 @@ export const LocationDetailsForm = () => {
   const setSignupStep = useAuthStore(state => state.setSignupStep);
   const submitSignup = useAuthStore(state => state.submitSignup);
   
-  const [workPreference, setWorkPreference] = useState<('remote' | 'onsite' | 'both')[]>(
-    signupForm.workPreference || []
+  const [workPreference, setWorkPreference] = useState<'remote' | 'onsite' | 'both' | null>(
+    signupForm.workPreference?.[0] || null
   );
   const [termsAgreed, setTermsAgreed] = useState(signupForm.termsAgreed || false);
   const [infoAccurate, setInfoAccurate] = useState(signupForm.infoAccurate || false);
@@ -44,8 +44,8 @@ export const LocationDetailsForm = () => {
       newErrors.city = 'Please select a city or enter your location';
     }
     
-    if (workPreference.length === 0) {
-      newErrors.workPreference = 'Please select at least one work preference';
+    if (!workPreference) {
+      newErrors.workPreference = 'Please select a work preference';
     }
     
     if (!termsAgreed || !infoAccurate) {
@@ -59,7 +59,7 @@ export const LocationDetailsForm = () => {
     
     // Update form with final data
     updateSignupForm({
-      workPreference,
+      workPreference: workPreference ? [workPreference] : [],
       termsAgreed,
       infoAccurate,
     });
@@ -86,16 +86,8 @@ export const LocationDetailsForm = () => {
   };
 
   const toggleWorkPreference = (preference: 'remote' | 'onsite' | 'both') => {
-    let newPreferences;
-    
-    if (workPreference.includes(preference)) {
-      newPreferences = workPreference.filter(p => p !== preference);
-    } else {
-      newPreferences = [...workPreference, preference];
-    }
-    
-    setWorkPreference(newPreferences);
-    updateSignupForm({ workPreference: newPreferences });
+    setWorkPreference(preference);
+    updateSignupForm({ workPreference: [preference] });
     setErrors({ ...errors, workPreference: undefined });
   };
 
@@ -128,19 +120,19 @@ export const LocationDetailsForm = () => {
       <View style={styles.checkboxContainer}>
         <CustomCheckbox
           label="Remotely"
-          checked={workPreference.includes('remote')}
+          checked={workPreference === 'remote'}
           onToggle={() => toggleWorkPreference('remote')}
         />
         
         <CustomCheckbox
           label="On-site"
-          checked={workPreference.includes('onsite')}
+          checked={workPreference === 'onsite'}
           onToggle={() => toggleWorkPreference('onsite')}
         />
         
         <CustomCheckbox
           label="Both"
-          checked={workPreference.includes('both')}
+          checked={workPreference === 'both'}
           onToggle={() => toggleWorkPreference('both')}
         />
       </View>

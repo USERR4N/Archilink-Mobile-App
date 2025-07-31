@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Image } fr
 import { router, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { ArrowLeft, AlertTriangle, CheckCircle, Eye, Star, Trophy } from 'lucide-react-native';
+import { useAuthStore } from '@/store/authStore';
 
 const topArchitects = [
   { id: 1, rank: '01', name: 'Samantha Fisher', image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face' },
@@ -13,8 +14,10 @@ const topArchitects = [
 ];
 
 export default function Top10CompetitionScreen() {
+  const user = useAuthStore(state => state.user);
   const [showNoticeModal, setShowNoticeModal] = useState(true);
   const [showCriteriaModal, setShowCriteriaModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const handleBack = () => {
     router.back();
@@ -29,8 +32,13 @@ export default function Top10CompetitionScreen() {
   };
 
   const handleJoinCompetition = () => {
-    console.log('Joining Top 10 Competition');
-    // Handle payment logic here
+    setShowPaymentModal(true);
+  };
+
+  const handlePayment = () => {
+    console.log('Processing payment for Top 10 Competition');
+    setShowPaymentModal(false);
+    // Handle actual payment logic here
   };
 
   const handleVisitProfile = (architectId: number) => {
@@ -210,6 +218,40 @@ export default function Top10CompetitionScreen() {
                   </View>
                 </View>
               </ScrollView>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Payment Modal */}
+        <Modal
+          visible={showPaymentModal}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setShowPaymentModal(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Payment Confirmation</Text>
+              
+              <Text style={styles.modalText}>
+                You are about to pay ₱100 to join the Top 10 Architects Competition.
+              </Text>
+              
+              <View style={styles.paymentButtons}>
+                <TouchableOpacity 
+                  style={styles.cancelPaymentButton}
+                  onPress={() => setShowPaymentModal(false)}
+                >
+                  <Text style={styles.cancelPaymentText}>Cancel</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={styles.confirmPaymentButton}
+                  onPress={handlePayment}
+                >
+                  <Text style={styles.confirmPaymentText}>Pay ₱100</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -590,5 +632,35 @@ const styles = StyleSheet.create({
     color: colors.gray,
     marginBottom: 5,
     lineHeight: 20,
+  },
+  paymentButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    gap: 15,
+  },
+  cancelPaymentButton: {
+    flex: 1,
+    backgroundColor: colors.lightGray,
+    borderRadius: 25,
+    paddingVertical: 15,
+    alignItems: 'center',
+  },
+  cancelPaymentText: {
+    color: colors.black,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  confirmPaymentButton: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    borderRadius: 25,
+    paddingVertical: 15,
+    alignItems: 'center',
+  },
+  confirmPaymentText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

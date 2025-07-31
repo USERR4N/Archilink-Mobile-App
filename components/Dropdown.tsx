@@ -35,7 +35,7 @@ export const Dropdown = ({
         <Text style={styles.selectedText}>
           {selectedValue || placeholder}
         </Text>
-        <ChevronDown size={20} color={colors.white} />
+        <ChevronDown size={20} color="#a42726" />
       </TouchableOpacity>
 
       <Modal
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   label: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 18,
     marginBottom: 8,
     fontWeight: '500',
@@ -87,15 +87,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: colors.transparent,
+    backgroundColor: '#d9d9d9',
     borderWidth: 1,
-    borderColor: colors.white,
+    borderColor: '#a42726',
     borderRadius: 4,
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
   selectedText: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 16,
   },
   modalContainer: {

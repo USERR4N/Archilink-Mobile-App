@@ -91,13 +91,20 @@ export const architects = [
     badges: [
       {
         id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
         title: 'Fast Responder',
         description: 'Replied to 95% of messages in under 1 hour',
         icon: 'clock' as const,
         color: '#2196F3'
       },
       {
-        id: '2',
+        id: '3',
         title: 'Verified Pro',
         description: 'Profile verification complete',
         icon: 'shield' as const,
@@ -142,6 +149,22 @@ export const architects = [
     experience: 12,
     email: 'miguel.santos@example.com',
     phone: '+63 918 345 6789',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Loyal Architect',
+        description: 'Logged in consistently for the past 6 months',
+        icon: 'shield' as const,
+        color: '#4CAF50'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -180,6 +203,22 @@ export const architects = [
     experience: 6,
     email: 'sofia.lim@example.com',
     phone: '+63 919 456 7890',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Early Adopter',
+        description: 'Beta user',
+        icon: 'clock' as const,
+        color: '#607D8B'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -213,6 +252,22 @@ export const architects = [
     experience: 10,
     email: 'rafael.cruz@example.com',
     phone: '+63 920 567 8901',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Verified Pro',
+        description: 'Profile verification complete',
+        icon: 'medal' as const,
+        color: '#FF9800'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -246,6 +301,22 @@ export const architects = [
     experience: 14,
     email: 'isabella.garcia@example.com',
     phone: '+63 921 678 9012',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: '3 Years Archi',
+        description: 'Part of ArchiLink for 3+ years',
+        icon: 'award' as const,
+        color: '#2196F3'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -279,6 +350,22 @@ export const architects = [
     experience: 9,
     email: 'diego.martinez@example.com',
     phone: '+63 922 789 0123',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Fast Responder',
+        description: 'Replied to 95% of messages in under 1 hour',
+        icon: 'clock' as const,
+        color: '#9C27B0'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -312,6 +399,22 @@ export const architects = [
     experience: 11,
     email: 'maria.fernandez@example.com',
     phone: '+63 923 890 1234',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Loyal Architect',
+        description: 'Logged in consistently for the past 6 months',
+        icon: 'shield' as const,
+        color: '#4CAF50'
+      }
+    ],
     portfolio: [
       {
         id: 1,
@@ -345,6 +448,22 @@ export const architects = [
     experience: 7,
     email: 'antonio.delacruz@example.com',
     phone: '+63 924 901 2345',
+    badges: [
+      {
+        id: '1',
+        title: 'Top 10 Competitor',
+        description: 'Actively competing in this month\'s rankings',
+        icon: 'trophy' as const,
+        color: '#FFD700'
+      },
+      {
+        id: '2',
+        title: 'Early Adopter',
+        description: 'Beta user',
+        icon: 'clock' as const,
+        color: '#607D8B'
+      }
+    ],
     portfolio: [
       {
         id: 1,
