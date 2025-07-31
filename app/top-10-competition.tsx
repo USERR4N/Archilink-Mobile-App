@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Image } from 'react-native';
 import { router, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
-import { ArrowLeft, AlertTriangle, CheckCircle, Eye } from 'lucide-react-native';
+import { ArrowLeft, AlertTriangle, CheckCircle, Eye, Star, Trophy } from 'lucide-react-native';
+
+const topArchitects = [
+  { id: 1, rank: '01', name: 'Samantha Fisher', image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face' },
+  { id: 2, rank: '02', name: 'Michael Chen', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' },
+  { id: 3, rank: '03', name: 'Elena Rodriguez', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face' },
+  { id: 4, rank: '04', name: 'David Kim', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face' },
+  { id: 5, rank: '05', name: 'Sarah Johnson', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face' },
+];
 
 export default function Top10CompetitionScreen() {
   const [showNoticeModal, setShowNoticeModal] = useState(true);
@@ -25,6 +33,10 @@ export default function Top10CompetitionScreen() {
     // Handle payment logic here
   };
 
+  const handleVisitProfile = (architectId: number) => {
+    router.push(`/user-profile/${architectId}`);
+  };
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
@@ -40,6 +52,36 @@ export default function Top10CompetitionScreen() {
         <ScrollView style={styles.content}>
           <View style={styles.mainContent}>
             <Text style={styles.title}>Compete for a Top 10 Spot and Boost Your Profile!</Text>
+            
+            {/* Illustration Section */}
+            <View style={styles.illustrationContainer}>
+              <View style={styles.sparkleContainer}>
+                <Star size={16} color="#FFD700" fill="#FFD700" style={[styles.sparkle, styles.sparkle1]} />
+                <Star size={12} color="#FFD700" fill="#FFD700" style={[styles.sparkle, styles.sparkle2]} />
+                <Star size={14} color="#FFD700" fill="#FFD700" style={[styles.sparkle, styles.sparkle3]} />
+                <Star size={10} color="#FFD700" fill="#FFD700" style={[styles.sparkle, styles.sparkle4]} />
+                <Star size={18} color="#FFD700" fill="#FFD700" style={[styles.sparkle, styles.sparkle5]} />
+              </View>
+              
+              <View style={styles.architectIllustration}>
+                <View style={styles.hardhat}>
+                  <View style={styles.hardhatTop} />
+                  <View style={styles.hardhatBrim} />
+                </View>
+                <View style={styles.architectFace}>
+                  <View style={styles.eye} />
+                  <View style={styles.eye} />
+                  <View style={styles.smile} />
+                </View>
+                <View style={styles.architectBody}>
+                  <View style={styles.blueprint}>
+                    <View style={styles.blueprintLine} />
+                    <View style={styles.blueprintLine} />
+                    <View style={styles.blueprintLine} />
+                  </View>
+                </View>
+              </View>
+            </View>
             
             <View style={styles.priceContainer}>
               <Text style={styles.priceLabel}>Entry Fee</Text>
@@ -60,6 +102,28 @@ export default function Top10CompetitionScreen() {
             >
               <Text style={styles.joinButtonText}>Join Competition</Text>
             </TouchableOpacity>
+            
+            {/* Top 10 Leaderboard Section */}
+            <View style={styles.leaderboardSection}>
+              <View style={styles.leaderboardHeader}>
+                <Trophy size={24} color={colors.primary} />
+                <Text style={styles.leaderboardTitle}>Top 10 Best Architects</Text>
+              </View>
+              
+              {topArchitects.map((architect) => (
+                <View key={architect.id} style={styles.leaderboardItem}>
+                  <Text style={styles.rank}>{architect.rank}</Text>
+                  <Image source={{ uri: architect.image }} style={styles.profileImage} />
+                  <Text style={styles.architectName}>{architect.name}</Text>
+                  <TouchableOpacity 
+                    style={styles.visitProfileButton}
+                    onPress={() => handleVisitProfile(architect.id)}
+                  >
+                    <Text style={styles.visitProfileText}>Visit Profile</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
           </View>
         </ScrollView>
 
@@ -157,7 +221,7 @@ export default function Top10CompetitionScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.white,
   },
   header: {
     backgroundColor: colors.white,
@@ -197,8 +261,120 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     lineHeight: 32,
   },
+  illustrationContainer: {
+    position: 'relative',
+    alignItems: 'center',
+    marginBottom: 30,
+    height: 200,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  sparkleContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  sparkle: {
+    position: 'absolute',
+  },
+  sparkle1: {
+    top: 20,
+    left: 30,
+  },
+  sparkle2: {
+    top: 40,
+    right: 40,
+  },
+  sparkle3: {
+    bottom: 60,
+    left: 50,
+  },
+  sparkle4: {
+    top: 80,
+    left: '50%',
+  },
+  sparkle5: {
+    bottom: 30,
+    right: 30,
+  },
+  architectIllustration: {
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  hardhat: {
+    position: 'relative',
+    marginBottom: 5,
+  },
+  hardhatTop: {
+    width: 60,
+    height: 40,
+    backgroundColor: '#FFD700',
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#FFA500',
+  },
+  hardhatBrim: {
+    width: 70,
+    height: 8,
+    backgroundColor: '#FFD700',
+    borderRadius: 4,
+    position: 'absolute',
+    bottom: -4,
+    left: -5,
+    borderWidth: 1,
+    borderColor: '#FFA500',
+  },
+  architectFace: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#FDBCB4',
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+    flexDirection: 'row',
+    paddingTop: 10,
+  },
+  eye: {
+    width: 6,
+    height: 6,
+    backgroundColor: colors.black,
+    borderRadius: 3,
+    marginHorizontal: 6,
+  },
+  smile: {
+    position: 'absolute',
+    bottom: 12,
+    width: 20,
+    height: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.black,
+    borderRadius: 10,
+  },
+  architectBody: {
+    width: 80,
+    height: 60,
+    backgroundColor: colors.lightGray,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  blueprint: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 5,
+    padding: 8,
+    justifyContent: 'space-around',
+  },
+  blueprintLine: {
+    height: 2,
+    backgroundColor: '#2196F3',
+    borderRadius: 1,
+  },
   priceContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.lightGray,
     borderRadius: 15,
     padding: 30,
     alignItems: 'center',
@@ -244,11 +420,72 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     alignItems: 'center',
     width: '100%',
+    marginBottom: 40,
   },
   joinButtonText: {
     color: colors.white,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  leaderboardSection: {
+    width: '100%',
+    backgroundColor: colors.lightGray,
+    borderRadius: 15,
+    padding: 20,
+  },
+  leaderboardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    justifyContent: 'center',
+  },
+  leaderboardTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.black,
+    marginLeft: 10,
+  },
+  leaderboardItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  rank: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    width: 30,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginHorizontal: 15,
+  },
+  architectName: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.primary,
+  },
+  visitProfileButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+  },
+  visitProfileText: {
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: '600',
   },
   modalOverlay: {
     flex: 1,

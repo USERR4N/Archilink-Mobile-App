@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { router } from 'expo-router';
-import { CityBackground } from '@/components/CityBackground';
 import { FormContainer } from '@/components/FormContainer';
 import { useAuthStore } from '@/store/authStore';
 import { BasicInfoForm } from '@/components/signup/BasicInfoForm';
@@ -36,16 +33,9 @@ export default function SignupScreen() {
   };
 
   return (
-    <CityBackground>
-      <FormContainer>
-        {renderStep()}
-      </FormContainer>
-    </CityBackground>
+    <FormContainer>
+      {renderStep()}
+    </FormContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
