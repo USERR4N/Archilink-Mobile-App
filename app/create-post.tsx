@@ -68,6 +68,9 @@ export default function CreatePostScreen() {
       color: colors.white,
       fontSize: 18,
       fontWeight: 'bold',
+      flex: 1,
+      textAlign: 'center',
+      marginHorizontal: 10,
     },
     profileSection: {
       flexDirection: 'row',

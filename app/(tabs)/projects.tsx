@@ -17,7 +17,7 @@ export default function ProjectsScreen() {
     return <ArchitectProjectsView />;
   }
 
-  return <ClientProjectsView activeTab={activeTab} setActiveTab={setActiveTab} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />;
+  return <ClientProjectsView activeTab={activeTab} setActiveTab={setActiveTab} searchQuery={searchQuery} setSearchQuery={setSearchQuery} darkMode={darkMode} />;
 }
 
 // Architect Projects View (existing functionality)
@@ -377,11 +377,12 @@ function ArchitectProjectsView() {
 }
 
 // Client Projects View (simplified)
-function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQuery }: {
+function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQuery, darkMode }: {
   activeTab: ClientProjectTab;
   setActiveTab: (tab: ClientProjectTab) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  darkMode: boolean;
 }) {
   const { user } = useAuthStore();
   const router = useRouter();
@@ -457,38 +458,38 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
   };
 
   const renderClientProject = (project: any) => (
-    <TouchableOpacity key={project.id} style={clientStyles.projectCard}>
+    <TouchableOpacity key={project.id} style={[clientStyles.projectCard, { backgroundColor: darkMode ? '#1a1a1a' : colors.white }]}>
       <Image source={{ uri: project.image }} style={clientStyles.projectImage} />
       <View style={clientStyles.projectContent}>
-        <Text style={clientStyles.projectTitle}>{project.title}</Text>
+        <Text style={[clientStyles.projectTitle, { color: darkMode ? colors.white : colors.black }]}>{project.title}</Text>
         <View style={clientStyles.projectInfo}>
           <View style={clientStyles.infoRow}>
             <MapPin size={16} color={colors.gray} />
-            <Text style={clientStyles.infoText}>{project.location}</Text>
+            <Text style={[clientStyles.infoText, { color: darkMode ? colors.white : colors.gray }]}>{project.location}</Text>
           </View>
           <View style={clientStyles.infoRow}>
             <DollarSign size={16} color={colors.gray} />
-            <Text style={clientStyles.infoText}>{project.budget}</Text>
+            <Text style={[clientStyles.infoText, { color: darkMode ? colors.white : colors.gray }]}>{project.budget}</Text>
           </View>
           {activeTab === 'active' ? (
             <View style={clientStyles.infoRow}>
               <Calendar size={16} color={colors.gray} />
-              <Text style={clientStyles.infoText}>Started: {project.startDate}</Text>
+              <Text style={[clientStyles.infoText, { color: darkMode ? colors.white : colors.gray }]}>Started: {project.startDate}</Text>
             </View>
           ) : activeTab === 'completed' ? (
             <View style={clientStyles.infoRow}>
               <Calendar size={16} color={colors.gray} />
-              <Text style={clientStyles.infoText}>Completed: {project.completedDate}</Text>
+              <Text style={[clientStyles.infoText, { color: darkMode ? colors.white : colors.gray }]}>Completed: {project.completedDate}</Text>
             </View>
           ) : (
             <View style={clientStyles.infoRow}>
               <Calendar size={16} color={colors.gray} />
-              <Text style={clientStyles.infoText}>Cancelled: {project.cancelledDate}</Text>
+              <Text style={[clientStyles.infoText, { color: darkMode ? colors.white : colors.gray }]}>Cancelled: {project.cancelledDate}</Text>
             </View>
           )}
         </View>
         {project.architect && (
-          <Text style={clientStyles.architectName}>Architect: {project.architect}</Text>
+          <Text style={[clientStyles.architectName, { color: darkMode ? colors.white : colors.primary }]}>Architect: {project.architect}</Text>
         )}
         {activeTab === 'active' && (
           <>
@@ -496,7 +497,7 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
               <View style={clientStyles.progressBar}>
                 <View style={[clientStyles.progressFill, { width: `${project.progress}%` }]} />
               </View>
-              <Text style={clientStyles.progressText}>{project.progress}% Complete</Text>
+              <Text style={[clientStyles.progressText, { color: darkMode ? colors.white : colors.gray }]}>{project.progress}% Complete</Text>
             </View>
             {project.proposals && (
               <TouchableOpacity 
@@ -504,7 +505,7 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
                 onPress={() => handleViewProposals(project.id)}
               >
                 <Eye size={16} color={colors.primary} />
-                <Text style={clientStyles.proposalsText}>View {project.proposals} Proposals</Text>
+                <Text style={[clientStyles.proposalsText, { color: darkMode ? colors.white : colors.primary }]}>View {project.proposals} Proposals</Text>
               </TouchableOpacity>
             )}
           </>
@@ -513,7 +514,7 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
           <>
             {project.rating ? (
               <View style={clientStyles.ratingContainer}>
-                <Text style={clientStyles.ratingText}>Your Rating: {project.rating}/5 ⭐</Text>
+                <Text style={[clientStyles.ratingText, { color: darkMode ? colors.white : colors.black }]}>Your Rating: {project.rating}/5 ⭐</Text>
               </View>
             ) : (
               <TouchableOpacity 
@@ -528,8 +529,8 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
         )}
         {activeTab === 'cancelled' && (
           <View style={clientStyles.cancelledContainer}>
-            <Text style={clientStyles.cancelledText}>Cancelled: {project.cancelledDate}</Text>
-            <Text style={clientStyles.cancelledReason}>Reason: {project.reason}</Text>
+            <Text style={[clientStyles.cancelledText, { color: darkMode ? colors.white : colors.black }]}>Cancelled: {project.cancelledDate}</Text>
+            <Text style={[clientStyles.cancelledReason, { color: darkMode ? colors.white : colors.gray }]}>Reason: {project.reason}</Text>
           </View>
         )}
       </View>
@@ -537,40 +538,40 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
   );
 
   return (
-    <View style={clientStyles.container}>
-      <View style={clientStyles.header}>
-        <Text style={clientStyles.headerTitle}>ARCHILINK</Text>
+    <View style={[clientStyles.container, { backgroundColor: darkMode ? '#000000' : colors.lightGray }]}>
+      <View style={[clientStyles.header, { backgroundColor: darkMode ? '#1a1a1a' : colors.primary }]}>
+        <Text style={[clientStyles.headerTitle, { color: colors.white }]}>ARCHILINK</Text>
         <TouchableOpacity style={clientStyles.createButton} onPress={handleCreateProject}>
           <Plus size={20} color={colors.white} />
         </TouchableOpacity>
       </View>
       
-      <View style={clientStyles.tabsContainer}>
+      <View style={[clientStyles.tabsContainer, { backgroundColor: darkMode ? '#1a1a1a' : colors.white, borderBottomColor: darkMode ? '#333' : '#E5E5EA', marginTop: 15 }]}>
         <TouchableOpacity 
           style={[clientStyles.tab, activeTab === 'active' && clientStyles.activeTab]}
           onPress={() => setActiveTab('active')}
         >
-          <Text style={[clientStyles.tabText, activeTab === 'active' && clientStyles.activeTabText]}>Active</Text>
+          <Text style={[clientStyles.tabText, { color: darkMode ? colors.white : colors.gray }, activeTab === 'active' && clientStyles.activeTabText]}>Active</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={[clientStyles.tab, activeTab === 'completed' && clientStyles.activeTab]}
           onPress={() => setActiveTab('completed')}
         >
-          <Text style={[clientStyles.tabText, activeTab === 'completed' && clientStyles.activeTabText]}>Completed</Text>
+          <Text style={[clientStyles.tabText, { color: darkMode ? colors.white : colors.gray }, activeTab === 'completed' && clientStyles.activeTabText]}>Completed</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={[clientStyles.tab, activeTab === 'cancelled' && clientStyles.activeTab]}
           onPress={() => setActiveTab('cancelled')}
         >
-          <Text style={[clientStyles.tabText, activeTab === 'cancelled' && clientStyles.activeTabText]}>Cancelled</Text>
+          <Text style={[clientStyles.tabText, { color: darkMode ? colors.white : colors.gray }, activeTab === 'cancelled' && clientStyles.activeTabText]}>Cancelled</Text>
         </TouchableOpacity>
       </View>
       
-      <View style={clientStyles.searchContainer}>
-        <View style={clientStyles.searchInputContainer}>
+      <View style={[clientStyles.searchContainer, { backgroundColor: darkMode ? '#1a1a1a' : colors.white }]}>
+        <View style={[clientStyles.searchInputContainer, { backgroundColor: darkMode ? '#333' : colors.white, borderColor: darkMode ? '#555' : colors.lightGray }]}>
           <Search size={20} color={colors.primary} style={clientStyles.searchIcon} />
           <TextInput
-            style={clientStyles.searchInput}
+            style={[clientStyles.searchInput, { color: darkMode ? colors.white : colors.black }]}
             placeholder="Search projects..."
             placeholderTextColor={colors.gray}
             value={searchQuery}
@@ -584,10 +585,10 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
         
         {currentData.length === 0 && (
           <View style={clientStyles.emptyState}>
-            <Text style={clientStyles.emptyStateText}>
+            <Text style={[clientStyles.emptyStateText, { color: darkMode ? colors.white : colors.gray }]}>
               No {activeTab} projects found
             </Text>
-            <Text style={clientStyles.emptyStateSubtext}>
+            <Text style={[clientStyles.emptyStateSubtext, { color: darkMode ? colors.white : colors.gray }]}>
               {activeTab === 'active' ? 'Start a new project to see it here' : 'Complete a project to see it here'}
             </Text>
           </View>
