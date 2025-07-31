@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';
 import { router, Stack } from 'expo-router';
 import { useAuthStore } from '@/store/authStore';
 import { colors } from '@/constants/colors';
 import { ArrowLeft, ChevronRight, CreditCard } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsScreen() {
   const logout = useAuthStore(state => state.logout);
@@ -13,6 +14,46 @@ export default function SettingsScreen() {
   const [projectUpdates, setProjectUpdates] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [textSize, setTextSize] = useState('Medium');
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const savedDarkMode = await AsyncStorage.getItem('darkMode');
+      const savedTextSize = await AsyncStorage.getItem('textSize');
+      const savedPushNotifications = await AsyncStorage.getItem('pushNotifications');
+      const savedEmailNotifications = await AsyncStorage.getItem('emailNotifications');
+      const savedProjectUpdates = await AsyncStorage.getItem('projectUpdates');
+      
+      if (savedDarkMode !== null) {
+        setDarkMode(JSON.parse(savedDarkMode));
+      }
+      if (savedTextSize !== null) {
+        setTextSize(savedTextSize);
+      }
+      if (savedPushNotifications !== null) {
+        setPushNotifications(JSON.parse(savedPushNotifications));
+      }
+      if (savedEmailNotifications !== null) {
+        setEmailNotifications(JSON.parse(savedEmailNotifications));
+      }
+      if (savedProjectUpdates !== null) {
+        setProjectUpdates(JSON.parse(savedProjectUpdates));
+      }
+    } catch (error) {
+      console.log('Error loading settings:', error);
+    }
+  };
+
+  const saveSettings = async (key: string, value: any) => {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.log('Error saving settings:', error);
+    }
+  };
 
   const handleBack = () => {
     router.back();
@@ -63,7 +104,31 @@ export default function SettingsScreen() {
     const sizes = ['Small', 'Medium', 'Large'];
     const currentIndex = sizes.indexOf(textSize);
     const nextIndex = (currentIndex + 1) % sizes.length;
-    setTextSize(sizes[nextIndex]);
+    const newSize = sizes[nextIndex];
+    setTextSize(newSize);
+    saveSettings('textSize', newSize);
+    Alert.alert('Text Size Changed', `Text size set to ${newSize}`);
+  };
+
+  const handleDarkModeToggle = (value: boolean) => {
+    setDarkMode(value);
+    saveSettings('darkMode', value);
+    Alert.alert('Dark Mode', value ? 'Dark mode enabled' : 'Dark mode disabled');
+  };
+
+  const handlePushNotificationsToggle = (value: boolean) => {
+    setPushNotifications(value);
+    saveSettings('pushNotifications', value);
+  };
+
+  const handleEmailNotificationsToggle = (value: boolean) => {
+    setEmailNotifications(value);
+    saveSettings('emailNotifications', value);
+  };
+
+  const handleProjectUpdatesToggle = (value: boolean) => {
+    setProjectUpdates(value);
+    saveSettings('projectUpdates', value);
   };
 
   return (
@@ -120,7 +185,7 @@ export default function SettingsScreen() {
               <Text style={styles.settingText}>Push Notifications</Text>
               <Switch
                 value={pushNotifications}
-                onValueChange={setPushNotifications}
+                onValueChange={handlePushNotificationsToggle}
                 trackColor={{ false: colors.lightGray, true: colors.primary }}
                 thumbColor={colors.white}
               />
@@ -130,7 +195,7 @@ export default function SettingsScreen() {
               <Text style={styles.settingText}>Email Notifications</Text>
               <Switch
                 value={emailNotifications}
-                onValueChange={setEmailNotifications}
+                onValueChange={handleEmailNotificationsToggle}
                 trackColor={{ false: colors.lightGray, true: colors.primary }}
                 thumbColor={colors.white}
               />
@@ -140,7 +205,7 @@ export default function SettingsScreen() {
               <Text style={styles.settingText}>Project Updates</Text>
               <Switch
                 value={projectUpdates}
-                onValueChange={setProjectUpdates}
+                onValueChange={handleProjectUpdatesToggle}
                 trackColor={{ false: colors.lightGray, true: colors.primary }}
                 thumbColor={colors.white}
               />
@@ -155,7 +220,7 @@ export default function SettingsScreen() {
               <Text style={styles.settingText}>Dark Mode</Text>
               <Switch
                 value={darkMode}
-                onValueChange={setDarkMode}
+                onValueChange={handleDarkModeToggle}
                 trackColor={{ false: colors.lightGray, true: colors.primary }}
                 thumbColor={colors.white}
               />

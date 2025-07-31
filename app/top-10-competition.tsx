@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Image } from 'react-native';
 import { router, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
-import { ArrowLeft, AlertTriangle, CheckCircle, Eye, Star, Trophy } from 'lucide-react-native';
+import { ArrowLeft, AlertTriangle, CheckCircle, Eye, Star, Trophy, Home, Search, MessageCircle, User, FolderOpen } from 'lucide-react-native';
 import { useAuthStore } from '@/store/authStore';
 
 const topArchitects = [
-  { id: 1, rank: '01', name: 'Samantha Fisher', image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face' },
-  { id: 2, rank: '02', name: 'Michael Chen', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' },
-  { id: 3, rank: '03', name: 'Elena Rodriguez', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face' },
-  { id: 4, rank: '04', name: 'David Kim', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face' },
-  { id: 5, rank: '05', name: 'Sarah Johnson', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face' },
+  { id: 1, rank: '01', name: 'Carlos Mendoza', image: 'https://images.unsplash.com/photo-1508341591423-4347099e1f19?w=150&h=150&fit=crop&crop=face' },
+  { id: 2, rank: '02', name: 'Anna Reyes', image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&h=150&fit=crop&crop=face' },
+  { id: 3, rank: '03', name: 'Miguel Santos', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face' },
+  { id: 4, rank: '04', name: 'Sofia Lim', image: 'https://images.unsplash.com/photo-1494790108755-2616c9c0e8e0?w=150&h=150&fit=crop&crop=face' },
+  { id: 5, rank: '05', name: 'Rafael Cruz', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face' },
+  { id: 6, rank: '06', name: 'Isabella Garcia', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face' },
+  { id: 7, rank: '07', name: 'Diego Martinez', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' },
+  { id: 8, rank: '08', name: 'Maria Fernandez', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face' },
+  { id: 9, rank: '09', name: 'Antonio Dela Cruz', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face' },
+  { id: 10, rank: '10', name: 'Chelsi Hontiveros', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face' },
 ];
 
 export default function Top10CompetitionScreen() {
@@ -255,6 +260,49 @@ export default function Top10CompetitionScreen() {
             </View>
           </View>
         </Modal>
+        
+        {/* Bottom Navigation */}
+        <View style={styles.bottomNav}>
+          <TouchableOpacity 
+            style={styles.navItem} 
+            onPress={() => router.push('/(tabs)')}
+          >
+            <Home size={24} color={colors.gray} />
+            <Text style={styles.navText}>Home</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.navItem}
+            onPress={() => router.push('/search')}
+          >
+            <Search size={24} color={colors.gray} />
+            <Text style={styles.navText}>Search</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.navItem}
+            onPress={() => router.push('/(tabs)/projects')}
+          >
+            <FolderOpen size={24} color={colors.gray} />
+            <Text style={styles.navText}>Projects</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.navItem}
+            onPress={() => router.push('/(tabs)/messages')}
+          >
+            <MessageCircle size={24} color={colors.gray} />
+            <Text style={styles.navText}>Messages</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.navItem}
+            onPress={() => router.push('/(tabs)/profile')}
+          >
+            <User size={24} color={colors.gray} />
+            <Text style={styles.navText}>Profile</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
@@ -662,5 +710,24 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: colors.white,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    borderTopColor: colors.lightGray,
+    paddingBottom: 25,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 5,
+  },
+  navText: {
+    fontSize: 12,
+    color: colors.gray,
+    marginTop: 4,
   },
 });

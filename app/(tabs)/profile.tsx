@@ -12,7 +12,7 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     logout();
-    router.replace('/');
+    router.replace('/index');
   };
 
   const handleSettings = () => {
@@ -310,64 +310,6 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
         
         <Text style={styles.profileName}>{user?.fullName || '<User Name>'}</Text>
         
-        {/* Badges Section */}
-        <View style={styles.badgesSection}>
-          <Text style={styles.badgesSectionTitle}>My Achievements</Text>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            style={styles.badgesContainer}
-          >
-            <View style={styles.badgeItem}>
-              <View style={[styles.badgeIcon, { backgroundColor: '#FFD700' }]}>
-                <Trophy size={20} color={colors.white} />
-              </View>
-              <Text style={styles.badgeTitle}>Top 10 Competitor</Text>
-              <Text style={styles.badgeDescription}>Actively competing</Text>
-            </View>
-            
-            <View style={styles.badgeItem}>
-              <View style={[styles.badgeIcon, { backgroundColor: '#4CAF50' }]}>
-                <Shield size={20} color={colors.white} />
-              </View>
-              <Text style={styles.badgeTitle}>Loyal Architect</Text>
-              <Text style={styles.badgeDescription}>6 months consistent</Text>
-            </View>
-            
-            <View style={styles.badgeItem}>
-              <View style={[styles.badgeIcon, { backgroundColor: '#2196F3' }]}>
-                <Award size={20} color={colors.white} />
-              </View>
-              <Text style={styles.badgeTitle}>3 Years Archi</Text>
-              <Text style={styles.badgeDescription}>Long-time member</Text>
-            </View>
-            
-            <View style={styles.badgeItem}>
-              <View style={[styles.badgeIcon, { backgroundColor: '#FF9800' }]}>
-                <Medal size={20} color={colors.white} />
-              </View>
-              <Text style={styles.badgeTitle}>Verified Pro</Text>
-              <Text style={styles.badgeDescription}>Profile verified</Text>
-            </View>
-            
-            <View style={styles.badgeItem}>
-              <View style={[styles.badgeIcon, { backgroundColor: '#9C27B0' }]}>
-                <Zap size={20} color={colors.white} />
-              </View>
-              <Text style={styles.badgeTitle}>Fast Responder</Text>
-              <Text style={styles.badgeDescription}>95% under 1 hour</Text>
-            </View>
-            
-            <View style={styles.badgeItem}>
-              <View style={[styles.badgeIcon, { backgroundColor: '#607D8B' }]}>
-                <Clock size={20} color={colors.white} />
-              </View>
-              <Text style={styles.badgeTitle}>Early Adopter</Text>
-              <Text style={styles.badgeDescription}>Beta user</Text>
-            </View>
-          </ScrollView>
-        </View>
-        
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statNumber}>12</Text>
@@ -433,6 +375,65 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
             <Text style={styles.portfolioTitle}>Project 3</Text>
           </TouchableOpacity>
         </View>
+      </View>
+      
+      {/* Badges Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>My Achievements</Text>
+        
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.badgesContainer}
+        >
+          <View style={styles.badgeItem}>
+            <View style={[styles.badgeIcon, { backgroundColor: '#FFD700' }]}>
+              <Trophy size={20} color={colors.white} />
+            </View>
+            <Text style={styles.badgeTitle}>Top 10 Competitor</Text>
+            <Text style={styles.badgeDescription}>Actively competing</Text>
+          </View>
+          
+          <View style={styles.badgeItem}>
+            <View style={[styles.badgeIcon, { backgroundColor: '#4CAF50' }]}>
+              <Shield size={20} color={colors.white} />
+            </View>
+            <Text style={styles.badgeTitle}>Loyal Architect</Text>
+            <Text style={styles.badgeDescription}>6 months consistent</Text>
+          </View>
+          
+          <View style={styles.badgeItem}>
+            <View style={[styles.badgeIcon, { backgroundColor: '#2196F3' }]}>
+              <Award size={20} color={colors.white} />
+            </View>
+            <Text style={styles.badgeTitle}>3 Years Archi</Text>
+            <Text style={styles.badgeDescription}>Long-time member</Text>
+          </View>
+          
+          <View style={styles.badgeItem}>
+            <View style={[styles.badgeIcon, { backgroundColor: '#FF9800' }]}>
+              <Medal size={20} color={colors.white} />
+            </View>
+            <Text style={styles.badgeTitle}>Verified Pro</Text>
+            <Text style={styles.badgeDescription}>Profile verified</Text>
+          </View>
+          
+          <View style={styles.badgeItem}>
+            <View style={[styles.badgeIcon, { backgroundColor: '#9C27B0' }]}>
+              <Zap size={20} color={colors.white} />
+            </View>
+            <Text style={styles.badgeTitle}>Fast Responder</Text>
+            <Text style={styles.badgeDescription}>95% under 1 hour</Text>
+          </View>
+          
+          <View style={styles.badgeItem}>
+            <View style={[styles.badgeIcon, { backgroundColor: '#607D8B' }]}>
+              <Clock size={20} color={colors.white} />
+            </View>
+            <Text style={styles.badgeTitle}>Early Adopter</Text>
+            <Text style={styles.badgeDescription}>Beta user</Text>
+          </View>
+        </ScrollView>
       </View>
 
       {/* Reviews Section */}

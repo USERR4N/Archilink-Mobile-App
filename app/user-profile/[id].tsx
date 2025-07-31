@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal, Platform, Linking } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal, Platform, Linking, Alert } from 'react-native';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { architects } from '@/constants/architects';
 import { useAuthStore } from '@/store/authStore';
 import { ArrowLeft, Star, Phone, Mail, MessageSquare, UserPlus, UserMinus } from 'lucide-react-native';
 import { BadgesList } from '@/components/BadgesList';
+import { RatingModal } from '@/components/RatingModal';
 
 export default function UserProfileScreen() {
   const { id } = useLocalSearchParams();
   const architectId = parseInt(id as string);
   const { followUser, unfollowUser, isFollowing } = useAuthStore();
   const [showCallModal, setShowCallModal] = React.useState(false);
+  const [showRatingModal, setShowRatingModal] = React.useState(false);
 
   const handleBack = () => {
     router.back();
@@ -52,6 +54,19 @@ export default function UserProfileScreen() {
     } else {
       followUser(userId);
     }
+  };
+
+  const handleRateArchitect = () => {
+    setShowRatingModal(true);
+  };
+
+  const handleSubmitRating = (rating: number, comment: string) => {
+    console.log('Rating submitted:', { rating, comment, architectId });
+    Alert.alert(
+      'Rating Submitted',
+      `Thank you for rating ${architect.name}! Your ${rating}-star rating has been recorded.`,
+      [{ text: 'OK' }]
+    );
   };
 
   // Find the architect by ID, fallback to first architect if not found
@@ -273,6 +288,14 @@ export default function UserProfileScreen() {
               <Text style={[styles.actionButtonText, styles.secondaryButtonText]}>Email</Text>
             </TouchableOpacity>
           </View>
+          
+          {/* Rate Architect Button */}
+          <View style={styles.rateSection}>
+            <TouchableOpacity style={styles.rateButton} onPress={handleRateArchitect}>
+              <Star size={20} color={colors.white} />
+              <Text style={styles.rateButtonText}>Rate This Architect</Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Footer */}
           <View style={styles.footer}>
@@ -281,6 +304,14 @@ export default function UserProfileScreen() {
         </ScrollView>
         
         {renderCallModal()}
+        
+        <RatingModal
+          visible={showRatingModal}
+          onClose={() => setShowRatingModal(false)}
+          onSubmit={handleSubmitRating}
+          targetName={architect.name}
+          targetType="architect"
+        />
       </View>
     </>
   );
@@ -602,5 +633,23 @@ const styles = StyleSheet.create({
     color: colors.gray,
     fontSize: 16,
     fontWeight: '500',
+  },
+  rateSection: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  rateButton: {
+    backgroundColor: '#FFD700',
+    borderRadius: 12,
+    paddingVertical: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  rateButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
