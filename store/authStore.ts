@@ -66,6 +66,8 @@ interface AuthState {
   signupStep: number;
   currentSignupStep: number;
   followedUsers: Set<string>;
+  darkMode: boolean;
+  textSize: 'Small' | 'Medium' | 'Large';
   
   // Actions
   login: (user: User) => void;
@@ -77,6 +79,8 @@ interface AuthState {
   followUser: (userId: string) => void;
   unfollowUser: (userId: string) => void;
   isFollowing: (userId: string) => boolean;
+  setDarkMode: (enabled: boolean) => void;
+  setTextSize: (size: 'Small' | 'Medium' | 'Large') => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -90,6 +94,8 @@ export const useAuthStore = create<AuthState>()(
       signupStep: 1,
       currentSignupStep: 1,
       followedUsers: new Set<string>(),
+      darkMode: false,
+      textSize: 'Medium',
 
       login: (user: User) => {
         set({ user, isAuthenticated: true });
@@ -102,7 +108,9 @@ export const useAuthStore = create<AuthState>()(
           signupForm: { userType: 'client' },
           signupStep: 1,
           currentSignupStep: 1,
-          followedUsers: new Set<string>()
+          followedUsers: new Set<string>(),
+          darkMode: false,
+          textSize: 'Medium'
         });
       },
 
@@ -186,6 +194,14 @@ export const useAuthStore = create<AuthState>()(
       isFollowing: (userId: string) => {
         return get().followedUsers.has(userId);
       },
+
+      setDarkMode: (enabled: boolean) => {
+        set({ darkMode: enabled });
+      },
+
+      setTextSize: (size: 'Small' | 'Medium' | 'Large') => {
+        set({ textSize: size });
+      },
     }),
     {
       name: 'auth-storage',
@@ -194,6 +210,8 @@ export const useAuthStore = create<AuthState>()(
         user: state.user,
         isAuthenticated: state.isAuthenticated,
         followedUsers: Array.from(state.followedUsers), // Convert Set to Array for persistence
+        darkMode: state.darkMode,
+        textSize: state.textSize,
       }),
       onRehydrateStorage: () => (state) => {
         if (state && Array.isArray(state.followedUsers)) {

@@ -7,13 +7,13 @@ import { ArrowLeft, ChevronRight, CreditCard } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsScreen() {
-  const logout = useAuthStore(state => state.logout);
+  const { logout, darkMode: globalDarkMode, textSize: globalTextSize } = useAuthStore();
   
   const [pushNotifications, setPushNotifications] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);
   const [projectUpdates, setProjectUpdates] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [textSize, setTextSize] = useState('Medium');
+  const [darkMode, setDarkMode] = useState(globalDarkMode);
+  const [textSize, setTextSize] = useState<'Small' | 'Medium' | 'Large'>(globalTextSize);
 
   useEffect(() => {
     loadSettings();
@@ -101,18 +101,20 @@ export default function SettingsScreen() {
   };
 
   const handleTextSizeChange = () => {
-    const sizes = ['Small', 'Medium', 'Large'];
+    const sizes: ('Small' | 'Medium' | 'Large')[] = ['Small', 'Medium', 'Large'];
     const currentIndex = sizes.indexOf(textSize);
     const nextIndex = (currentIndex + 1) % sizes.length;
     const newSize = sizes[nextIndex];
     setTextSize(newSize);
     saveSettings('textSize', newSize);
+    useAuthStore.getState().setTextSize(newSize);
     Alert.alert('Text Size Changed', `Text size set to ${newSize}`);
   };
 
   const handleDarkModeToggle = (value: boolean) => {
     setDarkMode(value);
     saveSettings('darkMode', value);
+    useAuthStore.getState().setDarkMode(value);
     Alert.alert('Dark Mode', value ? 'Dark mode enabled' : 'Dark mode disabled');
   };
 
@@ -131,58 +133,107 @@ export default function SettingsScreen() {
     saveSettings('projectUpdates', value);
   };
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    section: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      marginTop: 10,
+      paddingHorizontal: 20,
+      paddingVertical: 15,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.primary,
+      marginBottom: 15,
+    },
+    settingText: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+    },
+    settingTextWithIcon: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      marginLeft: 12,
+    },
+    settingValue: {
+      fontSize: 16,
+      color: darkMode ? '#ccc' : colors.gray,
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={dynamicStyles.container}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.primary} />
+            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>SETTINGS</Text>
+          <Text style={dynamicStyles.headerTitle}>SETTINGS</Text>
           <View style={styles.placeholder} />
         </View>
 
         <ScrollView style={styles.content}>
           {/* Account Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Account</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Account</Text>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleEditProfile}>
-              <Text style={styles.settingText}>Edit Profile</Text>
+              <Text style={dynamicStyles.settingText}>Edit Profile</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleChangePassword}>
-              <Text style={styles.settingText}>Change Password</Text>
+              <Text style={dynamicStyles.settingText}>Change Password</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handlePrivacySettings}>
-              <Text style={styles.settingText}>Privacy Settings</Text>
+              <Text style={dynamicStyles.settingText}>Privacy Settings</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handlePayment}>
               <View style={styles.settingItemLeft}>
                 <CreditCard size={20} color={colors.primary} />
-                <Text style={styles.settingTextWithIcon}>Payment</Text>
+                <Text style={dynamicStyles.settingTextWithIcon}>Payment</Text>
               </View>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleSubscription}>
-              <Text style={styles.settingText}>Subscription</Text>
+              <Text style={dynamicStyles.settingText}>Subscription</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
           </View>
 
           {/* Notifications Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Notifications</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Notifications</Text>
             
             <View style={styles.settingItem}>
-              <Text style={styles.settingText}>Push Notifications</Text>
+              <Text style={dynamicStyles.settingText}>Push Notifications</Text>
               <Switch
                 value={pushNotifications}
                 onValueChange={handlePushNotificationsToggle}
@@ -192,7 +243,7 @@ export default function SettingsScreen() {
             </View>
             
             <View style={styles.settingItem}>
-              <Text style={styles.settingText}>Email Notifications</Text>
+              <Text style={dynamicStyles.settingText}>Email Notifications</Text>
               <Switch
                 value={emailNotifications}
                 onValueChange={handleEmailNotificationsToggle}
@@ -202,7 +253,7 @@ export default function SettingsScreen() {
             </View>
             
             <View style={styles.settingItem}>
-              <Text style={styles.settingText}>Project Updates</Text>
+              <Text style={dynamicStyles.settingText}>Project Updates</Text>
               <Switch
                 value={projectUpdates}
                 onValueChange={handleProjectUpdatesToggle}
@@ -213,11 +264,11 @@ export default function SettingsScreen() {
           </View>
 
           {/* Display Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Display</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Display</Text>
             
             <View style={styles.settingItem}>
-              <Text style={styles.settingText}>Dark Mode</Text>
+              <Text style={dynamicStyles.settingText}>Dark Mode</Text>
               <Switch
                 value={darkMode}
                 onValueChange={handleDarkModeToggle}
@@ -227,43 +278,43 @@ export default function SettingsScreen() {
             </View>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleTextSizeChange}>
-              <Text style={styles.settingText}>Text Size</Text>
-              <Text style={styles.settingValue}>{textSize}</Text>
+              <Text style={dynamicStyles.settingText}>Text Size</Text>
+              <Text style={dynamicStyles.settingValue}>{textSize}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Support Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Support</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Support</Text>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleHelpCenter}>
-              <Text style={styles.settingText}>Help Center</Text>
+              <Text style={dynamicStyles.settingText}>Help Center</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleContactSupport}>
-              <Text style={styles.settingText}>Contact Support</Text>
+              <Text style={dynamicStyles.settingText}>Contact Support</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handleTermsOfService}>
-              <Text style={styles.settingText}>Terms of Service</Text>
+              <Text style={dynamicStyles.settingText}>Terms of Service</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingItem} onPress={handlePrivacyPolicy}>
-              <Text style={styles.settingText}>Privacy Policy</Text>
+              <Text style={dynamicStyles.settingText}>Privacy Policy</Text>
               <ChevronRight size={20} color={colors.primary} />
             </TouchableOpacity>
           </View>
 
           {/* App Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>App</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>App</Text>
             
             <View style={styles.settingItem}>
-              <Text style={styles.settingText}>Version</Text>
-              <Text style={styles.settingValue}>1.0.0</Text>
+              <Text style={dynamicStyles.settingText}>Version</Text>
+              <Text style={dynamicStyles.settingValue}>1.0.0</Text>
             </View>
           </View>
 

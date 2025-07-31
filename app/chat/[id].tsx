@@ -42,12 +42,12 @@ export default function ChatScreen() {
 
   const handleSecurePayment = () => {
     setShowPaymentModal(false);
-    router.push(`/secure-payment/${id}`);
+    router.push(`/payment/direct?id=${id}`);
   };
 
   const handleEscrowPayment = () => {
     setShowPaymentModal(false);
-    router.push(`/escrow-payment/${id}`);
+    router.push(`/payment/escrow?id=${id}`);
   };
 
   const getProfileImage = () => {

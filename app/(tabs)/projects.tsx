@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Image 
 import { colors } from '@/constants/colors';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'expo-router';
-import { Search, Plus, Calendar, MapPin, DollarSign, Clock, CheckCircle, Heart, MessageCircle, Star, Phone, Eye } from 'lucide-react-native';
+import { Search, Plus, Calendar, MapPin, DollarSign, Clock, CheckCircle, Heart, MessageCircle, Star, Phone, Eye, UserCheck } from 'lucide-react-native';
 
 type ClientProjectTab = 'active' | 'completed' | 'cancelled';
 
@@ -159,9 +159,21 @@ function ArchitectProjectsView() {
             <Text style={styles.dateValue}>{project.duration}</Text>
           </View>
         </View>
-        <View style={styles.completedBadge}>
-          <CheckCircle size={16} color={colors.white} />
-          <Text style={styles.completedText}>Completed</Text>
+        <View style={styles.projectActions}>
+          <View style={styles.completedBadge}>
+            <CheckCircle size={16} color={colors.white} />
+            <Text style={styles.completedText}>Completed</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.rateClientButton}
+            onPress={() => {
+              const userType = 'client';
+              router.push(`/rate-user/${project.id}?name=${project.clientName}&userType=${userType}`);
+            }}
+          >
+            <UserCheck size={14} color={colors.white} />
+            <Text style={styles.rateClientText}>Rate Client</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
@@ -366,6 +378,11 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
     router.push(`/proposals/${projectId}`);
   };
 
+  const handleRateUser = (project: any) => {
+    const userType = user?.userType === 'architect' ? 'client' : 'architect';
+    router.push(`/rate-user/${project.id}?name=${project.architect || project.clientName}&userType=${userType}`);
+  };
+
   const renderClientProject = (project: any) => (
     <TouchableOpacity key={project.id} style={clientStyles.projectCard}>
       <Image source={{ uri: project.image }} style={clientStyles.projectImage} />
@@ -419,10 +436,22 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
             )}
           </>
         )}
-        {activeTab === 'completed' && project.rating && (
-          <View style={clientStyles.ratingContainer}>
-            <Text style={clientStyles.ratingText}>Your Rating: {project.rating}/5 ⭐</Text>
-          </View>
+        {activeTab === 'completed' && (
+          <>
+            {project.rating ? (
+              <View style={clientStyles.ratingContainer}>
+                <Text style={clientStyles.ratingText}>Your Rating: {project.rating}/5 ⭐</Text>
+              </View>
+            ) : (
+              <TouchableOpacity 
+                style={clientStyles.rateButton}
+                onPress={() => handleRateUser(project)}
+              >
+                <UserCheck size={16} color={colors.white} />
+                <Text style={clientStyles.rateButtonText}>Rate Architect</Text>
+              </TouchableOpacity>
+            )}
+          </>
         )}
         {activeTab === 'cancelled' && (
           <View style={clientStyles.cancelledContainer}>
@@ -673,6 +702,22 @@ const clientStyles = StyleSheet.create({
     fontSize: 12,
     color: colors.gray,
   },
+  rateButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginTop: 8,
+  },
+  rateButtonText: {
+    fontSize: 14,
+    color: colors.white,
+    fontWeight: '600',
+    marginLeft: 6,
+  },
   emptyState: {
     flex: 1,
     alignItems: 'center',
@@ -854,6 +899,26 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     marginLeft: 6,
+  },
+  projectActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  rateClientButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 15,
+  },
+  rateClientText: {
+    color: colors.white,
+    fontSize: 11,
+    fontWeight: 'bold',
+    marginLeft: 4,
   },
   inquiryCard: {
     backgroundColor: colors.white,
