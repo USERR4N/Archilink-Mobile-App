@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'rea
 import { router, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { ArrowLeft, Plus, CreditCard, Building, Smartphone } from 'lucide-react-native';
+import { useAuthStore } from '@/store/authStore';
 
 export default function PaymentScreen() {
+  const { darkMode } = useAuthStore();
   const [savedCards, setSavedCards] = useState([
     {
       id: '1',
@@ -57,22 +59,84 @@ export default function PaymentScreen() {
     }
   };
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    section: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      marginTop: 10,
+      paddingHorizontal: 20,
+      paddingVertical: 15,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.primary,
+      marginBottom: 15,
+    },
+    cardNumber: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 4,
+    },
+    paymentOptionText: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      fontWeight: '500',
+    },
+    securityTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 8,
+    },
+    securityNotice: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      marginTop: 10,
+      marginBottom: 20,
+      paddingHorizontal: 20,
+      paddingVertical: 20,
+      borderRadius: 10,
+      marginHorizontal: 10,
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={dynamicStyles.container}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.primary} />
+            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Payment Methods</Text>
+          <Text style={dynamicStyles.headerTitle}>Payment Methods</Text>
           <View style={styles.placeholder} />
         </View>
 
         <ScrollView style={styles.content}>
           {/* Saved Cards Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Saved Cards</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Saved Cards</Text>
             
             {savedCards.map((card) => (
               <View key={card.id} style={styles.cardItem}>
@@ -83,7 +147,7 @@ export default function PaymentScreen() {
                     resizeMode="contain"
                   />
                   <View style={styles.cardDetails}>
-                    <Text style={styles.cardNumber}>•••• •••• •••• {card.lastFour}</Text>
+                    <Text style={dynamicStyles.cardNumber}>•••• •••• •••• {card.lastFour}</Text>
                     <Text style={styles.cardExpiry}>Expires {card.expiryDate}</Text>
                   </View>
                 </View>
@@ -97,15 +161,15 @@ export default function PaymentScreen() {
           </View>
 
           {/* Add Payment Methods */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Add Payment Method</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Add Payment Method</Text>
             
             <TouchableOpacity style={styles.paymentOption} onPress={handleAddCard}>
               <View style={styles.paymentOptionLeft}>
                 <View style={styles.paymentIconContainer}>
                   <CreditCard size={24} color={colors.primary} />
                 </View>
-                <Text style={styles.paymentOptionText}>Add Credit/Debit Card</Text>
+                <Text style={dynamicStyles.paymentOptionText}>Add Credit/Debit Card</Text>
               </View>
               <Plus size={20} color={colors.gray} />
             </TouchableOpacity>
@@ -115,7 +179,7 @@ export default function PaymentScreen() {
                 <View style={styles.paymentIconContainer}>
                   <Building size={24} color={colors.primary} />
                 </View>
-                <Text style={styles.paymentOptionText}>Add Bank Account</Text>
+                <Text style={dynamicStyles.paymentOptionText}>Add Bank Account</Text>
               </View>
               <Plus size={20} color={colors.gray} />
             </TouchableOpacity>
@@ -125,7 +189,7 @@ export default function PaymentScreen() {
                 <View style={styles.gcashIcon}>
                   <Text style={styles.gcashText}>G</Text>
                 </View>
-                <Text style={styles.paymentOptionText}>GCash</Text>
+                <Text style={dynamicStyles.paymentOptionText}>GCash</Text>
               </View>
               <Plus size={20} color={colors.gray} />
             </TouchableOpacity>
@@ -135,7 +199,7 @@ export default function PaymentScreen() {
                 <View style={styles.paypalIcon}>
                   <Text style={styles.paypalText}>P</Text>
                 </View>
-                <Text style={styles.paymentOptionText}>PayPal</Text>
+                <Text style={dynamicStyles.paymentOptionText}>PayPal</Text>
               </View>
               <Plus size={20} color={colors.gray} />
             </TouchableOpacity>
@@ -145,15 +209,15 @@ export default function PaymentScreen() {
                 <View style={styles.mayaIcon}>
                   <Text style={styles.mayaText}>M</Text>
                 </View>
-                <Text style={styles.paymentOptionText}>Maya</Text>
+                <Text style={dynamicStyles.paymentOptionText}>Maya</Text>
               </View>
               <Plus size={20} color={colors.gray} />
             </TouchableOpacity>
           </View>
 
           {/* Security Notice */}
-          <View style={styles.securityNotice}>
-            <Text style={styles.securityTitle}>🔒 Your payment information is secure</Text>
+          <View style={dynamicStyles.securityNotice}>
+            <Text style={dynamicStyles.securityTitle}>🔒 Your payment information is secure</Text>
             <Text style={styles.securityText}>
               We use industry-standard encryption to protect your payment details. Your information is never stored on our servers.
             </Text>

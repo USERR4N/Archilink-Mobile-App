@@ -7,7 +7,7 @@ import { ProfileInput } from '@/components/ProfileInput';
 import { useAuthStore } from '@/store/authStore';
 
 export default function EditProfileScreen() {
-  const user = useAuthStore(state => state.user);
+  const { user, darkMode } = useAuthStore();
   const isArchitect = user?.userType === 'architect';
   
   const [profileImage, setProfileImage] = useState('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80');
@@ -38,23 +38,65 @@ export default function EditProfileScreen() {
     router.back();
   };
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.white,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 0.5,
+      borderBottomColor: darkMode ? '#333' : '#E5E5EA',
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    saveButtonText: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    pageTitle: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      textAlign: 'center',
+      marginTop: 20,
+      marginBottom: 30,
+    },
+    changePhotoText: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.container}>
+      <View style={dynamicStyles.container}>
         {/* Header */}
-        <View style={styles.header}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.primary} />
+            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>ARCHILINK</Text>
+          <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
           <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-            <Text style={styles.saveButtonText}>Done</Text>
+            <Text style={dynamicStyles.saveButtonText}>Done</Text>
           </TouchableOpacity>
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-          <Text style={styles.pageTitle}>Edit Profile</Text>
+          <Text style={dynamicStyles.pageTitle}>Edit Profile</Text>
           
           {/* Profile Picture Section */}
           <View style={styles.profileSection}>
@@ -65,7 +107,7 @@ export default function EditProfileScreen() {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleProfileImagePress}>
-              <Text style={styles.changePhotoText}>Change Profile Photo</Text>
+              <Text style={dynamicStyles.changePhotoText}>Change Profile Photo</Text>
             </TouchableOpacity>
           </View>
 

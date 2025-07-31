@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, TextInput 
 import { router, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react-native';
+import { useAuthStore } from '@/store/authStore';
 
 export default function ChangePasswordScreen() {
+  const { darkMode } = useAuthStore();
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -56,31 +58,93 @@ export default function ChangePasswordScreen() {
 
 
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.white,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    pageTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 8,
+    },
+    pageSubtitle: {
+      fontSize: 14,
+      color: colors.gray,
+      lineHeight: 20,
+    },
+    inputLabel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 8,
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: darkMode ? '#333' : colors.lightGray,
+      borderRadius: 8,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 12,
+      height: 48,
+    },
+    textInput: {
+      flex: 1,
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      paddingVertical: 0,
+    },
+    forgotPasswordText: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 14,
+      fontWeight: '500',
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={dynamicStyles.container}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.primary} />
+            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>ARCHILINK</Text>
+          <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
           <View style={styles.placeholder} />
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           <View style={styles.titleContainer}>
-            <Text style={styles.pageTitle}>Change Password</Text>
-            <Text style={styles.pageSubtitle}>Your password must be at least 8 characters and should include a combination of numbers, letters and special characters (!$@%).</Text>
+            <Text style={dynamicStyles.pageTitle}>Change Password</Text>
+            <Text style={dynamicStyles.pageSubtitle}>Your password must be at least 8 characters and should include a combination of numbers, letters and special characters (!$@%).</Text>
           </View>
 
           <View style={styles.formContainer}>
             {/* Current Password */}
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Current Password</Text>
-              <View style={[styles.inputContainer, errors.oldPassword && styles.inputError]}>
+              <Text style={dynamicStyles.inputLabel}>Current Password</Text>
+              <View style={[dynamicStyles.inputContainer, errors.oldPassword && styles.inputError]}>
                 <TextInput
-                  style={styles.textInput}
+                  style={dynamicStyles.textInput}
                   value={oldPassword}
                   onChangeText={(text) => {
                     setOldPassword(text);
@@ -104,16 +168,16 @@ export default function ChangePasswordScreen() {
               {errors.oldPassword && <Text style={styles.errorText}>{errors.oldPassword}</Text>}
               
               <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordLink}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                <Text style={dynamicStyles.forgotPasswordText}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
 
             {/* New Password */}
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>New Password</Text>
-              <View style={[styles.inputContainer, errors.newPassword && styles.inputError]}>
+              <Text style={dynamicStyles.inputLabel}>New Password</Text>
+              <View style={[dynamicStyles.inputContainer, errors.newPassword && styles.inputError]}>
                 <TextInput
-                  style={styles.textInput}
+                  style={dynamicStyles.textInput}
                   value={newPassword}
                   onChangeText={(text) => {
                     setNewPassword(text);
@@ -139,10 +203,10 @@ export default function ChangePasswordScreen() {
 
             {/* Confirm New Password */}
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Confirm New Password</Text>
-              <View style={[styles.inputContainer, errors.confirmPassword && styles.inputError]}>
+              <Text style={dynamicStyles.inputLabel}>Confirm New Password</Text>
+              <View style={[dynamicStyles.inputContainer, errors.confirmPassword && styles.inputError]}>
                 <TextInput
-                  style={styles.textInput}
+                  style={dynamicStyles.textInput}
                   value={confirmPassword}
                   onChangeText={(text) => {
                     setConfirmPassword(text);

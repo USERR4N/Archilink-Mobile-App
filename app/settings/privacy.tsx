@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Image } f
 import { router, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { ArrowLeft } from 'lucide-react-native';
+import { useAuthStore } from '@/store/authStore';
 
 export default function PrivacySettingsScreen() {
+  const { darkMode } = useAuthStore();
   const [dataSharing, setDataSharing] = useState(true);
   const [profileVisibility, setProfileVisibility] = useState(true);
   const [locationTracking, setLocationTracking] = useState(true);
@@ -14,20 +16,79 @@ export default function PrivacySettingsScreen() {
     router.back();
   };
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+    },
+    pageTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.primary,
+      marginTop: 20,
+      marginHorizontal: 20,
+      marginBottom: 20,
+    },
+    settingCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      padding: 20,
+      marginBottom: 15,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderWidth: 2,
+      borderColor: darkMode ? '#333' : colors.primary,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    settingTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 5,
+    },
+    settingDescription: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      lineHeight: 20,
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={dynamicStyles.container}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.primary} />
+            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>SETTINGS</Text>
+          <Text style={dynamicStyles.headerTitle}>SETTINGS</Text>
           <View style={styles.placeholder} />
         </View>
 
         <ScrollView style={styles.content}>
-          <Text style={styles.pageTitle}>Privacy Settings</Text>
+          <Text style={dynamicStyles.pageTitle}>Privacy Settings</Text>
           
           <View style={styles.illustrationContainer}>
             <Image
@@ -37,10 +98,10 @@ export default function PrivacySettingsScreen() {
           </View>
 
           <View style={styles.settingsContainer}>
-            <View style={styles.settingCard}>
+            <View style={dynamicStyles.settingCard}>
               <View style={styles.settingInfo}>
-                <Text style={styles.settingTitle}>Data Sharing</Text>
-                <Text style={styles.settingDescription}>Allow app usage data to improve features.</Text>
+                <Text style={dynamicStyles.settingTitle}>Data Sharing</Text>
+                <Text style={dynamicStyles.settingDescription}>Allow app usage data to improve features.</Text>
               </View>
               <Switch
                 value={dataSharing}
@@ -50,10 +111,10 @@ export default function PrivacySettingsScreen() {
               />
             </View>
 
-            <View style={styles.settingCard}>
+            <View style={dynamicStyles.settingCard}>
               <View style={styles.settingInfo}>
-                <Text style={styles.settingTitle}>Profile Visibility</Text>
-                <Text style={styles.settingDescription}>Show my profile in search result.</Text>
+                <Text style={dynamicStyles.settingTitle}>Profile Visibility</Text>
+                <Text style={dynamicStyles.settingDescription}>Show my profile in search result.</Text>
               </View>
               <Switch
                 value={profileVisibility}
@@ -63,10 +124,10 @@ export default function PrivacySettingsScreen() {
               />
             </View>
 
-            <View style={styles.settingCard}>
+            <View style={dynamicStyles.settingCard}>
               <View style={styles.settingInfo}>
-                <Text style={styles.settingTitle}>Location Tracking</Text>
-                <Text style={styles.settingDescription}>Allow location tracking for personal recommendation.</Text>
+                <Text style={dynamicStyles.settingTitle}>Location Tracking</Text>
+                <Text style={dynamicStyles.settingDescription}>Allow location tracking for personal recommendation.</Text>
               </View>
               <Switch
                 value={locationTracking}
@@ -76,10 +137,10 @@ export default function PrivacySettingsScreen() {
               />
             </View>
 
-            <View style={styles.settingCard}>
+            <View style={dynamicStyles.settingCard}>
               <View style={styles.settingInfo}>
-                <Text style={styles.settingTitle}>Ad Personalization</Text>
-                <Text style={styles.settingDescription}>Use my data to personalize ads.</Text>
+                <Text style={dynamicStyles.settingTitle}>Ad Personalization</Text>
+                <Text style={dynamicStyles.settingDescription}>Use my data to personalize ads.</Text>
               </View>
               <Switch
                 value={adPersonalization}

@@ -5,6 +5,7 @@ import { colors } from '@/constants/colors';
 import { Search, ArrowLeft, Users, Wrench, Filter, Star, MapPin, CheckCircle, X, UserPlus } from 'lucide-react-native';
 import { architects } from '@/constants/architects';
 import { services } from '@/constants/services';
+import { useAuthStore } from '@/store/authStore';
 
 type SearchType = 'architects' | 'services';
 
@@ -17,6 +18,7 @@ type FilterOptions = {
 };
 
 export default function SearchScreen() {
+  const { darkMode } = useAuthStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeType, setActiveType] = useState<SearchType>('architects');
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -68,19 +70,19 @@ export default function SearchScreen() {
     return (
       <TouchableOpacity 
         key={item.id} 
-        style={styles.userCard}
+        style={dynamicStyles.userCard}
         onPress={() => router.push(`/user-profile/${item.id}`)}
       >
         <View style={styles.userCardHeader}>
           <Image source={{ uri: item.image }} style={styles.userAvatar} />
           <View style={styles.userInfo}>
             <View style={styles.userNameRow}>
-              <Text style={styles.userName}>{item.name}</Text>
+              <Text style={dynamicStyles.userName}>{item.name}</Text>
               {item.isVerified && (
                 <CheckCircle size={16} color={colors.primary} style={styles.verifiedIcon} />
               )}
             </View>
-            <Text style={styles.userSpecialty}>
+            <Text style={dynamicStyles.userSpecialty}>
               {isArchitect ? item.specialty : item.category}
             </Text>
             <View style={styles.userMeta}>
@@ -99,17 +101,17 @@ export default function SearchScreen() {
         <View style={styles.userStats}>
           <View style={styles.statItem}>
             <Star size={14} color={colors.warning} />
-            <Text style={styles.statText}>{item.rating}</Text>
+            <Text style={dynamicStyles.statText}>{item.rating}</Text>
             <Text style={styles.statLabel}>({item.reviews} reviews)</Text>
           </View>
           {isArchitect && (
             <View style={styles.statItem}>
-              <Text style={styles.statText}>{item.projects}</Text>
+              <Text style={dynamicStyles.statText}>{item.projects}</Text>
               <Text style={styles.statLabel}>projects</Text>
             </View>
           )}
           <View style={styles.statItem}>
-            <Text style={styles.statText}>{isArchitect ? item.followers : item.followers}</Text>
+            <Text style={dynamicStyles.statText}>{isArchitect ? item.followers : item.followers}</Text>
             <Text style={styles.statLabel}>followers</Text>
           </View>
         </View>
@@ -125,27 +127,28 @@ export default function SearchScreen() {
       onRequestClose={() => setShowFilterModal(false)}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.filterModal}>
+        <View style={dynamicStyles.filterModal}>
           <View style={styles.filterHeader}>
-            <Text style={styles.filterTitle}>Filter Results</Text>
+            <Text style={dynamicStyles.filterTitle}>Filter Results</Text>
             <TouchableOpacity onPress={() => setShowFilterModal(false)}>
-              <X size={24} color={colors.black} />
+              <X size={24} color={darkMode ? colors.white : colors.black} />
             </TouchableOpacity>
           </View>
           
           <ScrollView style={styles.filterContent}>
             <View style={styles.filterSection}>
-              <Text style={styles.filterSectionTitle}>Location</Text>
+              <Text style={dynamicStyles.filterSectionTitle}>Location</Text>
               <TextInput
-                style={styles.filterInput}
+                style={dynamicStyles.filterInput}
                 placeholder="Enter city or area"
+                placeholderTextColor={colors.gray}
                 value={filters.location}
                 onChangeText={(text) => setFilters({...filters, location: text})}
               />
             </View>
             
             <View style={styles.filterSection}>
-              <Text style={styles.filterSectionTitle}>Minimum Rating</Text>
+              <Text style={dynamicStyles.filterSectionTitle}>Minimum Rating</Text>
               <View style={styles.ratingOptions}>
                 {[0, 4.0, 4.5, 4.8].map(rating => (
                   <TouchableOpacity
@@ -169,7 +172,7 @@ export default function SearchScreen() {
                 <View style={[styles.checkbox, filters.verified && styles.checkedCheckbox]}>
                   {filters.verified && <CheckCircle size={16} color={colors.white} />}
                 </View>
-                <Text style={styles.checkboxLabel}>Verified only</Text>
+                <Text style={dynamicStyles.checkboxLabel}>Verified only</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -207,6 +210,130 @@ export default function SearchScreen() {
     </TouchableOpacity>
   );
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.primary,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    headerTitle: {
+      color: colors.white,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      marginHorizontal: 20,
+      marginTop: -10,
+      borderRadius: 25,
+      paddingHorizontal: 15,
+      paddingVertical: 12,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+    },
+    content: {
+      flex: 1,
+      padding: 20,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 20,
+    },
+    toggleContainer: {
+      flexDirection: 'row',
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 12,
+      padding: 4,
+      marginBottom: 30,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    resultsTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 15,
+    },
+    userCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 12,
+      padding: 16,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    userName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginRight: 6,
+    },
+    userSpecialty: {
+      fontSize: 14,
+      color: colors.gray,
+      marginBottom: 4,
+    },
+    statText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: darkMode ? colors.white : colors.black,
+    },
+    filterModal: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      maxHeight: '80%',
+    },
+    filterTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+    },
+    filterSectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 12,
+    },
+    filterInput: {
+      borderWidth: 1,
+      borderColor: darkMode ? '#333' : colors.lightGray,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+    },
+    checkboxLabel: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+    },
+  });
+
   return (
     <>
       <Stack.Screen 
@@ -214,18 +341,18 @@ export default function SearchScreen() {
           headerShown: false,
         }} 
       />
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={dynamicStyles.container}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
             <ArrowLeft size={24} color={colors.white} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Search</Text>
+          <Text style={dynamicStyles.headerTitle}>Search</Text>
         </View>
 
-        <View style={styles.searchContainer}>
+        <View style={dynamicStyles.searchContainer}>
           <Search size={20} color={colors.gray} style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+            style={dynamicStyles.searchInput}
             placeholder={`Search ${activeType === 'architects' ? 'architects by name, expertise, city' : 'partnered materials shops, services'}...`}
             placeholderTextColor={colors.gray}
             value={searchQuery}
@@ -242,16 +369,16 @@ export default function SearchScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.content}>
-          <Text style={styles.sectionTitle}>What are you looking for?</Text>
+        <ScrollView style={dynamicStyles.content}>
+          <Text style={dynamicStyles.sectionTitle}>What are you looking for?</Text>
           
-          <View style={styles.toggleContainer}>
+          <View style={dynamicStyles.toggleContainer}>
             {renderToggleButton('architects', 'Architects', <Users size={24} color={activeType === 'architects' ? colors.white : colors.primary} />)}
             {renderToggleButton('services', 'Services', <Wrench size={24} color={activeType === 'services' ? colors.white : colors.primary} />)}
           </View>
 
           <View style={styles.resultsSection}>
-            <Text style={styles.resultsTitle}>
+            <Text style={dynamicStyles.resultsTitle}>
               {getFilteredData().length} {activeType} found
             </Text>
             

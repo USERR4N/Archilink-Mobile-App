@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput,
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { ArrowLeft, Heart, Send } from 'lucide-react-native';
+import { useAuthStore } from '@/store/authStore';
 
 interface Comment {
   id: string;
@@ -15,6 +16,7 @@ interface Comment {
 }
 
 export default function CommentsScreen() {
+  const { darkMode } = useAuthStore();
   const { id } = useLocalSearchParams();
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState<Comment[]>([
@@ -104,10 +106,10 @@ export default function CommentsScreen() {
       <Image source={{ uri: comment.userImage }} style={styles.commentAvatar} />
       <View style={styles.commentContent}>
         <View style={styles.commentHeader}>
-          <Text style={styles.commentUserName}>{comment.userName}</Text>
+          <Text style={dynamicStyles.commentUserName}>{comment.userName}</Text>
           <Text style={styles.commentTime}>{comment.timeAgo}</Text>
         </View>
-        <Text style={styles.commentText}>{comment.comment}</Text>
+        <Text style={dynamicStyles.commentText}>{comment.comment}</Text>
         <View style={styles.commentActions}>
           <TouchableOpacity 
             style={styles.likeButton}
@@ -127,33 +129,99 @@ export default function CommentsScreen() {
     </View>
   );
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+    },
+    commentsContainer: {
+      flex: 1,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+    },
+    commentUserName: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: darkMode ? colors.white : colors.black,
+      marginRight: 8,
+    },
+    commentText: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      lineHeight: 20,
+      marginBottom: 8,
+    },
+    inputContainer: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingVertical: 15,
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      borderTopWidth: 1,
+      borderTopColor: darkMode ? '#333' : colors.lightGray,
+    },
+    commentInputContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      borderWidth: 1,
+      borderColor: darkMode ? '#333' : colors.lightGray,
+      borderRadius: 20,
+      paddingHorizontal: 15,
+      paddingVertical: 8,
+      maxHeight: 100,
+    },
+    commentInput: {
+      flex: 1,
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+      minHeight: 24,
+      marginRight: 8,
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <KeyboardAvoidingView 
-        style={styles.container}
+        style={dynamicStyles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View style={styles.header}>
+        <View style={dynamicStyles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.primary} />
+            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Comments</Text>
+          <Text style={dynamicStyles.headerTitle}>Comments</Text>
           <View style={styles.headerRight} />
         </View>
         
-        <ScrollView style={styles.commentsContainer} contentContainerStyle={styles.commentsContent}>
+        <ScrollView style={dynamicStyles.commentsContainer} contentContainerStyle={styles.commentsContent}>
           {comments.map(renderComment)}
         </ScrollView>
         
-        <View style={styles.inputContainer}>
+        <View style={dynamicStyles.inputContainer}>
           <Image
             source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face' }}
             style={styles.inputAvatar}
           />
-          <View style={styles.commentInputContainer}>
+          <View style={dynamicStyles.commentInputContainer}>
             <TextInput
-              style={styles.commentInput}
+              style={dynamicStyles.commentInput}
               value={newComment}
               onChangeText={setNewComment}
               placeholder="Add a comment..."
