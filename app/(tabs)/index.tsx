@@ -11,6 +11,7 @@ const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const user = useAuthStore(state => state.user);
+  const darkMode = useAuthStore(state => state.darkMode);
   const isArchitect = user?.userType === 'architect';
   const [currentAdIndex, setCurrentAdIndex] = useState(0);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
@@ -153,14 +154,14 @@ export default function HomeScreen() {
       onRequestClose={() => setShowCallModal(false)}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.callModal}>
+        <View style={dynamicStyles.callModal}>
           <View style={styles.callModalHeader}>
             <Image 
               source={{ uri: selectedContact?.image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' }} 
               style={styles.callModalAvatar} 
             />
-            <Text style={styles.callModalName}>{selectedContact?.name || 'Contact'}</Text>
-            <Text style={styles.callModalNumber}>{selectedContact?.phone || '+63 912 345 6789'}</Text>
+            <Text style={dynamicStyles.callModalName}>{selectedContact?.name || 'Contact'}</Text>
+            <Text style={dynamicStyles.callModalNumber}>{selectedContact?.phone || '+63 912 345 6789'}</Text>
           </View>
           
           <View style={styles.callModalActions}>
@@ -184,13 +185,279 @@ export default function HomeScreen() {
     </Modal>
   );
 
+  // Dynamic styles based on dark mode
+  const dynamicStyles = {
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    globalHeader: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      alignItems: 'center' as const,
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    globalHeaderTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold' as const,
+      letterSpacing: 1,
+    },
+    content: {
+      padding: 20,
+      paddingBottom: 30,
+    },
+    welcomeText: {
+      fontSize: 24,
+      fontWeight: 'bold' as const,
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 25,
+    },
+    section: {
+      marginBottom: 35,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold' as const,
+      color: darkMode ? colors.white : colors.black,
+    },
+    dashboardCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      padding: 20,
+      alignItems: 'center' as const,
+      flex: 1,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    postSection: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      padding: 18,
+      marginBottom: 30,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    postPlaceholder: {
+      color: darkMode ? '#ccc' : colors.gray,
+      fontSize: 16,
+    },
+    projectCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      marginRight: 15,
+      width: 200,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    projectTitle: {
+      fontSize: 14,
+      fontWeight: 'bold' as const,
+      marginBottom: 6,
+      color: darkMode ? colors.white : colors.black,
+    },
+    inquiryCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      padding: 18,
+      marginBottom: 18,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    inquiryDescription: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      lineHeight: 20,
+      marginBottom: 15,
+    },
+    partnerCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      padding: 18,
+      marginBottom: 18,
+      flexDirection: 'row' as const,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    partnerName: {
+      fontSize: 16,
+      fontWeight: 'bold' as const,
+      marginBottom: 5,
+      color: darkMode ? colors.white : colors.black,
+    },
+    partnerDescription: {
+      fontSize: 14,
+      color: darkMode ? '#ccc' : colors.gray,
+      marginBottom: 10,
+      lineHeight: 18,
+    },
+    top10Section: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 15,
+      padding: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    searchContainer: {
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 25,
+      paddingHorizontal: 18,
+      paddingVertical: 15,
+      marginBottom: 30,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    searchPlaceholder: {
+      flex: 1,
+      fontSize: 16,
+      color: darkMode ? '#ccc' : colors.gray,
+    },
+    architectCarouselCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      width: 160,
+      marginRight: 18,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    architectCarouselName: {
+      fontSize: 14,
+      fontWeight: 'bold' as const,
+      marginBottom: 4,
+      color: darkMode ? colors.white : colors.black,
+    },
+    storyCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      marginBottom: 18,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    storyTitle: {
+      fontSize: 16,
+      fontWeight: 'bold' as const,
+      marginBottom: 8,
+      color: darkMode ? colors.white : colors.black,
+    },
+    storyDescription: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      lineHeight: 20,
+      marginBottom: 15,
+    },
+    infoCard: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 10,
+      padding: 18,
+      width: '47%' as const,
+      marginBottom: 12,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    infoCardTitle: {
+      fontSize: 14,
+      fontWeight: 'bold' as const,
+      marginBottom: 10,
+      color: darkMode ? colors.white : colors.black,
+    },
+    infoCardDescription: {
+      fontSize: 12,
+      color: darkMode ? colors.white : colors.black,
+      lineHeight: 16,
+    },
+    infoIconContainer: {
+      backgroundColor: darkMode ? '#333' : colors.lightGray,
+      borderRadius: 25,
+      width: 50,
+      height: 50,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
+      marginBottom: 12,
+    },
+    callModal: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      borderRadius: 20,
+      padding: 30,
+      alignItems: 'center' as const,
+      width: '80%' as const,
+      maxWidth: 300,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    callModalName: {
+      fontSize: 18,
+      fontWeight: 'bold' as const,
+      color: darkMode ? colors.white : colors.black,
+      marginBottom: 5,
+    },
+    callModalNumber: {
+      fontSize: 16,
+      color: darkMode ? '#ccc' : colors.gray,
+    },
+  };
+
   // Architect POV Homepage
   if (isArchitect) {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={dynamicStyles.container}>
         {/* ARCHILINK Header */}
-        <View style={styles.globalHeader}>
-          <Text style={styles.globalHeaderTitle}>ARCHILINK</Text>
+        <View style={dynamicStyles.globalHeader}>
+          <Text style={dynamicStyles.globalHeaderTitle}>ARCHILINK</Text>
         </View>
 
         {/* Advertisement Carousel */}
@@ -233,37 +500,37 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.content}>
+        <View style={dynamicStyles.content}>
           {/* Welcome Back Section */}
-          <Text style={styles.welcomeText}>
+          <Text style={dynamicStyles.welcomeText}>
             Welcome back, {user?.fullName || 'Architect'}!
           </Text>
 
           {/* Dashboard Cards */}
           <View style={styles.dashboardContainer}>
-            <View style={styles.dashboardCard}>
+            <View style={dynamicStyles.dashboardCard}>
               <Text style={styles.dashboardCount}>{architectDashboard.stats.activeProjects}</Text>
               <Text style={styles.dashboardLabel}>Active Projects</Text>
             </View>
-            <View style={styles.dashboardCard}>
+            <View style={dynamicStyles.dashboardCard}>
               <Text style={styles.dashboardCount}>{architectDashboard.stats.completed}</Text>
               <Text style={styles.dashboardLabel}>Completed</Text>
             </View>
-            <View style={styles.dashboardCard}>
+            <View style={dynamicStyles.dashboardCard}>
               <Text style={styles.dashboardCount}>{architectDashboard.stats.newInquiries}</Text>
               <Text style={styles.dashboardLabel}>New Inquiries</Text>
             </View>
           </View>
 
           {/* Start a Post Section */}
-          <View style={styles.postSection}>
+          <View style={dynamicStyles.postSection}>
             <View style={styles.postInputContainer}>
               <Image
                 source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' }}
                 style={styles.profilePicture}
               />
               <TouchableOpacity style={styles.postInput} onPress={() => router.push('/create-post')}>
-                <Text style={styles.postPlaceholder}>Start a post</Text>
+                <Text style={dynamicStyles.postPlaceholder}>Start a post</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.postButtons}>
@@ -283,14 +550,14 @@ export default function HomeScreen() {
           </View>
 
           {/* Recent Projects Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Recent Projects</Text>
+          <View style={dynamicStyles.section}>
+            <Text style={dynamicStyles.sectionTitle}>Recent Projects</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.projectsScroll}>
               {recentProjects.map((project) => (
-                <TouchableOpacity key={project.id} style={styles.projectCard}>
+                <TouchableOpacity key={project.id} style={dynamicStyles.projectCard}>
                   <Image source={{ uri: project.image }} style={styles.projectImage} />
                   <View style={styles.projectInfo}>
-                    <Text style={styles.projectTitle}>{project.title}</Text>
+                    <Text style={dynamicStyles.projectTitle}>{project.title}</Text>
                     <View style={styles.projectLocation}>
                       <MapPin size={12} color={colors.gray} />
                       <Text style={styles.projectLocationText}>{project.location}</Text>
@@ -305,16 +572,16 @@ export default function HomeScreen() {
           </View>
 
           {/* Need a Client Section */}
-          <View style={styles.section}>
+          <View style={dynamicStyles.section}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Need a Client?</Text>
+              <Text style={dynamicStyles.sectionTitle}>Need a Client?</Text>
               <TouchableOpacity onPress={() => router.push('/(tabs)/projects?tab=inquiries')}>
                 <Text style={styles.seeAllText}>View More</Text>
               </TouchableOpacity>
             </View>
             
             {clientInquiries.map((inquiry) => (
-              <View key={inquiry.id} style={styles.inquiryCard}>
+              <View key={inquiry.id} style={dynamicStyles.inquiryCard}>
                 <View style={styles.inquiryHeader}>
                   <View style={styles.clientInfo}>
                     <Text style={styles.clientName}>
@@ -324,7 +591,7 @@ export default function HomeScreen() {
                     <Text style={styles.inquiryDate}>{inquiry.date}</Text>
                   </View>
                 </View>
-                <Text style={styles.inquiryDescription}>{inquiry.description}</Text>
+                <Text style={dynamicStyles.inquiryDescription}>{inquiry.description}</Text>
                 <View style={styles.inquiryButtons}>
                   <TouchableOpacity 
                     style={styles.viewDetailsButton}
@@ -345,20 +612,20 @@ export default function HomeScreen() {
           </View>
 
           {/* Need Materials Section */}
-          <View style={styles.section}>
+          <View style={dynamicStyles.section}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Need Materials?</Text>
+              <Text style={dynamicStyles.sectionTitle}>Need Materials?</Text>
               <TouchableOpacity onPress={() => router.push('/(tabs)/discover')}>
                 <Text style={styles.seeAllText}>View All</Text>
               </TouchableOpacity>
             </View>
             
             {partnerships.map((partner) => (
-              <View key={partner.id} style={styles.partnerCard}>
+              <View key={partner.id} style={dynamicStyles.partnerCard}>
                 <Image source={{ uri: partner.logo }} style={styles.partnerLogo} />
                 <View style={styles.partnerInfo}>
-                  <Text style={styles.partnerName}>{partner.companyName}</Text>
-                  <Text style={styles.partnerDescription}>{partner.description}</Text>
+                  <Text style={dynamicStyles.partnerName}>{partner.companyName}</Text>
+                  <Text style={dynamicStyles.partnerDescription}>{partner.description}</Text>
                   <View style={styles.partnerButtons}>
                     <TouchableOpacity 
                       style={styles.visitWebsiteButton}
@@ -381,8 +648,8 @@ export default function HomeScreen() {
           </View>
 
           {/* Top 10 Competition Section */}
-          <View style={styles.section}>
-            <View style={styles.top10Section}>
+          <View style={dynamicStyles.section}>
+            <View style={dynamicStyles.top10Section}>
               <View style={styles.top10Header}>
                 <Text style={styles.top10Title}>Join the Top 10 Architects</Text>
                 <Text style={styles.top10Subtitle}>
@@ -405,10 +672,10 @@ export default function HomeScreen() {
 
   // Client POV Homepage
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={dynamicStyles.container}>
       {/* ARCHILINK Header */}
-      <View style={styles.globalHeader}>
-        <Text style={styles.globalHeaderTitle}>ARCHILINK</Text>
+      <View style={dynamicStyles.globalHeader}>
+        <Text style={dynamicStyles.globalHeaderTitle}>ARCHILINK</Text>
       </View>
 
       {/* Advertisement Slider with Overlay */}
@@ -454,21 +721,21 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <View style={styles.content}>
+      <View style={dynamicStyles.content}>
         {/* Welcome Message */}
-        <Text style={styles.welcomeText}>
+        <Text style={dynamicStyles.welcomeText}>
           Welcome, {user?.fullName || 'User'}!
         </Text>
 
         {/* Search Bar */}
-        <TouchableOpacity style={styles.searchContainer} onPress={handleSearchPress}>
-          <Search size={20} color={colors.gray} style={styles.searchIcon} />
-          <Text style={styles.searchPlaceholder}>Search by name, expertise, city etc..</Text>
+        <TouchableOpacity style={dynamicStyles.searchContainer} onPress={handleSearchPress}>
+          <Search size={20} color={darkMode ? '#ccc' : colors.gray} style={styles.searchIcon} />
+          <Text style={dynamicStyles.searchPlaceholder}>Search by name, expertise, city etc..</Text>
         </TouchableOpacity>
 
         {/* Top 10 Recommended Architects - Carousel Layout */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Top 10 Recommended Architects</Text>
+        <View style={dynamicStyles.section}>
+          <Text style={dynamicStyles.sectionTitle}>Top 10 Recommended Architects</Text>
           
           <ScrollView 
             horizontal 
@@ -479,7 +746,7 @@ export default function HomeScreen() {
             {architects.map((architect) => (
               <TouchableOpacity 
                 key={architect.id} 
-                style={styles.architectCarouselCard}
+                style={dynamicStyles.architectCarouselCard}
                 onPress={() => router.push(`/user-profile/${architect.id}`)}
               >
                 <Image
@@ -487,7 +754,7 @@ export default function HomeScreen() {
                   style={styles.architectCarouselImage}
                 />
                 <View style={styles.architectCarouselInfo}>
-                  <Text style={styles.architectCarouselName}>{architect.name}</Text>
+                  <Text style={dynamicStyles.architectCarouselName}>{architect.name}</Text>
                   <Text style={styles.architectCarouselSpecialty}>{architect.specialty}</Text>
                   <View style={styles.ratingContainer}>
                     <Star size={12} color="#FFD700" />
@@ -505,22 +772,22 @@ export default function HomeScreen() {
         </View>
 
         {/* Stories Section */}
-        <View style={styles.section}>
+        <View style={dynamicStyles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Stories</Text>
+            <Text style={dynamicStyles.sectionTitle}>Stories</Text>
             <TouchableOpacity onPress={handleStoriesViewMore}>
               <Text style={styles.seeAllText}>View More</Text>
             </TouchableOpacity>
           </View>
           
-          <TouchableOpacity style={styles.storyCard}>
+          <TouchableOpacity style={dynamicStyles.storyCard}>
             <Image
               source={{ uri: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' }}
               style={styles.storyImage}
             />
             <View style={styles.storyContent}>
-              <Text style={styles.storyTitle}>Modern Home Design Trends 2024</Text>
-              <Text style={styles.storyDescription}>
+              <Text style={dynamicStyles.storyTitle}>Modern Home Design Trends 2024</Text>
+              <Text style={dynamicStyles.storyDescription}>
                 Discover the latest trends in modern home architecture and interior design that are shaping the future of residential spaces.
               </Text>
               <View style={styles.storyActions}>
@@ -552,14 +819,14 @@ export default function HomeScreen() {
             </View>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.storyCard}>
+          <TouchableOpacity style={dynamicStyles.storyCard}>
             <Image
               source={{ uri: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' }}
               style={styles.storyImage}
             />
             <View style={styles.storyContent}>
-              <Text style={styles.storyTitle}>Sustainable Architecture: Building for the Future</Text>
-              <Text style={styles.storyDescription}>
+              <Text style={dynamicStyles.storyTitle}>Sustainable Architecture: Building for the Future</Text>
+              <Text style={dynamicStyles.storyDescription}>
                 Learn how sustainable architecture practices are revolutionizing the construction industry and creating eco-friendly buildings.
               </Text>
               <View style={styles.storyActions}>
@@ -593,46 +860,46 @@ export default function HomeScreen() {
         </View>
 
         {/* Why Find an Architect with Us */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Why Find an Architect with Us?</Text>
+        <View style={dynamicStyles.section}>
+          <Text style={dynamicStyles.sectionTitle}>Why Find an Architect with Us?</Text>
           
           <View style={styles.infoCardsContainer}>
-            <View style={styles.infoCard}>
-              <View style={styles.infoIconContainer}>
+            <View style={dynamicStyles.infoCard}>
+              <View style={dynamicStyles.infoIconContainer}>
                 <Users size={24} color={colors.primary} />
               </View>
-              <Text style={styles.infoCardTitle}>Verified Professionals</Text>
-              <Text style={styles.infoCardDescription}>
+              <Text style={dynamicStyles.infoCardTitle}>Verified Professionals</Text>
+              <Text style={dynamicStyles.infoCardDescription}>
                 All architects are licensed and verified professionals with proven track records.
               </Text>
             </View>
             
-            <View style={styles.infoCard}>
-              <View style={styles.infoIconContainer}>
+            <View style={dynamicStyles.infoCard}>
+              <View style={dynamicStyles.infoIconContainer}>
                 <Award size={24} color={colors.primary} />
               </View>
-              <Text style={styles.infoCardTitle}>Quality Assurance</Text>
-              <Text style={styles.infoCardDescription}>
+              <Text style={dynamicStyles.infoCardTitle}>Quality Assurance</Text>
+              <Text style={dynamicStyles.infoCardDescription}>
                 We ensure high-quality work through our rigorous vetting process and client reviews.
               </Text>
             </View>
             
-            <View style={styles.infoCard}>
-              <View style={styles.infoIconContainer}>
+            <View style={dynamicStyles.infoCard}>
+              <View style={dynamicStyles.infoIconContainer}>
                 <Shield size={24} color={colors.primary} />
               </View>
-              <Text style={styles.infoCardTitle}>Secure Platform</Text>
-              <Text style={styles.infoCardDescription}>
+              <Text style={dynamicStyles.infoCardTitle}>Secure Platform</Text>
+              <Text style={dynamicStyles.infoCardDescription}>
                 Your projects and payments are protected through our secure platform and escrow system.
               </Text>
             </View>
             
-            <View style={styles.infoCard}>
-              <View style={styles.infoIconContainer}>
+            <View style={dynamicStyles.infoCard}>
+              <View style={dynamicStyles.infoIconContainer}>
                 <Clock size={24} color={colors.primary} />
               </View>
-              <Text style={styles.infoCardTitle}>24/7 Support</Text>
-              <Text style={styles.infoCardDescription}>
+              <Text style={dynamicStyles.infoCardTitle}>24/7 Support</Text>
+              <Text style={dynamicStyles.infoCardDescription}>
                 Get round-the-clock support for your projects and any questions you may have.
               </Text>
             </View>

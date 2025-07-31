@@ -7,6 +7,7 @@ import { useAuthStore } from '@/store/authStore';
 export default function TabLayout() {
   const user = useAuthStore(state => state.user);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const darkMode = useAuthStore(state => state.darkMode);
   const isArchitect = user?.userType === 'architect';
   
   // Redirect to login if not authenticated
@@ -20,10 +21,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.gray,
+        tabBarInactiveTintColor: darkMode ? colors.white : colors.gray,
         tabBarStyle: {
+          backgroundColor: darkMode ? '#1a1a1a' : colors.white,
           borderTopWidth: 1,
-          borderTopColor: colors.lightGray,
+          borderTopColor: darkMode ? '#333' : colors.lightGray,
         },
         headerShown: false, // Hide all tab headers to use consistent ARCHILINK header
       }}

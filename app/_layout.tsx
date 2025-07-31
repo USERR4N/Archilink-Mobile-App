@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { colors } from "@/constants/colors";
+import { useAuthStore } from "@/store/authStore";
 
 export const unstable_settings = {
   initialRouteName: "index",
@@ -38,13 +39,15 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const darkMode = useAuthStore(state => state.darkMode);
+  
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style={darkMode ? "light" : "light"} />
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: colors.primary },
+          contentStyle: { backgroundColor: darkMode ? '#000000' : colors.primary },
         }}
       >
         <Stack.Screen name="index" options={{ title: "Login" }} />

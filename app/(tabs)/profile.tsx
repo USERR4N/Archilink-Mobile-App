@@ -8,6 +8,7 @@ import { Settings, LogOut, Star, ChevronRight, Edit3, Award, Trophy, Medal, Cloc
 export default function ProfileScreen() {
   const user = useAuthStore(state => state.user);
   const logout = useAuthStore(state => state.logout);
+  const darkMode = useAuthStore(state => state.darkMode);
   const isArchitect = user?.userType === 'architect';
 
   const handleLogout = () => {
@@ -35,19 +36,103 @@ export default function ProfileScreen() {
     router.push('/settings/edit-profile');
   };
 
+  // Dynamic styles based on dark mode
+  const dynamicStyles = {
+    container: {
+      flex: 1,
+      backgroundColor: darkMode ? '#000000' : colors.lightGray,
+    },
+    header: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingHorizontal: 20,
+      paddingTop: 50,
+      paddingBottom: 15,
+      alignItems: 'center' as const,
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+    },
+    headerTitle: {
+      color: darkMode ? colors.white : colors.primary,
+      fontSize: 20,
+      fontWeight: 'bold' as const,
+      letterSpacing: 1,
+    },
+    profileSection: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingVertical: 30,
+      paddingHorizontal: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: darkMode ? '#333' : colors.lightGray,
+      marginBottom: 15,
+    },
+    profileName: {
+      fontSize: 24,
+      fontWeight: 'bold' as const,
+      color: darkMode ? colors.white : colors.primary,
+      marginBottom: 5,
+      textAlign: 'center' as const,
+    },
+    profileRole: {
+      fontSize: 16,
+      color: darkMode ? '#ccc' : colors.gray,
+      marginBottom: 20,
+      textAlign: 'center' as const,
+    },
+    section: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      marginBottom: 15,
+      paddingHorizontal: 20,
+      paddingVertical: 20,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold' as const,
+      color: darkMode ? colors.white : colors.primary,
+      marginBottom: 15,
+    },
+    contactLabel: {
+      fontSize: 16,
+      color: darkMode ? colors.white : colors.black,
+    },
+    contactValue: {
+      fontSize: 16,
+      fontWeight: 'bold' as const,
+      color: darkMode ? colors.white : colors.black,
+    },
+    savedArchitectName: {
+      fontSize: 14,
+      color: darkMode ? colors.white : colors.black,
+      textAlign: 'center' as const,
+    },
+    footerText: {
+      fontSize: 12,
+      color: darkMode ? '#ccc' : colors.gray,
+    },
+    footer: {
+      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
+      paddingVertical: 20,
+      alignItems: 'center' as const,
+      marginTop: 10,
+      borderWidth: darkMode ? 1 : 0,
+      borderColor: darkMode ? '#333' : 'transparent',
+    },
+  };
+
   if (isArchitect) {
-    return <ArchitectProfile user={user} onLogout={handleLogout} onSettings={handleSettings} onEditProfile={handleEditProfile} />;
+    return <ArchitectProfile user={user} onLogout={handleLogout} onSettings={handleSettings} onEditProfile={handleEditProfile} darkMode={darkMode} dynamicStyles={dynamicStyles} />;
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={dynamicStyles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>ARCHILINK</Text>
+      <View style={dynamicStyles.header}>
+        <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
       </View>
 
       {/* Profile Section */}
-      <View style={styles.profileSection}>
+      <View style={dynamicStyles.profileSection}>
         <View style={styles.profileHeader}>
           <Text style={styles.profileType}>Client</Text>
           <View style={styles.headerActions}>
@@ -73,8 +158,8 @@ export default function ProfileScreen() {
           </View>
         </View>
         
-        <Text style={styles.profileName}>Mrs. Terra Agonzilo</Text>
-        <Text style={styles.profileRole}>Owner of DreamDraft Company</Text>
+        <Text style={dynamicStyles.profileName}>Mrs. Terra Agonzilo</Text>
+        <Text style={dynamicStyles.profileRole}>Owner of DreamDraft Company</Text>
         
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
@@ -93,9 +178,9 @@ export default function ProfileScreen() {
       </View>
 
       {/* Projects Section */}
-      <View style={styles.section}>
+      <View style={dynamicStyles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Projects</Text>
+          <Text style={dynamicStyles.sectionTitle}>Projects</Text>
           <TouchableOpacity onPress={handleViewMore} style={styles.viewMoreContainer}>
             <Text style={styles.viewMoreText}>View More</Text>
             <ChevronRight size={16} color={colors.primary} />
@@ -128,8 +213,8 @@ export default function ProfileScreen() {
       </View>
 
       {/* Reviews Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Reviews</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Reviews</Text>
         
         <View style={styles.ratingOverview}>
           <Text style={styles.ratingNumber}>4.8</Text>
@@ -183,34 +268,34 @@ export default function ProfileScreen() {
             ))}
           </View>
           <Text style={styles.reviewText}>
-            She trusted our process, communicated clearly, and never missed a site visit—an architect's dream client.
+            She trusted our process, communicated clearly, and never missed a site visit—an architect&apos;s dream client.
           </Text>
         </View>
       </View>
 
       {/* Contact Information */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Contact Information</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Contact Information</Text>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Email</Text>
-          <Text style={styles.contactValue}>CLIENT@example.com</Text>
+          <Text style={dynamicStyles.contactLabel}>Email</Text>
+          <Text style={dynamicStyles.contactValue}>CLIENT@example.com</Text>
         </View>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Phone</Text>
-          <Text style={styles.contactValue}>+63 912 345 6789</Text>
+          <Text style={dynamicStyles.contactLabel}>Phone</Text>
+          <Text style={dynamicStyles.contactValue}>+63 912 345 6789</Text>
         </View>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Location</Text>
-          <Text style={styles.contactValue}>Makati City, Philippines</Text>
+          <Text style={dynamicStyles.contactLabel}>Location</Text>
+          <Text style={dynamicStyles.contactValue}>Makati City, Philippines</Text>
         </View>
       </View>
 
       {/* Saved Architects */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Saved Architects</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Saved Architects</Text>
         
         <ScrollView 
           horizontal 
@@ -227,7 +312,7 @@ export default function ProfileScreen() {
                 <Text style={styles.checkmarkSmall}>✓</Text>
               </View>
             </View>
-            <Text style={styles.savedArchitectName}>Carlos Mendoza</Text>
+            <Text style={dynamicStyles.savedArchitectName}>Carlos Mendoza</Text>
           </View>
           
           <View style={styles.savedArchitectItem}>
@@ -240,7 +325,7 @@ export default function ProfileScreen() {
                 <Text style={styles.checkmarkSmall}>✓</Text>
               </View>
             </View>
-            <Text style={styles.savedArchitectName}>Anna Reyes</Text>
+            <Text style={dynamicStyles.savedArchitectName}>Anna Reyes</Text>
           </View>
           
           <View style={styles.savedArchitectItem}>
@@ -250,7 +335,7 @@ export default function ProfileScreen() {
                 style={styles.savedArchitectImage}
               />
             </View>
-            <Text style={styles.savedArchitectName}>Sherlock Holmes</Text>
+            <Text style={dynamicStyles.savedArchitectName}>Sherlock Holmes</Text>
           </View>
           
           <View style={styles.savedArchitectItem}>
@@ -260,29 +345,29 @@ export default function ProfileScreen() {
                 style={styles.savedArchitectImage}
               />
             </View>
-            <Text style={styles.savedArchitectName}>Fionna Gallagher</Text>
+            <Text style={dynamicStyles.savedArchitectName}>Fionna Gallagher</Text>
           </View>
         </ScrollView>
       </View>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>© ArchiLink. All Rights Reserved. 2025</Text>
+      <View style={dynamicStyles.footer}>
+        <Text style={dynamicStyles.footerText}>© ArchiLink. All Rights Reserved. 2025</Text>
       </View>
     </ScrollView>
   );
 }
 
-const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user: any; onLogout: () => void; onSettings: () => void; onEditProfile: () => void }) => {
+const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile, darkMode, dynamicStyles }: { user: any; onLogout: () => void; onSettings: () => void; onEditProfile: () => void; darkMode: boolean; dynamicStyles: any }) => {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={dynamicStyles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>ARCHILINK</Text>
+      <View style={dynamicStyles.header}>
+        <Text style={dynamicStyles.headerTitle}>ARCHILINK</Text>
       </View>
 
       {/* Profile Section */}
-      <View style={styles.profileSection}>
+      <View style={dynamicStyles.profileSection}>
         <View style={styles.profileHeader}>
           <Text style={styles.profileType}>Residential Architect</Text>
           <View style={styles.headerActions}>
@@ -308,7 +393,7 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
           </View>
         </View>
         
-        <Text style={styles.profileName}>{user?.fullName || '<User Name>'}</Text>
+        <Text style={dynamicStyles.profileName}>{user?.fullName || 'User Name'}</Text>
         
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
@@ -327,28 +412,28 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
       </View>
 
       {/* Professional Information */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Professional Information</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Professional Information</Text>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>License Number</Text>
-          <Text style={styles.contactValue}>AR-12345</Text>
+          <Text style={dynamicStyles.contactLabel}>License Number</Text>
+          <Text style={dynamicStyles.contactValue}>AR-12345</Text>
         </View>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Specialization</Text>
-          <Text style={styles.contactValue}>Residential Architecture</Text>
+          <Text style={dynamicStyles.contactLabel}>Specialization</Text>
+          <Text style={dynamicStyles.contactValue}>Residential Architecture</Text>
         </View>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Experience</Text>
-          <Text style={styles.contactValue}>8 years</Text>
+          <Text style={dynamicStyles.contactLabel}>Experience</Text>
+          <Text style={dynamicStyles.contactValue}>8 years</Text>
         </View>
       </View>
 
       {/* Portfolio Highlights */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Portfolio Highlights</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Portfolio Highlights</Text>
         
         <View style={styles.portfolioGrid}>
           <TouchableOpacity style={styles.portfolioItem}>
@@ -378,8 +463,8 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
       </View>
       
       {/* Badges Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>My Achievements</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>My Achievements</Text>
         
         <ScrollView 
           horizontal 
@@ -437,8 +522,8 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
       </View>
 
       {/* Reviews Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Reviews</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Reviews</Text>
         
         <View style={styles.ratingOverview}>
           <Text style={styles.ratingNumber}>4.8</Text>
@@ -498,60 +583,34 @@ const ArchitectProfile = ({ user, onLogout, onSettings, onEditProfile }: { user:
       </View>
 
       {/* Contact Information */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Contact Information</Text>
+      <View style={dynamicStyles.section}>
+        <Text style={dynamicStyles.sectionTitle}>Contact Information</Text>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Email</Text>
-          <Text style={styles.contactValue}>architect@example.com</Text>
+          <Text style={dynamicStyles.contactLabel}>Email</Text>
+          <Text style={dynamicStyles.contactValue}>architect@example.com</Text>
         </View>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Phone</Text>
-          <Text style={styles.contactValue}>+63 912 345 6789</Text>
+          <Text style={dynamicStyles.contactLabel}>Phone</Text>
+          <Text style={dynamicStyles.contactValue}>+63 912 345 6789</Text>
         </View>
         
         <View style={styles.contactRow}>
-          <Text style={styles.contactLabel}>Location</Text>
-          <Text style={styles.contactValue}>Makati City, Philippines</Text>
+          <Text style={dynamicStyles.contactLabel}>Location</Text>
+          <Text style={dynamicStyles.contactValue}>Makati City, Philippines</Text>
         </View>
       </View>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>© ArchiLink. All Rights Reserved. 2025</Text>
+      <View style={dynamicStyles.footer}>
+        <Text style={dynamicStyles.footerText}>© ArchiLink. All Rights Reserved. 2025</Text>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.lightGray,
-  },
-  header: {
-    backgroundColor: colors.white,
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 15,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lightGray,
-  },
-  headerTitle: {
-    color: colors.primary,
-    fontSize: 20,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-  profileSection: {
-    backgroundColor: colors.white,
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lightGray,
-  },
   profileHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -633,19 +692,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  profileName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.primary,
-    marginBottom: 5,
-    textAlign: 'center',
-  },
-  profileRole: {
-    fontSize: 16,
-    color: colors.gray,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -666,22 +712,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.gray,
   },
-  section: {
-    backgroundColor: colors.white,
-    marginTop: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.primary,
     marginBottom: 15,
   },
   viewMoreContainer: {
@@ -821,15 +855,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
   },
-  contactLabel: {
-    fontSize: 16,
-    color: colors.black,
-  },
-  contactValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.black,
-  },
   savedArchitectsContainer: {
     marginTop: 10,
   },
@@ -863,21 +888,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 12,
     fontWeight: 'bold',
-  },
-  savedArchitectName: {
-    fontSize: 14,
-    color: colors.black,
-    textAlign: 'center',
-  },
-  badgesSection: {
-    marginBottom: 20,
-  },
-  badgesSectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.primary,
-    marginBottom: 15,
-    textAlign: 'center',
   },
   badgesContainer: {
     paddingHorizontal: 5,
@@ -915,15 +925,5 @@ const styles = StyleSheet.create({
     color: colors.gray,
     textAlign: 'center',
     lineHeight: 12,
-  },
-  footer: {
-    backgroundColor: colors.white,
-    paddingVertical: 20,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  footerText: {
-    fontSize: 12,
-    color: colors.gray,
   },
 });
