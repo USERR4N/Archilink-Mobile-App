@@ -383,6 +383,7 @@ function ClientProjectsView({ activeTab, setActiveTab, searchQuery, setSearchQue
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }) {
+  const { user } = useAuthStore();
   const router = useRouter();
 
   const clientProjectData = {
