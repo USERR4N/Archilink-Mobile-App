@@ -29,23 +29,23 @@ export default function PaymentScreen() {
   };
 
   const handleAddCard = () => {
-    router.push('/settings/add-card');
+    console.log('Add card functionality');
   };
 
   const handleAddBank = () => {
-    router.push('/settings/add-bank');
+    console.log('Add bank functionality');
   };
 
   const handleAddGCash = () => {
-    router.push('/settings/add-gcash');
+    console.log('Add GCash functionality');
   };
 
   const handleAddPayPal = () => {
-    router.push('/settings/add-paypal');
+    console.log('Add PayPal functionality');
   };
 
   const handleAddMaya = () => {
-    router.push('/settings/add-maya');
+    console.log('Add Maya functionality');
   };
 
   const getCardIcon = (type: string) => {
@@ -141,11 +141,13 @@ export default function PaymentScreen() {
             {savedCards.map((card) => (
               <View key={card.id} style={styles.cardItem}>
                 <View style={styles.cardInfo}>
-                  <Image 
-                    source={{ uri: getCardIcon(card.type) }} 
-                    style={styles.cardIcon}
-                    resizeMode="contain"
-                  />
+                  {getCardIcon(card.type) && (
+                    <Image 
+                      source={{ uri: getCardIcon(card.type)! }} 
+                      style={styles.cardIcon}
+                      resizeMode="contain"
+                    />
+                  )}
                   <View style={styles.cardDetails}>
                     <Text style={dynamicStyles.cardNumber}>•••• •••• •••• {card.lastFour}</Text>
                     <Text style={styles.cardExpiry}>Expires {card.expiryDate}</Text>
