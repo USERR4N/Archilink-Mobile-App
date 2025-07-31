@@ -3,12 +3,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { ArrowLeft, Heart, MessageCircle, Bookmark, Share, CheckCircle } from 'lucide-react-native';
-import { useAuthStore } from '@/store/authStore';
 
 const { width } = Dimensions.get('window');
 
 export default function PostDetailScreen() {
-  const { darkMode } = useAuthStore();
   const { id } = useLocalSearchParams();
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -92,62 +90,10 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
 
   const postData = getPostData();
 
-  const dynamicStyles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: darkMode ? '#000000' : colors.white,
-    },
-    header: {
-      backgroundColor: darkMode ? '#1a1a1a' : colors.white,
-      paddingHorizontal: 20,
-      paddingTop: 50,
-      paddingBottom: 15,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      borderBottomWidth: 1,
-      borderBottomColor: darkMode ? '#333' : colors.lightGray,
-    },
-    headerTitle: {
-      color: darkMode ? colors.white : colors.primary,
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    authorName: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: darkMode ? colors.white : colors.black,
-    },
-    postTitle: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      color: darkMode ? colors.white : colors.black,
-      paddingHorizontal: 20,
-      marginBottom: 15,
-      lineHeight: 28,
-    },
-    likesText: {
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: darkMode ? colors.white : colors.black,
-      marginBottom: 5,
-    },
-    commentsText: {
-      fontSize: 14,
-      color: colors.gray,
-    },
-    postContent: {
-      fontSize: 16,
-      color: darkMode ? colors.white : colors.black,
-      lineHeight: 24,
-      marginBottom: 20,
-    },
-  });
-
   if (!postData) {
     return (
-      <View style={dynamicStyles.container}>
-        <Text style={{ color: darkMode ? colors.white : colors.black }}>Post not found</Text>
+      <View style={styles.container}>
+        <Text>Post not found</Text>
       </View>
     );
   }
@@ -209,12 +155,12 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={dynamicStyles.container}>
-        <View style={dynamicStyles.header}>
+      <View style={styles.container}>
+        <View style={styles.header}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <ArrowLeft size={24} color={darkMode ? colors.white : colors.primary} />
+            <ArrowLeft size={24} color={colors.primary} />
           </TouchableOpacity>
-          <Text style={dynamicStyles.headerTitle}>Post</Text>
+          <Text style={styles.headerTitle}>Post</Text>
           <View style={styles.placeholder} />
         </View>
 
@@ -224,7 +170,7 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
             <Image source={{ uri: postData.author.image }} style={styles.authorAvatar} />
             <View style={styles.authorInfo}>
               <View style={styles.authorNameRow}>
-                <Text style={dynamicStyles.authorName}>{postData.author.name}</Text>
+                <Text style={styles.authorName}>{postData.author.name}</Text>
                 {postData.author.isVerified && (
                   <CheckCircle size={16} color="#1DA1F2" style={styles.verifiedIcon} />
                 )}
@@ -235,7 +181,7 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
           </View>
 
           {/* Post Title */}
-          <Text style={dynamicStyles.postTitle}>{postData.title}</Text>
+          <Text style={styles.postTitle}>{postData.title}</Text>
 
           {/* Post Image */}
           <Image source={{ uri: postData.image }} style={styles.postImage} />
@@ -247,24 +193,24 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
                 <Animated.View style={{ transform: [{ scale: heartAnimation }] }}>
                   <Heart 
                     size={24} 
-                    color={isLiked ? '#FF3040' : (darkMode ? colors.white : colors.black)}
+                    color={isLiked ? '#FF3040' : colors.black}
                     fill={isLiked ? '#FF3040' : 'none'}
                   />
                 </Animated.View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton} onPress={handleComment}>
-                <MessageCircle size={24} color={darkMode ? colors.white : colors.black} />
+                <MessageCircle size={24} color={colors.black} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
-                <Share size={24} color={darkMode ? colors.white : colors.black} />
+                <Share size={24} color={colors.black} />
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.actionButton} onPress={handleSave}>
               <Animated.View style={{ transform: [{ scale: bookmarkAnimation }] }}>
                 <Bookmark 
                   size={24} 
-                  color={darkMode ? colors.white : colors.black}
-                  fill={isSaved ? (darkMode ? colors.white : colors.black) : 'none'}
+                  color={colors.black}
+                  fill={isSaved ? colors.black : 'none'}
                 />
               </Animated.View>
             </TouchableOpacity>
@@ -272,11 +218,11 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
 
           {/* Likes and Comments Count */}
           <View style={styles.statsSection}>
-            <Text style={dynamicStyles.likesText}>
+            <Text style={styles.likesText}>
               {likeCount} likes
             </Text>
             <TouchableOpacity onPress={handleComment}>
-              <Text style={dynamicStyles.commentsText}>
+              <Text style={styles.commentsText}>
                 View all {postData.comments} comments
               </Text>
             </TouchableOpacity>
@@ -284,7 +230,7 @@ The benefits extend beyond environmental impact—sustainable buildings often ha
 
           {/* Post Content */}
           <View style={styles.contentSection}>
-            <Text style={dynamicStyles.postContent}>{postData.content}</Text>
+            <Text style={styles.postContent}>{postData.content}</Text>
             
             <View style={styles.hashtagsContainer}>
               {postData.hashtags.map((hashtag, index) => (

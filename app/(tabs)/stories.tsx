@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions
 import { router } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { useAuthStore } from '@/store/authStore';
-import { Heart, MessageCircle, Bookmark, CheckCircle, Plus } from 'lucide-react-native';
+import { Heart, MessageCircle, Bookmark, CheckCircle } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -286,19 +286,6 @@ export default function StoriesScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.highlightsContent}
           >
-            {/* Add Story Button */}
-            <TouchableOpacity
-              style={styles.highlightItem}
-              onPress={handleCreatePost}
-            >
-              <View style={styles.addStoryContainer}>
-                <View style={styles.addStoryCircle}>
-                  <Plus size={24} color={colors.white} />
-                </View>
-              </View>
-              <Text style={dynamicStyles.highlightName}>Add Story</Text>
-            </TouchableOpacity>
-            
             {highlights.map((highlight) => (
               <TouchableOpacity
                 key={highlight.id}
@@ -480,24 +467,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.black,
     textAlign: 'center',
-  },
-  addStoryContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    marginBottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addStoryCircle: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: colors.white,
   },
   storiesContainer: {
     flex: 1,
