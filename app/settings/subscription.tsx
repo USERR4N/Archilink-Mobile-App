@@ -54,7 +54,7 @@ export default function SubscriptionScreen() {
           <View style={styles.plansContainer}>
             <View style={styles.planCard}>
               <Text style={styles.planTitle}>PRO SUBSCRIPTION</Text>
-              <Text style={styles.planPrice}>{isArchitect ? '499' : '599'}/Month</Text>
+              <Text style={styles.planPrice}>₱{isArchitect ? '999' : '699'}/Month</Text>
               
               <View style={styles.featuresContainer}>
                 {isArchitect ? (
@@ -116,7 +116,7 @@ export default function SubscriptionScreen() {
 
             <View style={styles.planCard}>
               <Text style={styles.planTitle}>ELITE SUBSCRIPTION</Text>
-              <Text style={styles.planPrice}>999/Month</Text>
+              <Text style={styles.planPrice}>₱{isArchitect ? '1599' : '999'}/Month</Text>
               
               <View style={styles.featuresContainer}>
                 {isArchitect ? (
