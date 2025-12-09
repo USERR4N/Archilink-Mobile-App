@@ -117,7 +117,7 @@ function ArchitectProjectsView() {
   };
 
   const renderArchitectActiveProject = (project: any) => (
-    <TouchableOpacity key={project.id} style={styles.projectCard} onPress={() => router.push(`/project/${project.id}`)}>
+    <TouchableOpacity key={project.id} style={styles.projectCard} onPress={() => router.push(`/project/${project.id}` as any)}>
       <Image source={{ uri: project.image }} style={styles.projectImage} />
       <View style={styles.projectOverlay}>
         <Text style={styles.projectTitle}>{project.title}</Text>
@@ -144,7 +144,7 @@ function ArchitectProjectsView() {
   );
 
   const renderArchitectCompletedProject = (project: any) => (
-    <TouchableOpacity key={project.id} style={styles.projectCard} onPress={() => router.push(`/project/${project.id}`)}>
+    <TouchableOpacity key={project.id} style={styles.projectCard} onPress={() => router.push(`/project/${project.id}` as any)}>
       <Image source={{ uri: project.image }} style={styles.projectImage} />
       <View style={styles.projectOverlay}>
         <Text style={styles.projectTitle}>{project.title}</Text>

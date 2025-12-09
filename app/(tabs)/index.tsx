@@ -72,11 +72,11 @@ export default function HomeScreen() {
   const advertisements = isArchitect ? architectAdvertisements : clientAdvertisements;
 
   const handleSearchPress = () => {
-    router.push('/search');
+    router.push('/search' as any);
   };
 
   const handleStoriesViewMore = () => {
-    router.push('/stories');
+    router.push('/stories' as any);
   };
 
   const handleAdPress = (ad: any) => {
@@ -126,11 +126,11 @@ export default function HomeScreen() {
   };
 
   const handleComment = (postId: string) => {
-    router.push(`/comments/${postId}`);
+    router.push(`/comments/${postId}` as any);
   };
 
   const handleReadPost = (postId: string) => {
-    router.push(`/post/${postId}`);
+    router.push(`/post/${postId}` as any);
   };
 
   const getStatusColor = (status: string) => {
@@ -529,20 +529,20 @@ export default function HomeScreen() {
                 source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' }}
                 style={styles.profilePicture}
               />
-              <TouchableOpacity style={styles.postInput} onPress={() => router.push('/create-post')}>
+              <TouchableOpacity style={styles.postInput} onPress={() => router.push('/create-post' as any)}>
                 <Text style={dynamicStyles.postPlaceholder}>Start a post</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.postButtons}>
-              <TouchableOpacity style={styles.postButton} onPress={() => router.push('/create-post?type=video')}>
+              <TouchableOpacity style={styles.postButton} onPress={() => router.push('/create-post?type=video' as any)}>
                 <Video size={20} color={colors.primary} />
                 <Text style={styles.postButtonText}>Video</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.postButton} onPress={() => router.push('/create-post?type=photo')}>
+              <TouchableOpacity style={styles.postButton} onPress={() => router.push('/create-post?type=photo' as any)}>
                 <Camera size={20} color={colors.primary} />
                 <Text style={styles.postButtonText}>Photo</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.postButton} onPress={() => router.push('/create-post?type=project')}>
+              <TouchableOpacity style={styles.postButton} onPress={() => router.push('/create-post?type=project' as any)}>
                 <Briefcase size={20} color={colors.primary} />
                 <Text style={styles.postButtonText}>Showcase Project</Text>
               </TouchableOpacity>
@@ -575,7 +575,7 @@ export default function HomeScreen() {
           <View style={dynamicStyles.section}>
             <View style={styles.sectionHeader}>
               <Text style={dynamicStyles.sectionTitle}>Need a Client?</Text>
-              <TouchableOpacity onPress={() => router.push('/(tabs)/projects?tab=inquiries')}>
+              <TouchableOpacity onPress={() => router.push('/(tabs)/projects?tab=inquiries' as any)}>
                 <Text style={styles.seeAllText}>View More</Text>
               </TouchableOpacity>
             </View>
@@ -595,14 +595,14 @@ export default function HomeScreen() {
                 <View style={styles.inquiryButtons}>
                   <TouchableOpacity 
                     style={styles.viewDetailsButton}
-                    onPress={() => router.push(`/client-post/${inquiry.id}`)}
+                    onPress={() => router.push(`/client-post/${inquiry.id}` as any)}
                   >
                     <Eye size={16} color={colors.primary} />
                     <Text style={styles.viewDetailsText}>View Details</Text>
                   </TouchableOpacity>
                   <TouchableOpacity 
                     style={styles.respondButton}
-                    onPress={() => router.push(`/chat/${inquiry.clientId}`)}
+                    onPress={() => router.push(`/chat/${inquiry.clientId}` as any)}
                   >
                     <Text style={styles.respondText}>Respond</Text>
                   </TouchableOpacity>
@@ -615,7 +615,7 @@ export default function HomeScreen() {
           <View style={dynamicStyles.section}>
             <View style={styles.sectionHeader}>
               <Text style={dynamicStyles.sectionTitle}>Need Materials?</Text>
-              <TouchableOpacity onPress={() => router.push('/(tabs)/discover')}>
+              <TouchableOpacity onPress={() => router.push('/(tabs)/discover' as any)}>
                 <Text style={styles.seeAllText}>View All</Text>
               </TouchableOpacity>
             </View>
@@ -636,7 +636,7 @@ export default function HomeScreen() {
                     </TouchableOpacity>
                     <TouchableOpacity 
                       style={styles.messageButton}
-                      onPress={() => router.push(`/chat/${partner.id}`)}
+                      onPress={() => router.push(`/chat/${partner.id}` as any)}
                     >
                       <MessageCircle size={16} color={colors.primary} />
                       <Text style={styles.messageText}>Message</Text>
@@ -658,7 +658,7 @@ export default function HomeScreen() {
               </View>
               <TouchableOpacity 
                 style={styles.joinNowButton}
-                onPress={() => router.push('/top-10-competition')}
+                onPress={() => router.push('/top-10-competition' as any)}
               >
                 <Text style={styles.joinNowText}>Join Now</Text>
               </TouchableOpacity>
@@ -747,7 +747,7 @@ export default function HomeScreen() {
               <TouchableOpacity 
                 key={architect.id} 
                 style={dynamicStyles.architectCarouselCard}
-                onPress={() => router.push(`/user-profile/${architect.id}`)}
+                onPress={() => router.push(`/user-profile/${architect.id}` as any)}
               >
                 <Image
                   source={{ uri: architect.image }}

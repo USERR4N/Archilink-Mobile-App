@@ -27,7 +27,7 @@ export default function DiscoverScreen() {
   };
 
   const handleViewProfile = (architectId: number) => {
-    router.push(`/user-profile/${architectId}`);
+    router.push(`/user-profile/${architectId}` as any);
   };
 
   const partnersData = [

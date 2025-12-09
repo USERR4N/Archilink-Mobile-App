@@ -13,15 +13,15 @@ export default function MessagesScreen() {
   const [searchText, setSearchText] = useState('');
   
   const handleChatPress = (contactId: string, contactName: string) => {
-    router.push(`/chat/${contactId}?name=${contactName}`);
+    router.push(`/chat/${contactId}?name=${contactName}` as any);
   };
 
   const handleComposeMessage = () => {
     if (user?.userType === 'architect') {
       // For architects, show list of followed users to message
-      router.push('/following-list');
+      router.push('/following-list' as any);
     } else {
-      router.push('/search');
+      router.push('/search' as any);
     }
   };
 

@@ -17,11 +17,11 @@ export default function ProfileScreen() {
   };
 
   const handleSettings = () => {
-    router.push('/settings');
+    router.push('/settings' as any);
   };
 
   const handleViewMore = () => {
-    router.push('/(tabs)/projects');
+    router.push('/(tabs)/projects' as any);
   };
 
   const handleViewProposal = () => {
@@ -29,11 +29,11 @@ export default function ProfileScreen() {
   };
 
   const handleMessageArchitect = () => {
-    router.push('/chat/patrick?name=Patrick Uy');
+    router.push('/chat/patrick?name=Patrick Uy' as any);
   };
 
   const handleEditProfile = () => {
-    router.push('/settings/edit-profile');
+    router.push('/settings/edit-profile' as any);
   };
 
   // Dynamic styles based on dark mode
