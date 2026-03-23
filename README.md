@@ -9,9 +9,9 @@ ArchiLink is a platform that connects Filipino architects and clients through ve
 - In-app messaging  
 
 ## Tech Stack
-- HTML, CSS, JavaScript  
-- PHP  
-- SCSS
+- TypeScript  
+- React (TSX)  
+- JSON  
 
 ## Team
 
